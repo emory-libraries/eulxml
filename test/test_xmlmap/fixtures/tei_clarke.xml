@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="clarke">
+   <teiHeader><fileDesc>
+         <titleStmt>
+            <title>A Treasury of War Poetry: Electronic Edition</title>
+	    <author><name><choice><sic>Various</sic></choice></name></author>
+            <editor><name type="person">
+              <choice><reg>Clarke, George Herbert</reg><sic>George Herbert Clarke</sic></choice></name></editor>
+         </titleStmt>
+	 <publicationStmt><publisher>Lewis H. Beck Center for Electronic Collections
+	   and Services, Emory University</publisher><pubPlace>Atlanta, GA</pubPlace><address>
+	     <addrLine>540 Asbury Circle</addrLine>
+	     <addrLine>Woodruff Library</addrLine>
+	     <addrLine>Atlanta, GA 30322</addrLine>
+	   </address><availability><p>©Emory University. Permission is
+	   granted to download, transmit, or otherwise reproduce,
+	   distribute or display the contributions to the work claimed
+	   by Emory University for non-profit educational purposes,
+	   provided this header is included in its entirety.  For
+	   inquiries about commercial uses, contact either: Institute
+	   for Jewish Studies, Emory University, Atlanta GA 30322 or
+	   the Lewis H. Beck Center for Electronic Collections and
+	   Services, Woodruff Library, Emory University, Atlanta,
+	   Georgia 30322 </p></availability><date>2004</date></publicationStmt>
+	 <seriesStmt>
+	   <title>The Great War</title>
+	 </seriesStmt>
+	 <notesStmt><note/></notesStmt>
+         <sourceDesc><!-- put the actual publication data for the book
+	   in this section --> 
+            <bibl>
+	     <title>A Treasury of War Poetry: British and American
+	      Poems of the World War 1914-1917</title>
+	     <editor>George Herbert Clarke</editor>
+	     <pubPlace>Boston and New York</pubPlace>
+	     <publisher>Houghton Mifflin Company</publisher>
+	     <date>1917</date>
+	   </bibl>
+         </sourceDesc>
+      </fileDesc><encodingDesc>
+	<projectDesc><p>Poetry contemporary to World War I (the Great
+	War) has been digitized by OCR or rekeying. The work has been
+	done in conjunction with Dr. Harry Rusche of the English
+	Department, Emory University</p></projectDesc>
+	<tagsDecl><rendition xml:id="quote">Paragraphs including q or quote
+	  elements indicate material that is in a block
+	  quote.</rendition><rendition xml:id="title">Where the title of a work is
+	  italicized, it is marked with a title element, both in the
+	  text and in footnotes.</rendition><namespace name="http://www.tei-c.org/ns/1.0"><tagUsage gi="q" render="#quote">blockquote</tagUsage><tagUsage gi="quote" render="#quote">blockquote</tagUsage><tagUsage gi="title" render="#title">italic</tagUsage></namespace></tagsDecl>
+	<refsDecl><p>The page numbers of the volumes are indicated by
+	page break elements</p>
+	<p/>
+	</refsDecl>
+	<classDecl>
+	  <taxonomy xml:id="lcsh">
+	    <bibl>
+	      <title>Library of Congress Subject Headings</title>
+	    </bibl>
+	  </taxonomy>
+	</classDecl>
+      </encodingDesc><profileDesc>
+         <creation>
+	   <rs type="collection">poetry</rs>
+	   <rs type="language">English</rs>
+            <rs type="ethnicity">Caucasian</rs>
+            <rs type="form">Unedited</rs>
+            <rs type="genre">Poetry</rs>
+            <rs type="geography">Great Britain</rs>
+            <date>1900-1999</date>
+         </creation>
+	 <textClass>
+	   <keywords scheme="#lcsh">
+	     <list>
+	       <item>World War, 1914-1918--Poetry.</item>
+	       <item>English poetry--20th Century.</item>
+	       <item>War.</item>
+	     </list>
+	   </keywords>
+	 </textClass></profileDesc><revisionDesc><change><name>Stewart Varner</name> transformed this document from p4 to p5 on <date when="2010-03-22">March 22, 2010</date></change><change><date>June-July 2004</date><label>Beck Center Staff</label><name>Alden Mahler</name>Scan, OCR, proofread and encoded</change><change><date>August 2004</date><label>Beck Center Staff</label><name>Alice Hickcox</name>Added header; checked encoding</change></revisionDesc></teiHeader>
+<text>
+
+<front>
+
+<pb n="v"/>
+<div xml:id="clarke001" type="dedication">
+<p rend="center">To All Those Who
+<lb/>Fight for Freedom</p>
+</div>
+<pb n="vi"/>
+
+<pb n="vii"/>
+<div xml:id="clarke002" type="epigraph">
+<epigraph>
+
+<q>
+<l>"Hark! now the Drums beat up again,</l>
+<l>For all true Soldiers Gentlemen!"</l></q>
+<bibl rend="right">-- <hi rend="italic">Corporal John Brown, Grenadier Guards, 1854</hi>. </bibl>
+
+<q>
+<l>"Life is no life to him that dares not die,</l>
+<l>And death no death to him that dares not live."</l></q>
+<bibl rend="right">-- <hi rend="italic">Sir Henry Newbolt</hi>.</bibl>
+
+<q>
+<l>"We saw not clearly nor understood,</l>
+<l>But, yielding ourselves to the master-hand,</l>
+<l>Each in his part as best he could,</l>
+<l>We played it through as the author planned."</l></q>
+<bibl rend="right">-- <hi rend="italic">Alan Seeger</hi>.</bibl>
+
+</epigraph>
+<p/>
+</div>
+
+<pb n="xxv"/>
+<div xml:id="clarke003" type="Chapter" n="Introduction">
+<head rend="center">Introduction</head>
+
+<p><hi rend="smallcap">Because</hi> man is both militant and pacific, he has expressed in literature, as indeed in the other forms of art, his pacific and militant moods. Nor are these moods, of necessity, incompatible. War may become the price of peace, and peace may so decay as inevitably to bring about war. Of the dully unresponsive pacifist and the jingo patriot, quick to anger, the latter no doubt is the more dangerous to the cause of true freedom, yet both are "undesirable citizens." He who believes that peace is illusory and spurious, unless it be based upon justice and liberty, will be proud to battle, if battle he must, for the sake of those foundations.</p>
+
+<p>For the most part, the poetry of war, undertaken in this spirit, has touched and exalted such special qualities as patriotism, courage, self-sacrifice, enterprise, and endurance. Where it has tended to glorify war in itself, it is chiefly because war has released those qualities, so to speak, in stirring and spectacular ways; and where it has chosen to round upon war and to upbraid it, it is because war has slain ardent and lovable youths and has brought misery and despair to women and old people. But the war poet has left the mere arguments to others. For himself, he has seen and felt. Envisaging war from various angles, now romantically, now realistically, now as the celebrating chronicler, now as the contemplative interpreter, but always in a spirit of catholic curiosity, he has sung the 
+<pb n="xxvi"/>
+fall of Troy, the Roman adventures, the mediæval battles and crusades, the fields of Agincourt and Waterloo, and the more modern revolutions. Since Homer, he has spoken with martial eloquence through the voices of Drayton, Spenser, Marlowe, Webster, Shakespeare, Milton, Byron, Scott, Burns, Campbell, Tennyson, Browning, the New England group, and Walt Whitman, -- to mention only a few of the British and American names, -- and he speaks sincerely and powerfully to-day in the writings of Kipling, Hardy, Masefield, Binyon, Newbolt, Watson, Rupert Brooke, and the two young soldiers -- the one English, the other American -- who have lately lost their lives while on active service: Captain Charles Hamilton Sorley, who was killed at Hulluch, October 18, 1915; and Alan Seeger, who fell, mortally wounded, during the charge on Belloy-en-Santerre, July 4, 1916.</p>
+
+<p>There can be little doubt that these several minds and spirits, stirred by the passion and energy of war, and reacting sensitively both to its cruelties and to its pities, have experienced the kinship of quickened insight and finer unselfishness in the face of wide-ranging death. They have silently compared, perhaps, the normal materialistic conventions in business, politics, education, and religion, with the relief from those conventions that nearly all soldiers and many civilians experience in time of war; for although war has its too gross and ugly side, it has not dared to learn that inflexibility of custom and conduct that deadens the spirit into a tame submission. This strange rebound and exaltation would seem to be due less to the physical reality of war -- which must in many ways cramp and constrain the individual -- than to the relative spirit
+<pb n="xxvii"/>
+ual freedom engendered by the needs of war, if they are to be successfully met. The man of war has an altogether unusual opportunity to realize himself, to cleanse and heal himself through the mastering of his physical fears; through the facing of his moral doubts; through the reëxamination of whatever thoughts he may have possessed, theretofore, about life and death and the universe; and through the quietly unselfish devotion he owes to the welfare of his fellows and to the cause of his native land.</p>
+
+<p>Into the stuff of his thought and utterance, whether he be on active service or not, the poet-interpreter of war weaves these intentions, and coöperates with his fellows in building up a little higher and better, from time to time, that edifice of truth for whose completion can be spared no human experience, no human hope.</p>
+
+<p>As already suggested, English and American literatures have both received genuine accessions, even thus early, arising out of the present great conflict, and we may be sure that other equally notable contributions will be made. The present Anthology contains a number of representative poems produced by English-speaking men and women. The editorial policy has been humanly hospitable, rather than academically critical, especially in the case of some of the verses written by soldiers at the Front, which, however slight in certain instances their technical merit may be, are yet psychologically interesting as sincere transcripts of personal experience, and will, it is thought, for that very reason, peculiarly attract and interest the reader. It goes without saying that there are several poems in this group which conspicuously suc
+<pb n="xxviii"/>
+ceed also as works of art. For the rest, the attempt has been made, within such limitations as have been experienced, to present pretty freely the best of what has been found available in contemporary British and American war verse. It must speak for itself, and the reader will find that in not a few instances it does so with sensitive sympathy and with living power; sometimes, too, with that quietly intimate companionableness which we find in Gray's <hi rend="italic">Elegy</hi>, and which John Masefield, while lecturing in America in 1916, so often indicated as a prime quality in English poetry. But if this quality appears in Chaucer and the pre-Romantics and Wordsworth, it appears also in Longfellow and Lowell, in Emerson and Lanier, and in William Vaughn Moody; for American poetry is, after all, as English poetry, -- "with a difference," -- sprung from the same sources, and coursing along similar channels.</p>
+
+<p>The new fellowship of the two great Anglo-Saxon nations which a book of this character may, to a degree, illustrate, is filled with such high promise for both of them, and for all civilization, that it is perhaps hardly too much to say, with Ambassador Walter H. Page, in his address at the Pilgrims' Dinner in London, April 12, 1917: "We shall get out of this association an indissoluble companionship, and we shall henceforth have indissoluble mutual duties for mankind. I doubt if there could be another international event comparable in large value and in long consequences to this closer association." Mr. Balfour struck the same note, when, during his mission to the United States, he expressed himself in these words: "That this great people should throw themselves whole-heartedly into this mighty struggle, prepared for all efforts and sac
+<pb n="xxix"/>
+rifices that may be required to win success for this most righteous cause, is an event at once so happy and so momentous that only the historian of the future will be able, as I believe, to measure its true proportions."</p>
+
+<p>The words of these eminent men ratify in the field of international politics the hopeful anticipation which Tennyson expressed in his poem, <hi rend="italic">Hands all Round</hi>, which first appeared in the London <hi rend="italic">Examiner</hi>, February 7, 1852: --
+
+<q>
+
+<lg type="stanza">
+<l n="1">"Gigantic daughter of the West,</l>
+<l rend="indent">We drink to thee across the flood,</l>
+<l>We know thee most, we love thee best,</l>
+<l rend="indent">For art thou not of British blood?</l>
+<l>Should war's mad blast again be blown,</l>
+<l rend="indent">Permit not thou the tyrant powers</l>
+<l>To fight thy mother here alone,</l>
+<l rend="indent">But let thy broadsides roar with ours.</l>
+<l rend="indent10">Hands all round!</l>
+<l rend="indent">God the tyrant's cause confound!</l>
+<l>To our great kinsmen of the West, my friends,</l>
+<l rend="indent">And the great name of England, round and round.</l></lg>
+
+<lg>
+<l>"O rise, our strong Atlantic sons,</l>
+<l rend="indent">When war against our freedom springs!</l>
+<l>O speak to Europe through your guns!</l>
+<l rend="indent">They <hi rend="italic">can</hi> be understood by kings.</l>
+<l>You must not mix our Queen with those</l>
+<l rend="indent">That wish to keep their people fools;</l>
+<l>Our freedom's foemen are her foes,</l>
+<l rend="indent">She comprehends the race she rules.</l>
+<l rend="indent10">Hands all round!</l>
+<l rend="indent">God the tyrant's cause confound!</l>
+<l>To our dear kinsmen of the West, my friends,</l>
+<l rend="indent">And the great cause of Freedom, round and round."</l></lg>
+</q>
+
+They ratify also the spirit of those poems in the present volume which seek to interpret to Britons and Americans their deepening friendship. "Poets," said Shelley, "are the unacknowledged legislators of the world," and he meant by legislation the guidance and determination of the verdicts of the human soul.</p>
+<byline>G. H. C.</byline>
+<dateline><date>August, 1917</date></dateline>
+</div>
+</front>
+
+
+<body>
+
+<pb n="1"/>
+<div xml:id="clarke005" type="Chapter" n="America">
+<head rend="center">America</head>
+
+<pb n="2"/>
+<pb n="3"/>
+<div xml:id="clarke006" type="poem" n="The Choice"><docAuthor><name><choice><reg>Kipling, Rudyard</reg><sic>Rudyard Kipling</sic></choice></name></docAuthor>
+
+<head rend="center">The Choice</head>
+
+<lg type="stanza">
+<head rend="center"><hi rend="smallcap">The American </hi><hi rend="smallcap">Spirit speaks</hi>:</head>
+<l n="1">To the Judge of Right and Wrong</l>
+<l rend="indent">With Whom fulfillment lies</l>
+<l>Our purpose and our power belong,</l>
+<l rend="indent">Our faith and sacrifice.</l></lg>
+
+<lg>
+<l>Let Freedom's land rejoice!</l>
+<l rend="indent">Our ancient bonds are riven;</l>
+<l>Once more to us the eternal choice</l>
+<l rend="indent">Of good or ill is given.</l></lg>
+
+<lg>
+<l>Not at a little cost,</l>
+<l rend="indent">Hardly by prayer or tears,</l>
+<l>Shall we recover the road we lost</l>
+<l rend="indent">In the drugged and doubting years.</l></lg>
+
+<lg>
+<l>But after the fires and the wrath,</l>
+<l rend="indent">But after searching and pain,</l>
+<l>His Mercy opens us a path</l>
+<l rend="indent">To live with ourselves again.</l></lg>
+
+<lg>
+<l>In the Gates of Death rejoice!</l>
+<l rend="indent">We see and hold the good --</l>
+<l>Bear witness, Earth, we have made our choice</l>
+<l rend="indent">For Freedom's brotherhood.</l></lg>
+
+<lg>
+<l>Then praise the Lord Most High</l>
+<l rend="indent">Whose Strength hath saved us whole,</l>
+<l>Who bade us choose that the Flesh should die</l>
+<l rend="indent">And not the living Soul!</l></lg>
+<byline>Rudyard Kipling</byline>
+</div>
+
+
+<pb n="4"/>
+<div xml:id="clarke007" type="poem" n="Liberty Enlightening the World">
+<docAuthor n="Van Dyke, Henry">Henry van Dyke</docAuthor>
+<head rend="center">"Liberty Enlightening the World"</head>
+
+<lg type="stanza">
+<l n="1"><hi rend="smallcap">Thou</hi> warden of the western gate, above Manhattan Bay,</l>
+<l>The fogs of doubt that hid thy face are driven clean away:</l>
+<l>Thine eyes at last look far and clear, thou liftest high thy hand</l>
+<l>To spread the light of liberty world-wide for every land.</l></lg>
+
+<lg>
+<l>No more thou dreamest of a peace reserved alone for thee,</l>
+<l>While friends are fighting for thy cause beyond the guardian sea:</l>
+<l>The battle that they wage is thine; thou fallest if they fall;</l>
+<l>The swollen flood of Prussian pride will sweep unchecked o'er all.</l></lg>
+
+<lg>
+<l>O cruel is the conquer-lust in Hohenzollern brains:</l>
+<l>The paths they plot to gain their goal are dark with shameful stains:</l>
+<l>No faith they keep, no law revere, no god but naked Might; --</l>
+<l>They are the foemen of mankind. Up, Liberty, and smite!</l></lg>
+
+<lg>
+<l>Britain, and France, and Italy, and Russia newly born,</l>
+<l>Have waited for thee in the night. Oh, come as comes the morn.</l>
+<l>Serene and strong and full of faith, America, arise,</l>
+<l>With steady hope and mighty help to join thy brave Allies.</l></lg>
+
+<pb n="5"/>
+<lg>
+<l>O dearest country of my heart, home of the high desire,</l>
+<l>Make clean thy soul for sacrifice on Freedom's altar-fire:</l>
+<l>For thou must suffer, thou must fight, until the warlords cease,</l>
+<l>And all the peoples lift their heads in liberty and peace.</l></lg>
+<byline>Henry van Dyke</byline>
+<dateline>
+<date>April 10, 1917</date>
+</dateline>
+</div>
+
+
+<div xml:id="clarke008" type="poem" n="To the United States of America"><docAuthor n="Bridges, Robert">Robert Bridges</docAuthor>
+<head rend="center">To the United States of America</head>
+
+<lg type="stanza">
+<l n="1"><hi rend="smallcap">Brothers</hi> in blood! They who this wrong began</l>
+<l rend="indent">To wreck our commonwealth, will rue the day</l>
+<l rend="indent">When first they challenged freemen to the fray,</l>
+<l>And with the Briton dared the American.</l>
+<l>Now are we pledged to win the Rights of man;</l>
+<l rend="indent">Labour and Justice now shall have their way,</l>
+<l rend="indent">And in a League of Peace -- God grant we may --</l>
+<l>Transform the earth, not patch up the old plan.</l></lg>
+
+<lg>
+<l>Sure is our hope since he who led your nation</l>
+<l rend="indent">Spake for mankind, and ye arose in awe</l>
+<l>Of that high call to work the world's salvation;</l>
+<l rend="indent4">Clearing your minds of all estranging blindness</l>
+<l rend="indent">In the vision of Beauty and the Spirit's law,</l>
+<l rend="indent4">Freedom and Honour and sweet Lovingkindness.</l></lg>
+<byline>Robert Bridges</byline>
+<dateline><date>April 30, 1917</date></dateline>
+</div>
+
+
+<pb n="6"/>
+<div xml:id="clarke009" type="poem" n="Abraham Lincoln Walks at Midnight"><docAuthor n="Lindsay, Vachel">Vachel Lindsay</docAuthor>
+<head rend="center"> Abraham Lincoln Walks at Midnight </head>
+<head rend="center">(<hi rend="smallcap">in Springfield, Illinois</hi>)</head>
+
+<lg type="stanza">
+<l n="1"><hi rend="smallcap">It</hi> is portentous, and a thing of state</l>
+<l>That here at midnight, in our little town,</l>
+<l>A mourning figure walks, and will not rest,</l>
+<l>Near the old court-house pacing up and down.</l></lg>
+
+<lg>
+<l>Or by his homestead, or in shadowed yards</l>
+<l>He lingers where his children used to play;</l>
+<l>Or through the market, on the well-worn stones</l>
+<l>He stalks until the dawn-stars burn away.</l></lg>
+
+<lg>
+<l>A bronzed, lank man! His suit of ancient black,</l>
+<l>A famous high top-hat and plain worn shawl</l>
+<l>Make him the quaint great figure that men love,</l>
+<l>The prairie-lawyer, master of us all.</l></lg>
+
+<lg>
+<l>He cannot sleep upon his hillside now.</l>
+<l>He is among us: -- as in times before!</l>
+<l>And we who toss and lie awake for long</l>
+<l>Breathe deep, and start, to see him pass the door.</l></lg>
+
+<lg>
+<l>His head is bowed. He thinks on men and kings.</l>
+<l>Yea, when the sick world cries, how can he sleep?</l>
+<l>Too many peasants fight, they know not why,</l>
+<l>Too many homesteads in black terror weep.</l></lg>
+
+<lg>
+<l>The sins of all the war-lords burn his heart.</l>
+<l>He sees the dreadnaughts scouring every main.</l>
+<l>He carries on his shawl-wrapped shoulders now</l>
+<l>The bitterness, the folly, and the pain.</l></lg>
+
+<pb n="7"/>
+<lg>
+<l>He cannot rest until a spirit-dawn</l>
+<l>Shall come; -- the shining hope of Europe free:</l>
+<l>The league of sober folk, the Workers' Earth</l>
+<l>Bringing long peace to Cornland, Alp, and Sea.</l></lg>
+
+<lg>
+<l>It breaks his heart that kings must murder still,</l>
+<l>That all his hours of travail here for men</l>
+<l>Seem yet in vain. And who will bring white peace</l>
+<l>That he may sleep upon his hill again?</l></lg>
+<byline>Vachel Lindsay</byline>
+</div>
+
+
+<!-- postcard figures for testing -->
+<figure ana="nat-fr mil-f con-r im-ph t-wwi">
+<head>Chateau-Thierry</head>
+<figDesc>This postcard is a black and white photo of ruined houses and ruins in the street. Five soldiers are walking through the ruins. Text at bottom center: "Chateau-Thierry -- Barricade et Ruines rue Carnot". Text at bottom right: "'La Pensee'". On reverse: blank.</figDesc>
+<graphic url="chateau_thierry2"/>
+</figure>
+
+<figure entity="fighting_fifth" ana="nat-brit mil-a mil-f im-ph t-wwi"><head>The "Fighting
+Fifth"</head><figDesc>This black and white photograph shows
+soldiers cheering. At bottom: The "Fighting Fifth" (Northumberland
+Fusiliers) after the battle of St. Eloi. In small script at the top:
+Official Photograph Crown Copyright Reserved, and at bottom, Daily
+Mail War Pictures. On reverse: Assisted by the Royal Fusiliers, the
+"Fighting Fifth" (Northumberland Fusiliers) took with splendid dash
+the first and second line trenches at St. Eloi. At left on reverse:
+Official War Photographs/Crown Copryright Reserved/Series 6. No. 46.</figDesc></figure>
+
+<interpGrp type="image">    
+    <interp xml:id="im-ph" value="photo"/>        
+    <interp xml:id="im-ca" value="cartoon"/>
+</interpGrp>
+<interpGrp type="time period">
+    <interp xml:id="t-pre" value="pre Great War"/>
+    <interp xml:id="t-wwi" value="during Great War"/>
+    <interp xml:id="t-ww2" value="World War II"/>
+</interpGrp>
+<interpGrp type="military">
+    <interp xml:id="mil-a" value="Army"/>
+    <interp xml:id="mil-na" value="Navy"/>
+    <interp xml:id="mil-f" value="battle front"/>
+</interpGrp>
+          </div>
+        </body>
+
+	<back>
+            <pb n="253"/>
+            <div id="Clarke176" type="notes" n="Occasional Notes">
+                <head rend="center">OCCASIONAL NOTES</head>
+                <pb n="254"/>
+                <pb n="255"/>
+                <head rend="center">OCCASIONAL NOTES</head>
+                <p>
+                    <hi rend="smallcap">Asquith, Herbert</hi>. He received a commission in the Royal Marine Artillery at the end of 1914 and served as a Second Lieutenant with an Anti-Aircraft Battery in April, 1915, returning wounded during the following June. He became a full Lieutenant in July, but was invalided home after about six weeks. In June, 1916, he joined the Royal Field Artillery and went out to France once again with a battery of field guns at the beginning of March, 1917. Since that time he has been steadily on active service.</p>
+                <p>
+                    <hi rend="smallcap">Bewsher, Paul</hi>. He was educated at St. Paul's School, and is a Sub-Lieutenant in the Royal Naval Air Service.</p>
+                <p>
+                    <hi rend="smallcap">Binyon, Laurence</hi>. His war writings include <hi rend="italic">The Winnowing Fan</hi> and <hi rend="italic">The Anvil</hi>, published in America under the title of <hi rend="italic">The Cause</hi>.</p>
+                <p>
+                    <hi rend="smallcap">Bridges, Robert</hi>. He has been Poet-Laureate of England since 1913.</p>
+                <p>
+                    <hi rend="smallcap">Brooke, Rupert</hi>. He was born at Rugby on August 3, 1887, and became a Fellow of King's College, Cambridge, in 1913. He was made a Sub-Lieutenant in the Royal Naval Volunteer Reserve in September, 1914; accompanied the Antwerp expedition in October of the same year; and sailed with the British Mediterranean Expeditionary Force on February 28, 1915. He died in the Ãgean, on April 23, and lied buries in the island of Skyros. See memorial poems in this volume, <hi rend="italic">The Island of Skyros</hi>, by John Masefield; and <hi rend="italic">Rupert Brooke</hi>, by Moray Dalton. His war poetry appears in the volume entitled <hi rend="italic">1914 and Other Poems</hi>, and in his <hi rend="italic">Collected Poems</hi>.</p>
+            </div>
+
+            <div xml:id="flower42" type="Colophon">
+                <p>THE RIVERSIDE PRESS LIMITED, EDINBURGH</p>
+            </div>
+        </back>
+
+</text>
+</TEI>

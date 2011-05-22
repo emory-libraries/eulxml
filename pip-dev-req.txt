@@ -1,0 +1,4 @@
+unittest-xml-reporting>1.0.3
+sphinx
+coverage
+django
