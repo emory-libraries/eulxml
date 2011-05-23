@@ -1,0 +1,6 @@
+build
+dist
+*.egg-info
+*.pyc
+eulxml/xpath/lextab.py
+eulxml/xpath/parsetab.py
