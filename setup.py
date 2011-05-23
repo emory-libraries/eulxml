@@ -1,25 +1,12 @@
 from distutils.command.build_py import build_py
 import os
-import sys
 
 from setuptools import setup
 
 from eulxml import __version__
 
-# fullsplit and packages calculation inspired by django setup.py
-
-def fullsplit(path):
-    result = []
-    while path:
-        path, tail = os.path.split(path)
-        result.append(tail)
-    result.reverse()
-    return result
-
 packages = []
-for path, dirs, files in os.walk(__file__):
-    if '.svn' in dirs:
-        dirs.remove('.svn')
+for path, dirs, files in os.walk('eulxml'):
     if '__init__.py' in files:
         packages.append(path.replace(os.path.sep, '.'))
 
