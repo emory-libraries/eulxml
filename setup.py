@@ -1,14 +1,9 @@
 from distutils.command.build_py import build_py
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
-from eulxml import __version__
-
-packages = []
-for path, dirs, files in os.walk('eulxml'):
-    if '__init__.py' in files:
-        packages.append(path.replace(os.path.sep, '.'))
+import eulxml
 
 class build_py_with_ply(build_py):
     def run(self, *args, **kwargs):
@@ -20,11 +15,10 @@ setup(
     cmdclass={'build_py': build_py_with_ply},
 
     name='eulxml',
-    version=__version__,
+    version=eulxml.__version__,
     author='Emory University Libraries',
     author_email='libsysdev-l@listserv.cc.emory.edu',
-    packages=packages,
-    package_dir={'': '.'},
+    packages=find_packages(),
     install_requires=[
         'ply',
         'lxml',
