@@ -6,9 +6,15 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
-Initial Release
----------------
+0.15.0 - Initial Release
+------------------------
 
 * Split out xml-related components (:mod:`~eulxml.xpath`,
   :mod:`~eulxml.xmlmap`, and :mod:`~eulxml.forms`) from :mod:`eulcore`
   into :mod:`eulxml` for easier re-use.
+
+0.15.1 - Bugfix Release
+-----------------------
+
+* Fixed an error in the dependency structure that prevented the package from
+  being installed through PyPI.
