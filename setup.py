@@ -45,8 +45,10 @@ setup(
     license='Apache License, Version 2.0',
     packages=find_packages(),
 
-    install_requires=[
+    setup_requires=[
         'ply',
+    ],
+    install_requires=[
         'lxml',
     ],
     extras_require={
