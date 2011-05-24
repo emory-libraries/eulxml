@@ -1,1 +1,7 @@
+include *LICENSE*
+include CHANGELOG
+include pip-dev-req.txt
 recursive-include doc Makefile *.rst *.py
+recursive-include test *.py
+recursive-include test/test_xmlmap *.py
+recursive-include test/test_xmlmap/fixtures *
