@@ -2,5 +2,6 @@ build
 dist
 *.egg-info
 *.pyc
+test-results
 eulxml/xpath/lextab.py
 eulxml/xpath/parsetab.py
