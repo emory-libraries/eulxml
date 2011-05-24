@@ -48,10 +48,10 @@ setup(
     install_requires=[
         'ply',
         'lxml',
-        'rdflib>=3.0',
     ],
     extras_require={
         'django': ['Django'],
+        'rdf': ['rdflib>=3.0'],
     },
 
     description='XPath-based XML data binding, with Django form support',
