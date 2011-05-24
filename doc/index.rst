@@ -1,7 +1,7 @@
 EULxml |release|
 =================
 
-EULxml is one of a a collection of reusable `Python
+EULxml is one of a collection of reusable `Python
 <http://www.python.org/>`_ components from `Emory University Libraries
 <http://web.library.emory.edu/>`_. The library contains both released and
 unreleased beta components. Except where noted otherwise, components
