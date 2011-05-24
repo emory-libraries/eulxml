@@ -1,4 +1,4 @@
-:mod:`~eulxml.forms` - Forms for XmlObjects
+:mod:`eulxml.forms` - Forms for XmlObjects
 -------------------------------------------
 
 .. automodule:: eulxml.forms
