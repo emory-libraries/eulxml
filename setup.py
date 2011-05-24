@@ -49,6 +49,7 @@ setup(
         'ply',
     ],
     install_requires=[
+        'ply',
         'lxml',
     ],
     extras_require={
