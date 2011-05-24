@@ -418,10 +418,9 @@ class XmlObjectForm(BaseForm):
 
     Unlike Django's ModelForm, which provides a save() method, XmlObjectForm
     provides analogous functionality via :meth:`update_instance`.  Since an
-    XmlObject by itself does not have a save method, and can only be saved in
-    particular contexts (e.g., :mod:`eulexistdb` or :mod:`eulfedora`),
-    there is no meaningful way for an XmlObjectForm to save an associated model
-    instance to the appropriate datastore.
+    XmlObject by itself does not have a save method, and can only be saved
+    in particular contexts, there is no general way for an XmlObjectForm to
+    save an associated model instance to the appropriate datastore.
 
     If you wish to customize the html display for an XmlObjectForm, rather than
     using the built-in form display functions, be aware that if your XmlObject

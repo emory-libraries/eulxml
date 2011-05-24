@@ -31,5 +31,4 @@ latex_documents = [
 intersphinx_mapping = {
     'http://docs.python.org/': None,
     'http://docs.djangoproject.com/en/1.3/': 'http://docs.djangoproject.com/en/dev/_objects/',
-    'http://waterhouse.library.emory.edu:8080/hudson/job/eulfedora/javadoc/': None,
 }
