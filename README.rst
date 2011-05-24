@@ -3,7 +3,7 @@ EULxml
 
 EULxml is a `Python <http://www.python.org/>`_ module that provides
 utilities and classes for interacting with XML that allow the
-definition re-usable XML objects that can be accessed, updated and
+definition of re-usable XML objects that can be accessed, updated and
 created as standard Python types, and a form component for editing XML
 with `Django <https://www.djangoproject.com/>`_ forms.
 
@@ -27,8 +27,10 @@ Dependencies
 **eulxml** depends on `PLY <http://www.dabeaz.com/ply/>`_ and `lxml
 <http://lxml.de/>`_.
 
-**eulxml.forms** requires and was designed to be used with 
-`Django <https://www.djangoproject.com/>`_.
+**eulxml.forms** requires and was designed       to be used with 
+`Django <https://www.djangoproject.com/>`_, although Django is not
+required for installation and use of the non-form components of
+**eulxml**. 
 
 
 Contact Information
@@ -43,3 +45,11 @@ libsysdev-l@listserv.cc.emory.edu
 License
 -------
 **eulxml** is distributed under the Apache 2.0 License.
+
+
+Development History
+-------------------
+
+For instructions on how to see and interact with the full development
+history of **eulxml**, see
+`eulcore-history <https://github.com/emory-libraries/eulcore-history>`_.
