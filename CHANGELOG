@@ -18,3 +18,9 @@ any necessary information about installation or upgrade notes.
 
 * Fixed an error in the dependency structure that prevented the package from
   being installed through PyPI.
+
+0.15.2 - Bugfix Release
+-----------------------
+
+* Fixed an error in the dependency structure that prevented the package from
+  being used after installation through PyPI.
