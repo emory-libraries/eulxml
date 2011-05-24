@@ -1,4 +1,4 @@
-:mod:`eulcore.xmlmap` -- Map XML to Python objects
+:mod:`eulxml.xmlmap` -- Map XML to Python objects
 ==================================================
 
 .. module:: eulxml.xmlmap
@@ -6,11 +6,8 @@
 :mod:`eulxml.xmlmap` makes it easier to map XML to Python objects. The
 Python DOM does some of this, of course, but sometimes it's prettier to wrap
 an XML node in a typed Python object and assign attributes on that object to
-reference subnodes by XPath_ expressions. This module provides that
-functionality for read-only attributes, and in the future it aims to allow
-setting them as well.
-
-.. _XPath: http://www.w3.org/TR/xpath/
+reference subnodes by `XPath <http://www.w3.org/TR/xpath/>`_ expressions.
+This module provides that functionality.
 
 :class:`XmlObject` Instances
 ----------------------------
@@ -130,8 +127,8 @@ as ``foo.bar``.
 .. autoclass:: ItemField(xpath)
 
 
-Other facilitie
----------------
+Other facilities
+----------------
 
 .. autofunction:: load_xmlobject_from_string
 
