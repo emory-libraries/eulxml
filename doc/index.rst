@@ -1,11 +1,17 @@
-EULxml |release|
-=================
+EULxml
+======
 
-EULxml is one of a collection of reusable `Python
-<http://www.python.org/>`_ components from `Emory University Libraries
-<http://web.library.emory.edu/>`_. The library contains both released and
-unreleased beta components. Except where noted otherwise, components
-documented here are released and ready for production use.
+EULxml is an extensible library for reading and writing XML documents in
+idiomatic Python. It allows developers to `map predictable XML node
+structures <xmlmap.html#general-usage>`_ to
+:class:`~eulxml.xmlmap.XmlObject` subclasses, using field definitions to map
+`XPath <http://www.w3.org/TR/xpath/>`_ expressions directly to Python
+attributes.
+
+For projects using `Django <http://www.djangoproject.com/>`_, it also
+provides utilities for exposing :class:`~eulxml.xmlmap.XmlObject` instances
+to web users with :class:`~eulxml.forms.XmlObjectForm`. As a bonus, EULxml
+happens to include an XPath parser in :mod:`eulxml.xpath`.
 
 Contents
 --------
@@ -15,14 +21,8 @@ Contents
    
    changelog
    xmlmap
-   xpath
    forms
-
-----
-
-.. toctree::
-   :maxdepth: 2
-   
+   xpath
 
 Indices and tables
 ------------------
