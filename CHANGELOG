@@ -5,6 +5,23 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.15.3 - Minor Enhancement
+--------------------------
+
+* Downgrade the lack of an HTTP_PROXY set in the environment from a
+  RuntimeError to a Warning with schema validation disabled.
+
+0.15.2 - Bugfix Release
+-----------------------
+
+* Fixed an error in the dependency structure that prevented the package from
+  being used after installation through PyPI.
+
+0.15.1 - Bugfix Release
+-----------------------
+
+* Fixed an error in the dependency structure that prevented the package from
+  being installed through PyPI.
 
 0.15.0 - Initial Release
 ------------------------
@@ -13,14 +30,3 @@ any necessary information about installation or upgrade notes.
   :mod:`~eulxml.xmlmap`, and :mod:`~eulxml.forms`) from :mod:`eulcore`
   into :mod:`eulxml` for easier re-use.
 
-0.15.1 - Bugfix Release
------------------------
-
-* Fixed an error in the dependency structure that prevented the package from
-  being installed through PyPI.
-
-0.15.2 - Bugfix Release
------------------------
-
-* Fixed an error in the dependency structure that prevented the package from
-  being used after installation through PyPI.
