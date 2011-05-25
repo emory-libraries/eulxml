@@ -18,6 +18,7 @@ import cStringIO
 import logging
 import os
 import urllib2
+import warnings
 
 from lxml import etree
 from lxml.builder import ElementMaker
@@ -74,15 +75,19 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
         message = ('Loading schema %s without a web proxy may introduce ' +
                    'significant network resource usage as well as ' +
                    'instability if that server becomes inaccessible. ' + 
-                   'The HTTP_PROXY environment variable is thus required ' +
-                   'for loading schemas.') \
+                   'The HTTP_PROXY environment variable is required ' +
+                   'for loading schemas.  Schema validation will be disabled.') \
                   % (error_uri,)
         if override_proxy_requirement:
             message += (' (overridden: Requesting without proxy. Please ' +
                         'set HTTP_PROXY as soon as possible.)')
             logger.warning(message)
         else:
-            raise RuntimeError(message)
+            warnings.warn(message, UserWarning)
+            # bail out and return None instead of a schema, so methods
+            # that rely on a loaded schema can detect its absence and
+            # proceed accordingly.
+            return None
 
     try:
         return etree.XMLSchema(etree.parse(uri, parser=_get_xmlparser(), base_url=base_uri))
