@@ -33,6 +33,8 @@ Suppose we have an XML object that looks something like this:
      <bar>
        <baz>13</baz>
      </bar>
+     <qux>A</qux>
+     <qux>B</qux>
    </foo>
 
 For this example, we want to access the value of the first ``<baz>`` as a
@@ -45,19 +47,34 @@ integers. We can create an object to map these fields like this::
    class Foo(xmlmap.XmlObject):
        first_baz = xmlmap.IntegerField('bar[1]/baz')
        second_baz = xmlmap.StringField('bar[2]/baz')
-       all_baz = xmlmap.IntegerListField('bar/baz')
+       qux = xmlmap.StringListField('qux')
    
 :attr:`first_baz`, :attr:`second_baz`, and :attr:`all_baz` here are
 attributes of the :class:`Foo` object. We can access them in later code like
 this::
 
-  >>> foo = xmlmap.load_xmlobject_from_file(foo_path, xmlclass=Foo)
-  >>> foo.first_baz
-  42
-  >>> foo.second_baz
-  u'13'
-  >>> foo.all_baz
-  [42, 13]
+   >>> foo = xmlmap.load_xmlobject_from_file(foo_path, xmlclass=Foo)
+   >>> foo.first_baz
+   42
+   >>> foo.second_baz
+   '13'
+   >>> foo.qux
+   ['A', 'B']
+   >>> foo.first_baz=5
+   >>> foo.qux.append('C')
+   >>> foo.qux[0] = 'Q'
+   >>> print foo.serialize(pretty=True)
+   <foo>
+     <bar>
+       <baz>5</baz>
+     </bar>
+     <bar>
+       <baz>13</baz>
+     </bar>
+     <qux>Q</qux>
+     <qux>B</qux>
+   <qux>C</qux></foo>
+
 
 Concepts
 --------
