@@ -887,6 +887,16 @@ class SchemaField(Field):
     type definition name.  If the schema type has enumerated restricted values,
     those will be passed as choices to the Field.
 
+    For example, to define a resource type based on the `MODS
+    <http://www.loc.gov/standards/mods/>`_ schema,
+    ``resourceTypeDefinition`` is a simple type with an enumeration of
+    values, so you could add something like this::
+
+        resource_type  = xmlmap.SchemaField("mods:typeOfResource", "resourceTypeDefinition")
+
+    
+    
+
     Currently only supports simple string-based schema types.
     """
     def __init__(self, xpath, schema_type, *args, **kwargs):
