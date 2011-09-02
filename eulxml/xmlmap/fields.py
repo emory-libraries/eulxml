@@ -803,19 +803,21 @@ class DateListField(Field):
 
 class NodeField(Field):
 
-    """Map an XPath expression to a single :class:`XmlObject` subclass
-    instance. If the XPath expression evaluates to an empty NodeList, a
-    NodeField evaluates to `None`.
+    """Map an XPath expression to a single
+    :class:`~eulxml.xmlmap.XmlObject` subclass instance. If the XPath
+    expression evaluates to an empty NodeList, a NodeField evaluates
+    to `None`.
     
     Normally a ``NodeField``'s ``node_class`` is a class. As a special
     exception, it may be the string ``"self"``, in which case it recursively
-    refers to objects of its containing :class:`XmlObject` class.
+    refers to objects of its containing :class:`~eulxml.xmlmap.XmlObject` class.
 
-    If an :class:`XmlObject` contains a NodeField named ``foo``, then the
-    object will automatically have a ``create_foo()`` method in addition to
-    its ``foo`` property. Code can call this ``create_foo()`` method to
-    create the child element if it doesn't exist; the method will have no
-    effect if the element is already present.
+    If an :class:`~eulxml.xmlmap.XmlObject` contains a NodeField named
+    ``foo``, then the object will automatically have a
+    ``create_foo()`` method in addition to its ``foo`` property. Code
+    can call this ``create_foo()`` method to create the child element
+    if it doesn't exist; the method will have no effect if the element
+    is already present.
 
     Deprecated ``instantiate_on_get`` flag: set to True if you need a
     non-existent node to be created when the NodeField is accessed. This
@@ -840,13 +842,14 @@ class NodeField(Field):
 
 class NodeListField(Field):
 
-    """Map an XPath expression to a list of :class:`XmlObject` subclass
-    instances. If the XPath expression evalues to an empty NodeList, a
-    NodeListField evaluates to an empty list.
+    """Map an XPath expression to a list of
+    :class:`~eulxml.xmlmap.XmlObject` subclass instances. If the XPath
+    expression evalues to an empty NodeList, a NodeListField evaluates
+    to an empty list.
     
     Normally a ``NodeListField``'s ``node_class`` is a class. As a special
     exception, it may be the string ``"self"``, in which case it recursively
-    refers to objects of its containing :class:`XmlObject` class.
+    refers to objects of its containing :class:`~eulxml.xmlmap.XmlObject` class.
 
     Actual return type is :class:`~eulxml.xmlmap.fields.NodeList`, which can be
     treated like a regular Python list, and includes set and delete functionality.
