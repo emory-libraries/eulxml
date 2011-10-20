@@ -129,30 +129,19 @@ definition and accessed with standard Python object attribute syntax. If a
 :mod:`~eulxml.xmlmap` field object, then an object will reference it simply
 as ``foo.bar``.
 
-.. autoclass:: StringField(xpath)
-
-.. autoclass:: StringListField(xpath)
-
-.. autoclass:: IntegerField(xpath)
-
-.. autoclass:: IntegerListField(xpath)
-
-.. autoclass:: NodeField(xpath, node_class)
-
-.. autoclass:: NodeListField(xpath, node_class)
-
-.. autoclass:: ItemField(xpath)
+.. automodule:: eulxml.xmlmap.fields
+   :members:               
 
 
 Other facilities
 ----------------
 
-.. autofunction:: load_xmlobject_from_string
+.. autofunction:: eulxml.xmlmap.load_xmlobject_from_string
 
-.. autofunction:: load_xmlobject_from_file
+.. autofunction:: eulxml.xmlmap.load_xmlobject_from_file
 
-.. autofunction:: parseString
+.. autofunction:: eulxml.xmlmap.parseString
 
-.. autofunction:: parseUri
+.. autofunction:: eulxml.xmlmap.parseUri
 
-.. autofunction:: loadSchema(uri, base_uri=None)
+.. autofunction:: eulxml.xmlmap.loadSchema(uri, base_uri=None)
