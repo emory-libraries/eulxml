@@ -70,11 +70,14 @@ class OriginInfo(Common):
     issued = xmlmap.NodeListField('mods:dateIssued', DateIssued,
         verbose_name='Date Issued',
         help_text='Date the resource was published, released, or issued')
+    publisher = xmlmap.StringField('mods:publisher')
 
     def is_empty(self):
-        """Returns True if all child date elements present are empty.  Returns
-        False if any child date elements are not empty."""
-        return all(date.is_empty() for date in set.union(set(self.created), set(self.issued)))
+        """Returns True if all child date elements present are empty
+        and other nodes are not set.  Returns False if any child date
+        elements are not empty or other nodes are set."""
+        return all(date.is_empty() for date in set.union(set(self.created), set(self.issued))) \
+               and not self.publisher
 
 class RecordInfo(Common):
     ROOT_NAME = 'recordInfo'
@@ -88,10 +91,6 @@ class Note(Common):
     ROOT_NAME = 'note'
     label = xmlmap.StringField('@displayLabel')
     type = xmlmap.StringField('@type')
-#                choices=['general', 'inscription', 'source of information',
-#                        'reference', 'hidden'])
-        # with capacity to add to the list ?
-        # FIXME: keep-specific note type choices should not be defined here
     text = xmlmap.StringField('text()')      # actual text value of the note
 
 class TypedNote(Note):
@@ -183,6 +182,39 @@ class Subject(Common):
     topic = xmlmap.StringField('mods:topic')
     title = xmlmap.StringField('mods:titleInfo/mods:title')
 
+class TitleInfo(Common):
+    ROOT_NAME = 'titleInfo'
+    title = xmlmap.StringField('mods:title')
+    subtitle = xmlmap.StringField('mods:subTitle')
+    part_number = xmlmap.StringField('mods:partNumber')
+    part_name = xmlmap.StringField('mods:partName')
+    non_sort = xmlmap.StringField('mods:nonSort')
+    type  = xmlmap.SchemaField('@type', 'titleInfoTypeAttributeDefinition')
+
+class Abstract(Common):
+    ROOT_NAME = 'abstract'
+    text = xmlmap.StringField('text()')
+    type = xmlmap.StringField('@type')
+    label = xmlmap.StringField('@displayLabel')
+
+class PartDetail(Common):
+    ROOT_NAME = 'detail'
+    type = xmlmap.StringField('@type')
+    number = xmlmap.StringField('mods:number')
+
+class PartExtent(Common):
+    ROOT_NAME = 'extent'
+    unit = xmlmap.StringField('@unit')
+    start = xmlmap.StringField('mods:start')
+    end = xmlmap.StringField('mods:end')
+    total = xmlmap.StringField('mods:total')
+
+class Part(Common):
+    ROOT_NAME = 'part'
+    type = xmlmap.StringField('@type')
+    details = xmlmap.NodeListField('mods:detail', PartDetail)
+    extent = xmlmap.NodeField('mods:extent', PartExtent)
+
 class BaseMods(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` with common field declarations for all
     top-level MODS elements; base class for :class:`MODS` and :class:`RelatedItem`.'''
@@ -190,10 +222,12 @@ class BaseMods(Common):
     xmlschema = _mods_xmlschema
 
     title = xmlmap.StringField("mods:titleInfo/mods:title")
+    title_info = xmlmap.NodeField('mods:titleInfo', TitleInfo)
     resource_type  = xmlmap.SchemaField("mods:typeOfResource", "resourceTypeDefinition")
     name = xmlmap.NodeField('mods:name', Name)  # DEPRECATED: use names instead
     names = xmlmap.NodeListField('mods:name', Name)
     note = xmlmap.NodeField('mods:note', Note)
+    notes = xmlmap.NodeListField('mods:note', Note)
     origin_info = xmlmap.NodeField('mods:originInfo', OriginInfo)
     record_info = xmlmap.NodeField('mods:recordInfo', RecordInfo)
     identifiers = xmlmap.NodeListField('mods:identifier', Identifier)
@@ -203,6 +237,8 @@ class BaseMods(Common):
     location = xmlmap.StringField('mods:location/mods:physicalLocation',
                                   required=False)
     subjects = xmlmap.NodeListField('mods:subject', Subject)
+    abstract = xmlmap.NodeField('mods:abstract', Abstract)
+    parts = xmlmap.NodeListField('mods:part', Part)
 
 class RelatedItem(BaseMods):
     ''':class:`~eulxml.xmlmap.XmlObject` for MODS relatedItem: contains all the
@@ -212,7 +248,7 @@ class RelatedItem(BaseMods):
     XSD_SCHEMA = MODS_SCHEMA
     xmlschema = _mods_xmlschema
     type = xmlmap.SchemaField("@type", 'relatedItemTypeAttributeDefinition')
-
+    
 class MODS(BaseMods):
     '''Top-level :class:`~eulxml.xmlmap.XmlObject` for a MODS metadata record.
     Inherits all standard top-level MODS fields from :class:`BaseMods` and adds

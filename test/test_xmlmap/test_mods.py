@@ -27,11 +27,13 @@ class TestMods(unittest.TestCase):
     FIXTURE = """<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
   <mods:titleInfo>
     <mods:title>A simple record</mods:title>
+    <mods:subTitle> (for test purposes)</mods:subTitle>
   </mods:titleInfo>
   <mods:typeOfResource>text</mods:typeOfResource>
   <mods:note displayLabel="a general note" type="general">remember to...</mods:note>
   <mods:originInfo>
     <mods:dateCreated keyDate='yes'>2010-06-17</mods:dateCreated>
+    <mods:publisher>Little, Brown</mods:publisher>
   </mods:originInfo>
   <mods:identifier type='uri'>http://so.me/uri</mods:identifier>
   <mods:name type="personal" authority="naf" ID="n82032703">
@@ -43,6 +45,7 @@ class TestMods(unittest.TestCase):
       <mods:roleTerm type="text" authority="marcrelator">Composer</mods:roleTerm>
     </mods:role>
   </mods:name>
+  <mods:abstract>Dawson choir recordings</mods:abstract>
   <mods:accessCondition type="restrictions on access">Restricted</mods:accessCondition>
   <mods:relatedItem type="host">
     <mods:titleInfo>
@@ -50,6 +53,15 @@ class TestMods(unittest.TestCase):
     </mods:titleInfo>
   <mods:identifier type="local_sourcecoll_id">eua</mods:identifier>
   </mods:relatedItem>
+  <mods:part>
+    <mods:detail type="volume">
+      <mods:number>II</mods:number>
+    </mods:detail>
+    <mods:extent unit="pages">
+      <mods:start>5</mods:start>
+      <mods:end>23</mods:end>
+    </mods:extent>
+  </mods:part>
 </mods:mods>
 """
     invalid_xml = """<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
@@ -72,6 +84,11 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.name.roles[0], mods.Role))
         self.assert_(isinstance(self.mods.access_conditions[0], mods.AccessCondition))
         self.assert_(isinstance(self.mods.related_items[0], mods.RelatedItem))
+        self.assert_(isinstance(self.mods.title_info, mods.TitleInfo))
+        self.assert_(isinstance(self.mods.abstract, mods.Abstract))
+        self.assert_(isinstance(self.mods.parts[0], mods.Part))
+        self.assert_(isinstance(self.mods.parts[0].details[0], mods.PartDetail))
+        self.assert_(isinstance(self.mods.parts[0].extent, mods.PartExtent))
 
     def test_fields(self):
         self.assertEqual('A simple record', self.mods.title)
@@ -83,8 +100,10 @@ class TestMods(unittest.TestCase):
         self.assertEqual(u'2010-06-17', unicode(self.mods.origin_info.created[0]))
         self.assertEqual('2010-06-17', self.mods.origin_info.created[0].date)
         self.assertEqual(True, self.mods.origin_info.created[0].key_date)
+        self.assertEqual('Little, Brown', self.mods.origin_info.publisher)
         self.assertEqual(u'http://so.me/uri', self.mods.identifiers[0].text)
         self.assertEqual(u'uri', self.mods.identifiers[0].type)
+        self.assertEqual(u'Dawson choir recordings', self.mods.abstract.text)
         # name fields
         self.assertEqual(u'personal', self.mods.name.type)
         self.assertEqual(u'naf', self.mods.name.authority)
@@ -105,12 +124,27 @@ class TestMods(unittest.TestCase):
         self.assertEqual(u'Emory University Archives', self.mods.related_items[0].title)
         self.assertEqual(u'local_sourcecoll_id', self.mods.related_items[0].identifiers[0].type)
         self.assertEqual(u'eua', self.mods.related_items[0].identifiers[0].text)
+        # titleInfo subfields
+        self.assertEqual('A simple record', self.mods.title_info.title)
+        self.assertEqual(' (for test purposes)', self.mods.title_info.subtitle)
+        # part
+        self.assertEqual('volume', self.mods.parts[0].details[0].type)
+        self.assertEqual('II', self.mods.parts[0].details[0].number)
+        self.assertEqual('pages', self.mods.parts[0].extent.unit)
+        self.assertEqual('5', self.mods.parts[0].extent.start)
+        self.assertEqual('23', self.mods.parts[0].extent.end)
 
     def test_create_mods(self):
         # test creating MODS from scratch - ensure sub-xmlobject definitions are correct
         # and produce schema-valid MODS
         mymods = mods.MODS()
-        mymods.title = 'A Record'
+        mymods.create_title_info()
+        # titleInfo subfields
+        mymods.title_info.non_sort = 'A '
+        mymods.title_info.title = 'Record'
+        mymods.title_info.subtitle = ': for testing'
+        mymods.title_info.part_number = '1'
+        mymods.title_info.part_name = 'first installment'
         mymods.resource_type = 'text'
         mymods.create_name()
         mymods.name.type = 'personal'
@@ -119,6 +153,8 @@ class TestMods(unittest.TestCase):
                                     mods.NamePart(type='given', text='Joe')])
         mymods.name.roles.append(mods.Role(type='text', authority='local',
                                         text='Test Subject'))
+        mymods.create_abstract()
+        mymods.abstract.text = 'A testing record with made up content.'
         mymods.create_note()
         mymods.note.type = 'general'
         mymods.note.text = 'general note'
@@ -133,6 +169,15 @@ class TestMods(unittest.TestCase):
                                        mods.AccessCondition(type='use', text='Tuesdays only')])
         mymods.related_items.extend([mods.RelatedItem(type='host', title='EU Archives'),
                                    mods.RelatedItem(type='isReferencedBy', title='Finding Aid'),])
+        mymods.subjects.extend([mods.Subject(authority='keyword', topic='automated testing'),
+                                mods.Subject(authority='keyword', topic='test records')])
+        mymods.parts.append(mods.Part())
+        mymods.parts[0].details.extend([mods.PartDetail(type='volume', number='90'),
+                                        mods.PartDetail(type='issue', number='2')])
+        mymods.parts[0].create_extent()
+        mymods.parts[0].extent.unit = 'pages'
+        mymods.parts[0].extent.start = '339'
+        mymods.parts[0].extent.end = '361'
         xml = mymods.serialize(pretty=True)
         self.assert_('<mods:mods ' in xml)
         self.assert_('xmlns:mods="http://www.loc.gov/mods/v3"' in xml)
@@ -212,6 +257,11 @@ class TestModsOriginInfo(unittest.TestCase):
         self.assertFalse(self.origin_info.is_empty())
         self.origin_info.issued.append(mods.DateIssued(date='450'))
         self.assertFalse(self.origin_info.is_empty())
+
+    def test_not_empty_with_publisher(self):
+        self.origin_info.publisher = 'MacMillan'
+        self.assertFalse(self.origin_info.is_empty())
+
 
 
 
