@@ -464,8 +464,15 @@ class Urllib2Resolver(etree.Resolver):
     def resolve(self, url, public_id, context):
         if url.startswith('/'):
             url = 'file:' + url
+        logger.info('Resolving %s' % url)
         f = urllib2.urlopen(url)
-        return self.resolve_file(f, context, base_url=url)
+        # urlopen may return None if no handler handles the request
+        if f is None:
+            logger.error('Error resolving %s (no handler for this request)' \
+                         % url)
+            return None  # defer to the next registered resolver
+        else:
+            return self.resolve_file(f, context, base_url=url)
 _defaultResolver = Urllib2Resolver()
 
 def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver):
