@@ -266,9 +266,8 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
         else:
             # raise exception for unsupported fields
             # currently doesn't handle list fields
-            raise Exception('XmlObjectForm does not yet support auto form field generation for %s.' \
-                            % field.__class__)
-           
+            raise Exception('Error on field "%s": XmlObjectForm does not yet support auto form field generation for %s.' \
+            	% (name, field.__class__))
 
         if field_type is not None:
             if 'label' not in kwargs:
