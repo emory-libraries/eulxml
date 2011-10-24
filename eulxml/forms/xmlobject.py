@@ -366,8 +366,12 @@ class XmlObjectFormType(type):
             if isinstance(f, SubformField):
                 declared_subforms[fname] = f.formclass
                 # if a declared subform fields has a label specified, store it
-                if hasattr(f, 'form_label'):
+                if hasattr(f, 'form_label') and f.form_label is not None:
                     declared_subform_labels[fname] = f.form_label
+                # if a subformclass has a label, use that
+                elif hasattr(f.formclass, 'form_label') and \
+                         f.formclass.form_label is not None:
+                    declared_subform_labels[fname] = f.formclass.form_label
             else:
                 declared_fields[fname] = f
 
@@ -629,12 +633,20 @@ class XmlObjectForm(BaseForm):
                                         help_text_html, errors_on_separate_row)
 
         for name, subform in self.subforms.iteritems():
+            # use form label if one was set
+            if hasattr(subform, 'form_label'):
+                name = subform.form_label
             parts.append(self._html_subform_output(subform, name, _subform_output))
         
         for name, formset in self.formsets.iteritems():
             parts.append(unicode(formset.management_form))
             # use form label if one was set
-            if hasattr(formset, 'form_label'):
+            # - use declared subform label if any
+            if hasattr(formset.forms[0], 'form_label') and \
+                    formset.forms[0].form_label is not None:
+                 name = formset.forms[0].form_label
+            # fallback to generated label from field name
+            elif hasattr(formset, 'form_label'):
                 name = formset.form_label
 
             # collect the html output for all the forms in the formset
