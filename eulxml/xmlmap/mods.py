@@ -184,6 +184,10 @@ class Subject(Common):
 
 class TitleInfo(Common):
     ROOT_NAME = 'titleInfo'
+    # FIXME: schema required here for schemafields; this should be refactored
+    XSD_SCHEMA = MODS_SCHEMA
+    xmlschema = _mods_xmlschema
+
     title = xmlmap.StringField('mods:title')
     subtitle = xmlmap.StringField('mods:subTitle')
     part_number = xmlmap.StringField('mods:partNumber')
@@ -202,12 +206,29 @@ class PartDetail(Common):
     type = xmlmap.StringField('@type')
     number = xmlmap.StringField('mods:number')
 
+    def is_empty(self):
+        '''Returns False if no number value is set; returns True if
+        any number value is set.  Type attribute is ignored for
+        determining whether or not this node should be considered
+        empty.'''
+        # disregard type attribute when checking if empty
+        return not self.number
+
 class PartExtent(Common):
     ROOT_NAME = 'extent'
     unit = xmlmap.StringField('@unit')
     start = xmlmap.StringField('mods:start')
     end = xmlmap.StringField('mods:end')
     total = xmlmap.StringField('mods:total')
+
+    def is_empty(self):
+        '''Returns False if no extent value is set; returns True if
+        any extent value is set.  Unit attribute is ignored for
+        determining whether or not this node should be considered
+        empty.'''
+        # disregard type attribute when checking if empty
+        return not bool(self.start or self.end or self.total)
+
 
 class Part(Common):
     ROOT_NAME = 'part'
