@@ -201,6 +201,11 @@ class Abstract(Common):
     type = xmlmap.StringField('@type')
     label = xmlmap.StringField('@displayLabel')
 
+class PhysicalDescription(Common):
+    ROOT_NAME = 'physicalDescription'
+    media_type = xmlmap.StringField('mods:internetMediaType')
+    extent = xmlmap.StringField('mods:extent')
+
 class PartDetail(Common):
     ROOT_NAME = 'detail'
     type = xmlmap.StringField('@type')
@@ -258,6 +263,7 @@ class BaseMods(Common):
     location = xmlmap.StringField('mods:location/mods:physicalLocation',
                                   required=False)
     subjects = xmlmap.NodeListField('mods:subject', Subject)
+    physical_description = xmlmap.NodeField('mods:physicalDescription', PhysicalDescription)
     abstract = xmlmap.NodeField('mods:abstract', Abstract)
     parts = xmlmap.NodeListField('mods:part', Part)
 
