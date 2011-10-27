@@ -110,6 +110,7 @@ class Identifier(Common):
     ROOT_NAME = 'identifier'
     type = xmlmap.StringField('@type')
     text = xmlmap.StringField('text()')
+    label = xmlmap.StringField('@displayLabel')
 
 class AccessCondition(Common):
     ':class:`~eulxml.xmlmap.XmlObject` for MODS accessCondition'
@@ -171,6 +172,13 @@ class LanguageTerm(Common):
 class Language(Common):
     ROOT_NAME = 'language'
     terms = xmlmap.NodeListField('mods:languageTerm', LanguageTerm)
+
+class Location(Common):
+    ROOT_NAME = 'location'
+    physical = xmlmap.StringField('mods:physicalLocation')
+    url = xmlmap.StringField('mods:url')
+    # NOTE: mods:location subfields are ordered;
+    # setting them in the wrong order could currently generate invalid mods...
 
 class Subject(Common):
     ROOT_NAME = 'subject'
@@ -262,6 +270,7 @@ class BaseMods(Common):
     languages = xmlmap.NodeListField('mods:language', Language)
     location = xmlmap.StringField('mods:location/mods:physicalLocation',
                                   required=False)
+    locations = xmlmap.NodeListField('mods:location', Location)
     subjects = xmlmap.NodeListField('mods:subject', Subject)
     physical_description = xmlmap.NodeField('mods:physicalDescription', PhysicalDescription)
     abstract = xmlmap.NodeField('mods:abstract', Abstract)
@@ -275,6 +284,7 @@ class RelatedItem(BaseMods):
     XSD_SCHEMA = MODS_SCHEMA
     xmlschema = _mods_xmlschema
     type = xmlmap.SchemaField("@type", 'relatedItemTypeAttributeDefinition')
+    label = xmlmap.StringField('@displayLabel')
     
 class MODS(BaseMods):
     '''Top-level :class:`~eulxml.xmlmap.XmlObject` for a MODS metadata record.

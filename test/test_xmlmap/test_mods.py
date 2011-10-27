@@ -53,6 +53,10 @@ class TestMods(unittest.TestCase):
     </mods:titleInfo>
   <mods:identifier type="local_sourcecoll_id">eua</mods:identifier>
   </mods:relatedItem>
+  <mods:location>
+    <mods:physicalLocation>Atlanta</mods:physicalLocation>
+    <mods:url>http://so.me/other/uri</mods:url>
+  </mods:location>
   <mods:part>
     <mods:detail type="volume">
       <mods:number>II</mods:number>
@@ -89,6 +93,7 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.parts[0], mods.Part))
         self.assert_(isinstance(self.mods.parts[0].details[0], mods.PartDetail))
         self.assert_(isinstance(self.mods.parts[0].extent, mods.PartExtent))
+        self.assert_(isinstance(self.mods.locations[0], mods.Location))
 
     def test_fields(self):
         self.assertEqual('A simple record', self.mods.title)
@@ -133,6 +138,9 @@ class TestMods(unittest.TestCase):
         self.assertEqual('pages', self.mods.parts[0].extent.unit)
         self.assertEqual('5', self.mods.parts[0].extent.start)
         self.assertEqual('23', self.mods.parts[0].extent.end)
+        # location
+        self.assertEqual('http://so.me/other/uri', self.mods.locations[0].url)
+        self.assertEqual('Atlanta', self.mods.locations[0].physical)
 
     def test_create_mods(self):
         # test creating MODS from scratch - ensure sub-xmlobject definitions are correct
