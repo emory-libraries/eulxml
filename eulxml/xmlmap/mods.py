@@ -183,6 +183,7 @@ class Location(Common):
 class Subject(Common):
     ROOT_NAME = 'subject'
     authority = xmlmap.StringField('@authority')
+    id = xmlmap.StringField('@ID')
 
     # and one of the following:
     geographic = xmlmap.StringField('mods:geographic')
