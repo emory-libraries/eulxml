@@ -15,44 +15,103 @@
 #   limitations under the License.
 
 '''
-:mod:`eulxml.xmlmap` classes for dealing with the
-`PREMIS <http://www.loc.gov/standards/premis/>`_ metadata format
-for preservation metadta and maintenance.
+:mod:`eulxml.xmlmap` classes for dealing with the `PREMIS
+<http://www.loc.gov/standards/premis/>`_ metadata format for
+preservation metadata.
+
+-----
 '''
 
 from eulxml import xmlmap
 
 PREMIS_NAMESPACE = 'info:lc/xmlns/premis-v2'
+'authoritative namespace for PREMIS'
 PREMIS_SCHEMA = 'http://www.loc.gov/standards/premis/premis.xsd'
+'authoritative schema location for PREMIS'
 
 class BasePremis(xmlmap.XmlObject):
-    "Base PREMIS class with namespace declaration common to all PREMIS XmlObjects."
+    '''Base PREMIS class with namespace declaration common to all PREMIS
+    XmlObjects.
+
+    .. Note::
+
+       This class is intended mostly for internal use, but could be
+       useful when extending or adding additional PREMIS
+       :class:`~eulxml.xmlmap.XmlObject` classes.  The
+       :attr:`PREMIS_NAMESPACE` is mapped to the prefix **p**.
+    '''
     ROOT_NS = PREMIS_NAMESPACE
     ROOT_NAMESPACES = {
         'p': PREMIS_NAMESPACE,
         'xsi': 'http://www.w3.org/2001/XMLSchema-instance'
     }
 
-class Object(BasePremis):
-    'PREMIS object'
+class PremisRoot(BasePremis):
+    '''Base class with a schema declaration for any of the
+    root/stand-alone PREMIS elements:
+    
+     * ``<premis>`` - :class:`Premis`
+     * ``<object>`` - :class:`Object`
+     * ``<event>``  - :class:`Event`
+     * ``<agent>``
+     * ``<rights>``
+    
+    '''
+    xmlschema = xmlmap.loadSchema(PREMIS_SCHEMA)
+    
+class Object(PremisRoot):
+    '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
+    object.
+
+    Curently only includes the minimal required fields.
+    '''
     ROOT_NAME = 'object'
     type = xmlmap.StringField('@xsi:type') # file, representation, bitstream
-    id_type = xmlmap.StringField('p:objectIdentifier/p:objectIdentifierType')
-    id = xmlmap.StringField('p:objectIdentifier/p:objectIdentifierValue')
+    '''type of object (e.g., file, representation, bitstream).
 
-class EventIdentifier(BasePremis):
-    ROOT_NAME = 'eventIdentifier'
-    type = xmlmap.StringField('p:eventIdentifierType')
-    value = xmlmap.StringField('p:eventIdentifierValue')
+    .. Note::
+      To be schema valid, object types must be in the PREMIS namespace, e.g.::
+
+        from eulxml.xmlmap import premis
+        obj = premis.Object()
+        obj.type = "p:file"
+    '''
+    id_type = xmlmap.StringField('p:objectIdentifier/p:objectIdentifierType')
+    'identifier type (`objectIdentifier/objectIdentifierType`)'
+    id = xmlmap.StringField('p:objectIdentifier/p:objectIdentifierValue')
+    'identifier value (`objectIdentifier/objectIdentifierValue`)'
+
+class Event(PremisRoot):
+    '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
+    event.
+
+    .. Note::
+
+      The PREMIS schema requires that elements occur in a specified
+      order, which :mod:`eulxml` does not currently handle or manage.
+      As a work-around, when creating a new :class:`Event` from
+      scratch, you should set the following required fields in this
+      order: identifier (:attr:`id` and :attr:`ad_type`
     
-class Event(BasePremis):
-    'PREMIS Event'
+    '''
     ROOT_NAME = 'event'
     type = xmlmap.StringField('p:eventType')
-    identifier = xmlmap.NodeField('p:eventIdentifier', EventIdentifier)
+    'event type  (``eventType``)'
+    id_type = xmlmap.StringField('p:eventIdentifier/p:eventIdentifierType')
+    'identifier type (`eventIdentifier/eventIdentifierType`)'
+    id = xmlmap.StringField('p:eventIdentifier/p:eventIdentifierValue')
+    'identifier value (`eventIdentifier/eventIdentifierValue`)'
     date = xmlmap.StringField('p:eventDateTime')
+    'date/time for the event (`eventDateTime`)'
     detail = xmlmap.StringField('p:eventDetail', required=False)
+    'event detail (`eventDetail`)'
     outcome = xmlmap.StringField('p:eventOutcomeInformation/p:eventOutcome', required=False)
+    '''outcome of the event (`eventOutcomeInformation/eventOutcome`).
+    
+    .. Note::
+      In this preliminary implementation, the outcome detail fields
+      are not mapped.
+    '''
     # leaving out outcome detail for now...
 
     # agent (optional, could be repeated)
@@ -64,18 +123,27 @@ class Event(BasePremis):
     object_id = xmlmap.StringField('p:linkingObjectIdentifier/p:linkingObjectIdentifierValue')
 
 
-class Premis(BasePremis):
-    'PREMIS container record'
-    ROOT_NAME = 'premis'
-    xmlschema = xmlmap.loadSchema(PREMIS_SCHEMA)
+class Premis(PremisRoot):
+    '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
+    container element that can contain any of the other top-level
+    PREMIS elements.
 
-    _schema_loc = 'info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd'
+    Curently only includes mappings for a single object and list of
+    events.
+    '''
+    ROOT_NAME = 'premis'
 
     version = xmlmap.StringField('@version')
-    schema_location = xmlmap.StringField('@xsi:schemaLocation')
+    '''Version of PREMIS in use; by default, new instances of
+    :class:`Premis` will be initialized with a version of 2.1'''
     object = xmlmap.NodeField('p:object', Object)
+    'a single PREMIS :class:`object`'
     events = xmlmap.NodeListField('p:event', Event)
+    'list of PREMIS events, as instances of :class:`Event`'
 
     def __init__(self, *args, **kwargs):
-        super(Premis, self).__init__(version='2.1', schema_location=self._schema_loc,
-                                     *args, **kwargs)
+        # version is required for schema-validity; don't override a
+        # user-supplied version, but otherwise default to 2.1
+        if 'version' not in kwargs:
+            kwargs['version'] = '2.1'
+        super(Premis, self).__init__(*args, **kwargs)

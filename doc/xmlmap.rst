@@ -18,6 +18,8 @@ This module provides that functionality.
    Encoded Archive Description (EAD) XmlObject <xmlmap/ead>
    Dublin Core XmlObject <xmlmap/dc>
    Collaborative Electronic Records Project (CERP) XmlObject <xmlmap/cerp>
+   Metadata Object Description Schema (MODS) XmlObject <xmlmap/mods>
+   Preservation Metadata Implementation Strategies (PREMIS) XmlObjects <xmlmap/premis>
 
 General Usage
 -------------

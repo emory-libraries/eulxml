@@ -24,7 +24,8 @@ from eulxml.xmlmap import premis
 from testcore import main
 
 class TestPremis(unittest.TestCase):
-    # LOC premis example document
+    # LOC PREMIS v2.1 example document taken from:
+    # http://www.loc.gov/standards/premis/louis-2-1.xml
     FIXTURE_FILE = path.join(path.dirname(path.abspath(__file__)),
                              'fixtures', 'loc-premis-2.1.xml')
 
@@ -47,9 +48,8 @@ class TestPremis(unittest.TestCase):
     def test_event(self):
         ev = self.premis.events[0]
         self.assertEqual('validation', ev.type)
-        self.assert_(isinstance(ev.identifier, premis.EventIdentifier))
-        self.assertEqual('LocalRepository', ev.identifier.type)
-        self.assertEqual('e001.1', ev.identifier.value)
+        self.assertEqual('LocalRepository', ev.id_type)
+        self.assertEqual('e001.1', ev.id)
         self.assertEqual('2006-06-06T00:00:00.001', ev.date)
         self.assertEqual('jhove1_1e', ev.detail)
         self.assertEqual('successful', ev.outcome)
@@ -66,16 +66,19 @@ class TestPremis(unittest.TestCase):
         pr.object.type = 'p:representation'  # needs to be in premis namespace
         pr.object.id_type = 'ark'
         pr.object.id = 'ark:/1234/56789'
+        # object can be schema-validated by itself
+        self.assertTrue(pr.object.schema_valid())
         ev = premis.Event()
-        ev.create_identifier()
-        ev.identifier.type = 'local'
-        ev.identifier.value = '0101'
+        ev.id_type = 'local'
+        ev.id = '0101'
         ev.type = 'automated test'
         ev.date = '2011-11-23'
         ev.detail = 'python unittest'
         ev.outcome = 'successful'
         ev.agent_type = 'code'
         ev.agent_id = 'eulxml'
+        # event can be schema-validated by itself
+        self.assertTrue(ev.schema_valid())
         pr.events.append(ev)
 
         # if changes cause validation errors, uncomment the next 2 lines to debug
