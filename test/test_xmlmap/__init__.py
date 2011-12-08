@@ -20,3 +20,5 @@ from test_xmlmap.test_ead import *
 from test_xmlmap.test_tei import *
 from test_xmlmap.test_dc import *
 from test_xmlmap.test_cerp import *
+from test_xmlmap.test_mods import *
+from test_xmlmap.test_premis import *

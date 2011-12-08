@@ -917,6 +917,8 @@ class SchemaField(Field):
         :rtype: :class:`eulxml.xmlmap.fields.Field`
         """
         type = schema.get_type(self.schema_type)
+        logger.debug('Found schema type %s; base type %s, restricted values %s' % \
+                     (self.schema_type, type.base_type(), type.restricted_values))
         kwargs = {}
         if type.restricted_values:
             # field has a restriction with enumerated values - pass as choices to field
