@@ -16,6 +16,7 @@ This module provides that functionality.
    :maxdepth: 1
 
    Encoded Archive Description (EAD) XmlObject <xmlmap/ead>
+   Metadata Objects Description Schema (MODS) XmlObject <xmlmap/mods>
    Dublin Core XmlObject <xmlmap/dc>
    Collaborative Electronic Records Project (CERP) XmlObject <xmlmap/cerp>
    Metadata Object Description Schema (MODS) XmlObject <xmlmap/mods>
