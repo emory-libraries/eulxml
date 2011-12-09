@@ -5,6 +5,15 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.16.0 - MODS and PREMIS
+------------------------
+
+* Add basic support for `MODS <http://www.loc.gov/standards/mods/>`_ in
+  :mod:`eulxml.xmlmap.mods`.
+* Add basic support for `PREMIS <http://www.loc.gov/standards/premis/>`_ in
+  :mod:`eulxml.xmlmap.premis`.
+* Minor logging and error handling improvements.
+
 0.15.3 - Minor Enhancement
 --------------------------
 
@@ -29,4 +38,3 @@ any necessary information about installation or upgrade notes.
 * Split out xml-related components (:mod:`~eulxml.xpath`,
   :mod:`~eulxml.xmlmap`, and :mod:`~eulxml.forms`) from :mod:`eulcore`
   into :mod:`eulxml` for easier re-use.
-

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<premis xmlns="info:lc/xmlns/premis-v2" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd"
+	version="2.1">
+	<object xsi:type="file">
+		<objectIdentifier>
+			<objectIdentifierType>hdl</objectIdentifierType>
+			<objectIdentifierValue>loc.music/gottlieb.09601</objectIdentifierValue>
+		</objectIdentifier>
+		<preservationLevel>
+			<preservationLevelValue>full</preservationLevelValue>
+			<preservationLevelDateAssigned>20070529</preservationLevelDateAssigned>
+		</preservationLevel>
+		<significantProperties>
+			<significantPropertiesType>behavior</significantPropertiesType>
+			<significantPropertiesValue>hyperlinks traversable</significantPropertiesValue>
+		</significantProperties>
+		<objectCharacteristics>
+			<compositionLevel>0</compositionLevel>
+			<fixity>
+				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+				<messageDigest>36b03197ad066cd719906c55eb68ab8d</messageDigest>
+				<messageDigestOriginator>LocalDCMS</messageDigestOriginator>
+			</fixity>
+			<size>20800896</size>
+			<format>
+				<formatDesignation>
+					<formatName>image/tiff</formatName>
+					<formatVersion>6.0</formatVersion>
+				</formatDesignation>
+				<formatRegistry>
+					<formatRegistryName>PRONOM</formatRegistryName>
+					<formatRegistryKey>fmt/10</formatRegistryKey>
+					<formatRegistryRole>specification</formatRegistryRole>
+				</formatRegistry>
+			</format>
+			<creatingApplication>
+				<creatingApplicationName>ScandAll 21</creatingApplicationName>
+				<creatingApplicationVersion>4.1.4</creatingApplicationVersion>
+				<dateCreatedByApplication>1998-10-30</dateCreatedByApplication>
+			</creatingApplication>
+			<creatingApplication>
+				<creatingApplicationName>Adobe Photoshop</creatingApplicationName>
+				<creatingApplicationVersion>CS2</creatingApplicationVersion>
+				<dateCreatedByApplication>2006-09-20T08:29:02</dateCreatedByApplication>
+			</creatingApplication>
+			<objectCharacteristicsExtension>
+				<mdSec ID="MIX1" GROUPID="G1" CREATED="2011-01-01" STATUS="current">
+					<mdWrap MDTYPE="MIX" MDTYPEVERSION="2.0">
+						<xmlData>
+							<mix:mix xmlns:mix="http://www.loc.gov/mix/v20">
+								<mix:BasicDigitalObjectInformation>
+									<mix:byteOrder>little endian</mix:byteOrder>
+									<mix:Compression>
+										<mix:compressionScheme>1</mix:compressionScheme>
+									</mix:Compression>
+								</mix:BasicDigitalObjectInformation>
+								<mix:BasicImageInformation>
+									<mix:BasicImageCharacteristics>
+										<mix:imageWidth>3982</mix:imageWidth>
+										<mix:imageHeight>5223</mix:imageHeight>
+										<mix:PhotometricInterpretation>
+											<mix:colorSpace>1</mix:colorSpace>
+										</mix:PhotometricInterpretation>
+									</mix:BasicImageCharacteristics>
+								</mix:BasicImageInformation>
+								<mix:ImageCaptureMetadata>
+									<mix:GeneralCaptureInformation>
+										<mix:dateTimeCreated>1998-10-03T08:25:28</mix:dateTimeCreated>
+										<mix:imageProducer>Library of Congress</mix:imageProducer>
+									</mix:GeneralCaptureInformation>
+									<mix:orientation>normal*</mix:orientation>
+								</mix:ImageCaptureMetadata>
+								<mix:ImageAssessmentMetadata>
+									<mix:SpatialMetrics>
+										<mix:samplingFrequencyUnit>no absolute unit of
+											measurement</mix:samplingFrequencyUnit>
+										<mix:xSamplingFrequency>
+											<mix:numerator>3982</mix:numerator>
+											<mix:denominator>1</mix:denominator>
+										</mix:xSamplingFrequency>
+										<mix:ySamplingFrequency>
+											<mix:numerator>5223</mix:numerator>
+											<mix:denominator>1</mix:denominator>
+										</mix:ySamplingFrequency>
+									</mix:SpatialMetrics>
+									<mix:ImageColorEncoding>
+										<mix:BitsPerSample>
+											<mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+										</mix:BitsPerSample>
+										<mix:samplesPerPixel>1</mix:samplesPerPixel>
+									</mix:ImageColorEncoding>
+								</mix:ImageAssessmentMetadata>
+							</mix:mix>
+						</xmlData>
+					</mdWrap>
+				</mdSec>
+			</objectCharacteristicsExtension>
+		</objectCharacteristics>
+		<originalName>0001h.tif</originalName>
+		<storage>
+			<contentLocation>
+				<contentLocationType>filepath</contentLocationType>
+				<contentLocationValue>amserver/</contentLocationValue>
+			</contentLocation>
+			<storageMedium>disk</storageMedium>
+		</storage>
+		<environment>
+			<environmentCharacteristic>recommended</environmentCharacteristic>
+			<environmentPurpose>render</environmentPurpose>
+			<environmentPurpose>edit</environmentPurpose>
+			<software>
+				<swName>Adobe Acrobat</swName>
+				<swVersion>5.0</swVersion>
+				<swType>renderer</swType>
+			</software>
+			<software>
+				<swName>Windows</swName>
+				<swVersion>XP</swVersion>
+				<swType>operatingSystem</swType>
+			</software>
+			<hardware>
+				<hwName>Intel x86</hwName>
+				<hwType>processor</hwType>
+				<hwOtherInformation>60 mhz minimum</hwOtherInformation>
+			</hardware>
+			<hardware>
+				<hwName>64 MB RAM</hwName>
+				<hwType>memory</hwType>
+				<hwOtherInformation>32 MB minimum</hwOtherInformation>
+			</hardware>
+		</environment>
+		<relationship>
+			<relationshipType>structural</relationshipType>
+			<relationshipSubType>is sibling</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>hdl</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue>loc.music/gottlieb.09602</relatedObjectIdentifierValue>
+				<relatedObjectSequence>0</relatedObjectSequence>
+			</relatedObjectIdentification>
+		</relationship>
+		<relationship>
+			<relationshipType>structural</relationshipType>
+			<relationshipSubType>is sibling</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue>http://lcweb2.loc.gov/cocoon/ihas/loc.natlib.gottlieb.09601/mets.xml</relatedObjectIdentifierValue>
+				<relatedObjectSequence>0</relatedObjectSequence>
+			</relatedObjectIdentification>
+		</relationship>
+		<relationship>
+			<relationshipType>derivation</relationshipType>
+			<relationshipSubType>is source of</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>URL</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue>http://lcweb2.loc.gov/natlib/ihas/service/gottlieb/09601/ver01/0001v.jpg</relatedObjectIdentifierValue>
+				<relatedObjectSequence>0</relatedObjectSequence>
+			</relatedObjectIdentification>
+			<relatedEventIdentification>
+				<relatedEventIdentifierType>LocalDCMS</relatedEventIdentifierType>
+				<relatedEventIdentifierValue>E002.1</relatedEventIdentifierValue>
+				<relatedEventSequence>1</relatedEventSequence>
+			</relatedEventIdentification>
+		</relationship>
+		<linkingEventIdentifier>
+			<linkingEventIdentifierType>Local Repository</linkingEventIdentifierType>
+			<linkingEventIdentifierValue>E001.1</linkingEventIdentifierValue>
+		</linkingEventIdentifier>
+		<linkingEventIdentifier>
+			<linkingEventIdentifierType>Local Repository</linkingEventIdentifierType>
+			<linkingEventIdentifierValue>E001.2</linkingEventIdentifierValue>
+		</linkingEventIdentifier>
+		<linkingIntellectualEntityIdentifier>
+			<linkingIntellectualEntityIdentifierType>hdl</linkingIntellectualEntityIdentifierType>
+			<linkingIntellectualEntityIdentifierValue>loc.natlib.gottlieb.09601</linkingIntellectualEntityIdentifierValue>
+		</linkingIntellectualEntityIdentifier>
+		<linkingIntellectualEntityIdentifier>
+			<linkingIntellectualEntityIdentifierType>URI</linkingIntellectualEntityIdentifierType>
+			<linkingIntellectualEntityIdentifierValue>http://lcweb2.loc.gov/cocoon/ihas/loc.natlib.gottlieb.09601/default.html
+			</linkingIntellectualEntityIdentifierValue>
+		</linkingIntellectualEntityIdentifier>
+	</object>
+	<object xsi:type="file">
+		<objectIdentifier>
+			<objectIdentifierType>hdl</objectIdentifierType>
+			<objectIdentifierValue>loc.music/gottlieb.09602</objectIdentifierValue>
+		</objectIdentifier>
+		<preservationLevel>
+			<preservationLevelValue>full</preservationLevelValue>
+			<preservationLevelDateAssigned>20070529</preservationLevelDateAssigned>
+		</preservationLevel>
+		<significantProperties>
+			<significantPropertiesType>behavior</significantPropertiesType>
+			<significantPropertiesValue>hyperlinks traversable</significantPropertiesValue>
+		</significantProperties>
+		<objectCharacteristics>
+			<compositionLevel>0</compositionLevel>
+			<fixity>
+				<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+				<messageDigest>ceb3dbc5dacd3883d0985174ef5df7db</messageDigest>
+				<messageDigestOriginator>LocalDCMS</messageDigestOriginator>
+			</fixity>
+			<size>58238300</size>
+			<format>
+				<formatDesignation>
+					<formatName>image/tiff</formatName>
+					<formatVersion>6.0</formatVersion>
+				</formatDesignation>
+				<formatRegistry>
+					<formatRegistryName>PRONOM</formatRegistryName>
+					<formatRegistryKey>fmt/10</formatRegistryKey>
+					<formatRegistryRole>specification</formatRegistryRole>
+				</formatRegistry>
+			</format>
+			<creatingApplication>
+				<creatingApplicationName>ScandAll 21</creatingApplicationName>
+				<creatingApplicationVersion>4.1.4</creatingApplicationVersion>
+				<dateCreatedByApplication>1998-10-30</dateCreatedByApplication>
+			</creatingApplication>
+			<creatingApplication>
+				<creatingApplicationName>Adobe Photoshop</creatingApplicationName>
+				<creatingApplicationVersion>CS2</creatingApplicationVersion>
+				<dateCreatedByApplication>2006-09-20T08:29:02</dateCreatedByApplication>
+			</creatingApplication>
+			<objectCharacteristicsExtension>
+				<mdSec ID="MIX2" GROUPID="G2" CREATED="2011-01-12" STATUS="current">
+					<mdWrap MDTYPE="MIX" MDTYPEVERSION="2.0">
+						<xmlData>
+							<mix:mix xmlns:mix="http://www.loc.gov/mix/v20">
+								<mix:BasicDigitalObjectInformation>
+									<mix:byteOrder>little endian</mix:byteOrder>
+									<mix:Compression>
+										<mix:compressionScheme>1</mix:compressionScheme>
+									</mix:Compression>
+								</mix:BasicDigitalObjectInformation>
+								<mix:BasicImageInformation>
+									<mix:BasicImageCharacteristics>
+										<mix:imageWidth>3982</mix:imageWidth>
+										<mix:imageHeight>5223</mix:imageHeight>
+										<mix:PhotometricInterpretation>
+											<mix:colorSpace>2</mix:colorSpace>
+											<mix:ReferenceBlackWhite>
+												<mix:Component>
+												<mix:componentPhotometricInterpretation>R</mix:componentPhotometricInterpretation>
+												<mix:footroom>
+												<mix:numerator>255</mix:numerator>
+												<mix:denominator>1</mix:denominator>
+												</mix:footroom>
+												<mix:headroom>
+												<mix:numerator>0</mix:numerator>
+												<mix:denominator>1</mix:denominator>
+												</mix:headroom>
+												</mix:Component>
+												<mix:Component>
+												<mix:componentPhotometricInterpretation>G</mix:componentPhotometricInterpretation>
+												<mix:footroom>
+												<mix:numerator>255</mix:numerator>
+												<mix:denominator>1</mix:denominator>
+												</mix:footroom>
+												<mix:headroom>
+												<mix:numerator>0</mix:numerator>
+												<mix:denominator>1</mix:denominator>
+												</mix:headroom>
+												</mix:Component>
+												<mix:Component>
+												<mix:componentPhotometricInterpretation>B</mix:componentPhotometricInterpretation>
+												<mix:footroom>
+												<mix:numerator>255</mix:numerator>
+												<mix:denominator>1</mix:denominator>
+												</mix:footroom>
+												<mix:headroom>
+												<mix:numerator>0</mix:numerator>
+												<mix:denominator>1</mix:denominator>
+												</mix:headroom>
+												</mix:Component>
+											</mix:ReferenceBlackWhite>
+										</mix:PhotometricInterpretation>
+									</mix:BasicImageCharacteristics>
+								</mix:BasicImageInformation>
+								<mix:ImageCaptureMetadata>
+									<mix:GeneralCaptureInformation>
+										<mix:dateTimeCreated>1998-10-30T08:29:02</mix:dateTimeCreated>
+										<mix:imageProducer>Library of Congress</mix:imageProducer>
+									</mix:GeneralCaptureInformation>
+									<mix:orientation>normal*</mix:orientation>
+								</mix:ImageCaptureMetadata>
+								<mix:ImageAssessmentMetadata>
+									<mix:SpatialMetrics>
+										<mix:samplingFrequencyUnit>no absolute unit of
+											measurement</mix:samplingFrequencyUnit>
+										<mix:xSamplingFrequency>
+											<mix:numerator>3882</mix:numerator>
+											<mix:denominator>1</mix:denominator>
+										</mix:xSamplingFrequency>
+										<mix:ySamplingFrequency>
+											<mix:numerator>5000</mix:numerator>
+											<mix:denominator>1</mix:denominator>
+										</mix:ySamplingFrequency>
+									</mix:SpatialMetrics>
+									<mix:ImageColorEncoding>
+										<mix:BitsPerSample>
+											<mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+										</mix:BitsPerSample>
+										<mix:samplesPerPixel>1</mix:samplesPerPixel>
+									</mix:ImageColorEncoding>
+								</mix:ImageAssessmentMetadata>
+							</mix:mix>
+						</xmlData>
+					</mdWrap>
+				</mdSec>
+			</objectCharacteristicsExtension>
+		</objectCharacteristics>
+		<originalName>0002h.tif</originalName>
+		<storage>
+			<contentLocation>
+				<contentLocationType>filepath</contentLocationType>
+				<contentLocationValue>amserver/</contentLocationValue>
+			</contentLocation>
+			<storageMedium>disk</storageMedium>
+		</storage>
+		<environment>
+			<environmentCharacteristic>recommended</environmentCharacteristic>
+			<environmentPurpose>render</environmentPurpose>
+			<environmentPurpose>edit</environmentPurpose>
+			<software>
+				<swName>Adobe Acrobat</swName>
+				<swVersion>5.0</swVersion>
+				<swType>renderer</swType>
+			</software>
+			<software>
+				<swName>Windows</swName>
+				<swVersion>XP</swVersion>
+				<swType>operatingSystem</swType>
+			</software>
+			<hardware>
+				<hwName>Intel x86</hwName>
+				<hwType>processor</hwType>
+				<hwOtherInformation>60 mhz minimum</hwOtherInformation>
+			</hardware>
+			<hardware>
+				<hwName>64 MB RAM</hwName>
+				<hwType>memory</hwType>
+				<hwOtherInformation>32 MB minimum</hwOtherInformation>
+			</hardware>
+		</environment>
+		<relationship>
+			<relationshipType>structural</relationshipType>
+			<relationshipSubType>is sibling</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>hdl</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue>loc.music/gottlieb.09601</relatedObjectIdentifierValue>
+				<relatedObjectSequence>0</relatedObjectSequence>
+			</relatedObjectIdentification>
+		</relationship>
+		<relationship>
+			<relationshipType>structural</relationshipType>
+			<relationshipSubType>is sibling</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue>http://lcweb2.loc.gov/cocoon/ihas/loc.natlib.gottlieb.09601/mets.xml</relatedObjectIdentifierValue>
+				<relatedObjectSequence>0</relatedObjectSequence>
+			</relatedObjectIdentification>
+		</relationship>
+		<relationship>
+			<relationshipType>derivation</relationshipType>
+			<relationshipSubType>is source of</relationshipSubType>
+			<relatedObjectIdentification>
+				<relatedObjectIdentifierType>URL</relatedObjectIdentifierType>
+				<relatedObjectIdentifierValue>http://lcweb2.loc.gov/natlib/ihas/service/gottlieb/09601/ver02/0001v.jpg</relatedObjectIdentifierValue>
+				<relatedObjectSequence>0</relatedObjectSequence>
+			</relatedObjectIdentification>
+			<relatedEventIdentification>
+				<relatedEventIdentifierType>LocalDCMS</relatedEventIdentifierType>
+				<relatedEventIdentifierValue>E002.2</relatedEventIdentifierValue>
+				<relatedEventSequence>1</relatedEventSequence>
+			</relatedEventIdentification>
+		</relationship>
+		<linkingEventIdentifier>
+			<linkingEventIdentifierType>Local Repository</linkingEventIdentifierType>
+			<linkingEventIdentifierValue>E001.3</linkingEventIdentifierValue>
+		</linkingEventIdentifier>
+		<linkingEventIdentifier>
+			<linkingEventIdentifierType>Local Repository</linkingEventIdentifierType>
+			<linkingEventIdentifierValue>E001.4</linkingEventIdentifierValue>
+		</linkingEventIdentifier>
+		<linkingIntellectualEntityIdentifier>
+			<linkingIntellectualEntityIdentifierType>hdl</linkingIntellectualEntityIdentifierType>
+			<linkingIntellectualEntityIdentifierValue>loc.natlib.gottlieb.09601</linkingIntellectualEntityIdentifierValue>
+		</linkingIntellectualEntityIdentifier>
+		<linkingIntellectualEntityIdentifier>
+			<linkingIntellectualEntityIdentifierType>URI</linkingIntellectualEntityIdentifierType>
+			<linkingIntellectualEntityIdentifierValue>http://lcweb2.loc.gov/cocoon/ihas/loc.natlib.gottlieb.09601/default.html
+			</linkingIntellectualEntityIdentifierValue>
+		</linkingIntellectualEntityIdentifier>
+	</object>
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>LocalRepository</eventIdentifierType>
+			<eventIdentifierValue>e001.1</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>validation</eventType>
+		<eventDateTime>2006-06-06T00:00:00.001</eventDateTime>
+		<eventDetail>jhove1_1e</eventDetail>
+		<eventOutcomeInformation>
+			<eventOutcome>successful</eventOutcome>
+			<eventOutcomeDetail>
+				<eventOutcomeDetailNote>Well-formed and valid</eventOutcomeDetailNote>
+				<eventOutcomeDetailExtension>
+					<mdSec ID="AOD1">
+						<mdWrap MDTYPE="OTHER">
+							<xmlData>
+								<logfileInfo xmlns="namespace">
+									<in/>
+									<out/>
+								</logfileInfo>
+							</xmlData>
+						</mdWrap>
+					</mdSec>
+				</eventOutcomeDetailExtension>
+			</eventOutcomeDetail>
+		</eventOutcomeInformation>
+		<linkingAgentIdentifier>
+			<linkingAgentIdentifierType>AgentID</linkingAgentIdentifierType>
+			<linkingAgentIdentifierValue>na12345</linkingAgentIdentifierValue>
+		</linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+			<linkingObjectIdentifierType>hdl</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue>loc.music/gottlieb.09601</linkingObjectIdentifierValue>
+		</linkingObjectIdentifier>
+	</event>
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>LocalRepository</eventIdentifierType>
+			<eventIdentifierValue>E001.2</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>ingestion</eventType>
+		<eventDateTime>2006-06-06T00:00:00.002</eventDateTime>
+		<eventDetail>ingester1_0.exe</eventDetail>
+		<eventOutcomeInformation>
+			<eventOutcome>successful</eventOutcome>
+		</eventOutcomeInformation>
+		<linkingAgentIdentifier>
+			<linkingAgentIdentifierType>AgentID</linkingAgentIdentifierType>
+			<linkingAgentIdentifierValue>na12345</linkingAgentIdentifierValue>
+		</linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+			<linkingObjectIdentifierType>hdl</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue>loc.music/gottlieb.09601</linkingObjectIdentifierValue>
+		</linkingObjectIdentifier>
+	</event>
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>LocalRepository</eventIdentifierType>
+			<eventIdentifierValue>E001.3</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>validation</eventType>
+		<eventDateTime>2006-06-06T00:00:00.005</eventDateTime>
+		<eventDetail>jhove1_1e</eventDetail>
+		<eventOutcomeInformation>
+			<eventOutcome>successful</eventOutcome>
+			<eventOutcomeDetail>
+				<eventOutcomeDetailNote>Well-formed and valid</eventOutcomeDetailNote>
+			</eventOutcomeDetail>
+		</eventOutcomeInformation>
+		<linkingAgentIdentifier>
+			<linkingAgentIdentifierType>AgentID</linkingAgentIdentifierType>
+			<linkingAgentIdentifierValue>na12345</linkingAgentIdentifierValue>
+		</linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+			<linkingObjectIdentifierType>hdl</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue>loc.music/gottlieb.09602</linkingObjectIdentifierValue>
+		</linkingObjectIdentifier>
+	</event>
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>LocalRepository</eventIdentifierType>
+			<eventIdentifierValue>E001.4</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>ingestion</eventType>
+		<eventDateTime>2006-06-06T00:00:00.006</eventDateTime>
+		<eventDetail>ingester1_0.exe</eventDetail>
+		<eventOutcomeInformation>
+			<eventOutcome>successful</eventOutcome>
+		</eventOutcomeInformation>
+		<linkingAgentIdentifier>
+			<linkingAgentIdentifierType>AgentID</linkingAgentIdentifierType>
+			<linkingAgentIdentifierValue>na12345</linkingAgentIdentifierValue>
+		</linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+			<linkingObjectIdentifierType>hdl</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue>loc.music/gottlieb.09602</linkingObjectIdentifierValue>
+		</linkingObjectIdentifier>
+	</event>
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>LocalRepository</eventIdentifierType>
+			<eventIdentifierValue>E002.1</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>migration</eventType>
+		<eventDateTime>2006-07-06T00:00:00.006</eventDateTime>
+		<eventDetail>Adobe Photoshop </eventDetail>
+		<eventOutcomeInformation>
+			<eventOutcome>successful</eventOutcome>
+		</eventOutcomeInformation>
+		<linkingAgentIdentifier>
+			<linkingAgentIdentifierType>AgentID</linkingAgentIdentifierType>
+			<linkingAgentIdentifierValue>na12345</linkingAgentIdentifierValue>
+		</linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+			<linkingObjectIdentifierType>hdl</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue>loc.music/gottlieb.09601</linkingObjectIdentifierValue>
+		</linkingObjectIdentifier>
+	</event>
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>LocalRepository</eventIdentifierType>
+			<eventIdentifierValue>E002.2</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>migration</eventType>
+		<eventDateTime>2007-06-06T00:00:00.006</eventDateTime>
+		<eventDetail>Adobe Photoshop</eventDetail>
+		<eventOutcomeInformation>
+			<eventOutcome>successful</eventOutcome>
+		</eventOutcomeInformation>
+		<linkingAgentIdentifier>
+			<linkingAgentIdentifierType>AgentID</linkingAgentIdentifierType>
+			<linkingAgentIdentifierValue>na12345</linkingAgentIdentifierValue>
+		</linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+			<linkingObjectIdentifierType>hdl</linkingObjectIdentifierType>
+			<linkingObjectIdentifierValue>loc.music/gottlieb.09602</linkingObjectIdentifierValue>
+		</linkingObjectIdentifier>
+	</event>
+	<agent>
+		<agentIdentifier>
+			<agentIdentifierType>AgentID</agentIdentifierType>
+			<agentIdentifierValue>na12345</agentIdentifierValue>
+		</agentIdentifier>
+		<agentName>LC Repository</agentName>
+		<agentType>organization</agentType>
+		<agentNote>LC custodial division is Prints and Photographs Division</agentNote>
+		<agentExtension>
+			<mdSec ID="AE1">
+				<mdWrap MDTYPE="OTHER">
+					<xmlData>
+						<extensionData>Externally defined extension data</extensionData>
+					</xmlData>
+				</mdWrap>
+			</mdSec>
+		</agentExtension>
+		<linkingEventIdentifier>
+			<linkingEventIdentifierType>LC Event ID</linkingEventIdentifierType>
+			<linkingEventIdentifierValue>eID-58f202ac-22cf-11</linkingEventIdentifierValue>
+		</linkingEventIdentifier>
+		<linkingRightsStatementIdentifier>
+			<linkingRightsStatementIdentifierType>LC Rights
+				ID</linkingRightsStatementIdentifierType>
+			<linkingRightsStatementIdentifierValue>rID-58f202ac-22cf-11</linkingRightsStatementIdentifierValue>
+		</linkingRightsStatementIdentifier>
+	</agent>
+</premis>
