@@ -486,10 +486,12 @@ def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver
     """
     if validate:
         if hasattr(xmlclass, 'XSD_SCHEMA') and xmlclass.XSD_SCHEMA is not None:
-            if xmlclass.xmlschema is not None:
-                # if the schema is already loaded, use that
-                xmlschema = xmlclass.xmlschema
-            else:         # otherwise, load the schema
+            # If the schema has already been loaded, use that.
+            # (since we accessing the *class*, accessing 'xmlschema' returns a property,
+            # not the initialized schema object we actually want).
+            xmlschema = getattr(xmlclass, '_xmlschema', None)
+            # otherwise, load the schema
+            if xmlschema is None:
                 xmlschema = loadSchema(xmlclass.XSD_SCHEMA)
             opts = {'schema': xmlschema}
         else:
