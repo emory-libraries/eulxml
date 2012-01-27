@@ -16,6 +16,7 @@
 
 import re
 import unittest
+from mock import patch
 
 # must be set before importing anything from django
 import os
@@ -607,6 +608,16 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assertTrue(form.is_valid(),
             "form is valid when top-level and subform required fields are present")
 
+
+    def test_valid_lazy_schema(self):
+        with patch('eulxml.xmlmap.core.loadSchema') as mockloadschema:
+            mockloadschema.side_effect = Exception
+            # set a test XSD so xmlobject will attempt to load it
+            self.testobj.XSD_SCHEMA = 'foo'
+            # exception should be raised on init, not validation
+            self.assertRaises(Exception, TestForm,
+                              self.post_data, instance=self.testobj)
+            
 
     def test_not_required(self):
         class MyForm(TestForm):
