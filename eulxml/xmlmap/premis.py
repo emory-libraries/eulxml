@@ -57,7 +57,7 @@ class PremisRoot(BasePremis):
      * ``<rights>``
     
     '''
-    xmlschema = xmlmap.loadSchema(PREMIS_SCHEMA)
+    XSD_SCHEMA = PREMIS_SCHEMA
     
 class Object(PremisRoot):
     '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
