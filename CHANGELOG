@@ -25,24 +25,6 @@ any necessary information about installation or upgrade notes.
 
 * Fixed an error in the dependency structure that prevented the package from
   being used after installation through PyPI.
->>>>>>> update version and document HTTP_PROXY change in preparation for 0.15.3 release
-
-0.15.3 - Minor Enhancement
---------------------------
-
-* Downgrade the lack of an HTTP_PROXY set in the environment from a
-  RuntimeError to a Warning with schema validation disabled.
-
-0.15.0 - Initial Release
-------------------------
-
-* Split out xml-related components (:mod:`~eulxml.xpath`,
-  :mod:`~eulxml.xmlmap`, and :mod:`~eulxml.forms`) from :mod:`eulcore`
-  into :mod:`eulxml` for easier re-use.
-
-<<<<<<< HEAD
-* Fixed an error in the dependency structure that prevented the package from
-  being used after installation through PyPI.
 
 0.15.1 - Bugfix Release
 -----------------------
@@ -56,5 +38,3 @@ any necessary information about installation or upgrade notes.
 * Split out xml-related components (:mod:`~eulxml.xpath`,
   :mod:`~eulxml.xmlmap`, and :mod:`~eulxml.forms`) from :mod:`eulcore`
   into :mod:`eulxml` for easier re-use.
-=======
->>>>>>> update version and document HTTP_PROXY change in preparation for 0.15.3 release
