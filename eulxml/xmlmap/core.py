@@ -149,6 +149,9 @@ class XmlObjectType(type):
             base_fields = getattr(base, '_fields', None)
             if base_fields:
                 fields.update(base_fields)
+            base_xsd = getattr(base, 'XSD_SCHEMA', None)
+
+        schema_obj = None
 
         for attr_name, attr_val in defined_attrs.items():
             # XXX: not a fan of isintance here. maybe use something like
@@ -156,9 +159,17 @@ class XmlObjectType(type):
             if isinstance(attr_val, Field):
                 if isinstance(attr_val, SchemaField):
                     # special case: schema field will look at the schema and return appropriate field type
-                    if 'XSD_SCHEMA' in defined_attrs:
-                        # FIXME: currently reloading schema every time...
-                        schema_obj = load_xmlobject_from_file(defined_attrs['XSD_SCHEMA'], XsdSchema)
+                    if 'XSD_SCHEMA' in defined_attrs or base_xsd:
+                        # load schema_obj the first time we need it
+                        if schema_obj is None:
+                            # if xsd schema is directly defined, use that
+                            if 'XSD_SCHEMA' in defined_attrs:
+                                schema_obj = load_xmlobject_from_file(defined_attrs['XSD_SCHEMA'],
+                                                                      XsdSchema)
+                            # otherwise, use nearest parent xsd
+                            else:
+                                schema_obj = load_xmlobject_from_file(base_xsd, XsdSchema)
+                        
                         attr_val = attr_val.get_field(schema_obj)
                 field = attr_val
                 fields[attr_name] = field
