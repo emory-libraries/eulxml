@@ -428,7 +428,6 @@ class EncodedArchivalDescription(_EadBase):
     """
 
     XSD_SCHEMA = 'http://www.loc.gov/ead/ead.xsd'
-    xmlschema = xmlmap.loadSchema(XSD_SCHEMA)
 
     id = xmlmap.StringField('@id')
     "top-level id attribute - `@id`; preferable to use eadid"
