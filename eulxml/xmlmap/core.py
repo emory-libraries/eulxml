@@ -54,6 +54,9 @@ def parseString(string, uri=None):
     :mod:`lxml.etree` document. String cannot be a Unicode string.
     Base_uri should be provided for the calculation of relative URIs."""
     return etree.fromstring(string, parser=_get_xmlparser(), base_url=uri)
+
+# internal cache for loaded schemas, so we only load each schema once
+_loaded_schemas = {}
 def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     """Load an XSD XML document (specified by filename or URL), and return a
     :class:`lxml.etree.XMLSchema`.
@@ -65,6 +68,9 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     """
 
     # uri to use for reporting errors - include base uri if any
+    if uri in _loaded_schemas:
+        return _loaded_schemas[uri]
+    
     error_uri = uri
     if base_uri is not None:
         error_uri += ' (base URI %s)' % base_uri
@@ -90,7 +96,11 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
             return None
 
     try:
-        return etree.XMLSchema(etree.parse(uri, parser=_get_xmlparser(), base_url=base_uri))
+        logger.debug('Loading schema %s' % uri)
+        _loaded_schemas[uri] = etree.XMLSchema(etree.parse(uri,
+                                                           parser=_get_xmlparser(),
+                                                           base_url=base_uri))
+        return _loaded_schemas[uri]
     except IOError as io_err:
         # add a little more detail to the error message - but should still be an IO error
         raise IOError('Failed to load schema %s : %s' % (error_uri, io_err))
@@ -219,7 +229,6 @@ class XmlObjectType(type):
         create_field.__name__ = field_name
         return create_field
 
-
 class XmlObject(object):
 
     """
@@ -269,7 +278,12 @@ class XmlObject(object):
     :meth:`load_xmlobject_from_string` and :meth:`load_xmlobject_from_file`,
     and with :meth:`is_valid`.
     """
-    _xmlschema = None
+
+    schema_validate = True
+    '''Override for schema validation; if a schema must be defined for
+     the use of :class:`xmlmap.fields.SchemaField` for a sub-xmlobject
+     that should not be validated, set to False.'''
+    
     @property
     def xmlschema(self):
         """A parsed XSD schema instance of
@@ -283,12 +297,8 @@ class XmlObject(object):
         XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
         xmlschema = xmlmap.loadSchema(XSD_SCHEMA)     
         """
-        if self.__class__._xmlschema is None:
-            if self.XSD_SCHEMA:
-                self.__class__._xmlschema = loadSchema(self.XSD_SCHEMA)
-
-        return self.__class__._xmlschema
-    
+        if self.XSD_SCHEMA:
+            return loadSchema(self.XSD_SCHEMA)
     
     # NOTE: DTD and RNG validation could be handled similarly to XSD validation logic
 
@@ -433,15 +443,17 @@ class XmlObject(object):
         return self.validation_errors() == []
 
     def validation_errors(self):
-        """Return a list of validation errors.  Returns an empty list if the xml
-        is schema valid or no schema is defined.
+        """Return a list of validation errors.  Returns an empty list
+        if the xml is schema valid or no schema is defined.  If a
+        schema is defined but :attr:`schema_validate` is False, schema
+        validation will be skipped.
         
         Currently only supports schema validation.
 
         :rtype: list
         """
         # if we add other types of validation (DTD, RNG), incorporate them here
-        if self.xmlschema and not self.schema_valid():
+        if self.xmlschema and self.schema_validate and not self.schema_valid():
             return self.schema_validation_errors()
         return []
 
