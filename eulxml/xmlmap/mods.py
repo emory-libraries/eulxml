@@ -26,14 +26,16 @@ MODS_NAMESPACE = 'http://www.loc.gov/mods/v3'
 MODS_SCHEMA = "http://www.loc.gov/standards/mods/mods.xsd"
 MODSv34_SCHEMA = "http://www.loc.gov/standards/mods/v3/mods-3-4.xsd"
 
-# MODS schema is loaded by several of the mods classes - load once and reuse
-_mods_xmlschema = xmlmap.loadSchema(MODS_SCHEMA)
-
 class Common(xmlmap.XmlObject):
-    "MODS class with namespace declaration common to all MODS XmlObjects."
+    '''MODS class with namespace declaration common to all MODS
+    XmlObjects.  Defines the MODS schema (e.g., for use with
+    :class:`xmlmap.SchemaField`), but by sets ``schema_validate`` to
+    False.
+    '''
     ROOT_NS = MODS_NAMESPACE
     ROOT_NAMESPACES = {'mods': MODS_NAMESPACE }
     XSD_SCHEMA = MODS_SCHEMA
+    schema_validate = False
 
 class Date(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` for MODS date element (common fields
@@ -244,6 +246,7 @@ class Part(Common):
 class BaseMods(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` with common field declarations for all
     top-level MODS elements; base class for :class:`MODS` and :class:`RelatedItem`.'''
+    schema_validate = True
 
     title = xmlmap.StringField("mods:titleInfo/mods:title")
     title_info = xmlmap.NodeField('mods:titleInfo', TitleInfo)
