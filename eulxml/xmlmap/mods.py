@@ -197,6 +197,13 @@ class TitleInfo(Common):
     non_sort = xmlmap.StringField('mods:nonSort')
     type  = xmlmap.SchemaField('@type', 'titleInfoTypeAttributeDefinition')
 
+
+    def is_empty(self):
+        '''Returns True if all titleInfo subfields are not set or
+        empty; returns False if any of the fields are not empty.'''
+        return not bool(self.title or self.subtitle or self.part_number \
+                        or self.part_name or self.non_sort or self.type)
+
 class Abstract(Common):
     ROOT_NAME = 'abstract'
     text = xmlmap.StringField('text()')
@@ -242,6 +249,14 @@ class Part(Common):
     type = xmlmap.StringField('@type')
     details = xmlmap.NodeListField('mods:detail', PartDetail)
     extent = xmlmap.NodeField('mods:extent', PartExtent)
+
+    def is_empty(self):
+        '''Returns True if details, extent, and type are not set or
+        return True for ``is_empty``; returns False if any of the
+        fields are not empty.'''
+        return all(field.is_empty() for field in [self.details, self.extent]
+                   			if field is not None) \
+               and not self.type
 
 class BaseMods(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` with common field declarations for all
