@@ -521,6 +521,12 @@ class NodeList(object):
         # because the xml document could change, and we want the latest data
         return self.node.xpath(self.xpath, **self.context)
 
+    def is_empty(self):
+        '''Parallel to :meth:`eulxml.xmlmap.XmlObject.is_empty`.  A
+        NodeList is considered to be empty if every element in the
+        list is empty.'''
+        return all(n.is_empty() for n in self)
+
     @property
     def data(self):
         # data in list form - basis for several other list-y functions

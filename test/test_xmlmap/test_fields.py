@@ -112,6 +112,12 @@ class TestFields(unittest.TestCase):
         # check required
         self.assertFalse(obj._fields['missing'].required)
 
+        # is_empty
+        self.assertFalse(obj.children.is_empty())
+        del obj.children
+        self.assertTrue(obj.children.is_empty())
+
+
     def testStringField(self):
         class TestObject(xmlmap.XmlObject):
             val = xmlmap.StringField('bar[1]/baz', required=True)
