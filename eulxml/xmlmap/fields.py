@@ -14,6 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from copy import deepcopy
 from datetime import datetime
 import logging
 from lxml import etree
@@ -367,12 +368,26 @@ def _set_in_xml(node, val, context, step):
             node.getparent().set(attribute, val)
 
 
-def _remove_xml(xast, node, context):
-    'Remove a node or attribute; returns True when something is deleted'
+def _remove_xml(xast, node, context, if_empty=False):
+    '''Remove a node or attribute.  For multipart XPaths that are
+    constructible by :mod:`eulxml.xmlmap`, the corresponding nodes
+    will be removed if they are empty (other than predicates specified
+    in the XPath).
+
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param node: lxml node relative to which xast should be removed
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+    :param if_empty: optional boolean; only remove a node if it is
+	empty (no attributes and no child nodes); defaults to False
+
+    :returns: True if something was deleted
+    '''
     if isinstance(xast, ast.Step):
         if isinstance(xast.node_test, ast.NameTest):
             if xast.axis in (None, 'child'):
-                return _remove_child_node(node, context, xast)
+                return _remove_child_node(node, context, xast, if_empty=if_empty)
             elif xast.axis in ('@', 'attribute'):
                 return _remove_attribute_node(node, context, xast)
         # special case for text()
@@ -385,23 +400,100 @@ def _remove_xml(xast, node, context):
             left_xpath = serialize(xast.left)
             left_node = _find_xml_node(left_xpath, node, context)
             if left_node is not None:
-                return _remove_xml(xast.right, left_node, context)
+                # remove the last element in the xpath
+                removed = _remove_xml(xast.right, left_node, context)
+                
+                # if the left portion of the xpath is something we 
+                # could have constructed, remove if it empty after deleting child node
+                if _predicate_is_constructible(left_xpath):
+                    # if the path still has multiple steps, remove
+                    # relative to the current node - but only if empty
+                    if isinstance(xast.left, ast.BinaryExpression):
+                        _remove_xml(xast.left, node, context, if_empty=True)
+
+                    # otherwise, remove relative to left node's parent element
+                    else:
+                        # remove auto-constructed predicates (from both node & xast)
+                        xast_c = _remove_predicates(xast.left, left_node, context)
+                        # remove node if it is empty (after removing any predicates)
+                        parent_removed = _remove_xml(xast_c, left_node.getparent(),
+                                                     context, if_empty=True)
+
+                # report on whether the leaf node was removed or not,
+                # regardless of what was done with left portion of the path
+                return removed
     return False
 
     
-def _remove_child_node(node, context, xast):
+def _remove_child_node(node, context, xast, if_empty=False):
+    '''Remove a child node based on the specified xpath.
+    
+    :param node: lxml element relative to which the xpath will be
+    	interpreted
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param if_empty: optional boolean; only remove a node if it is
+	empty (no attributes and no child nodes); defaults to False
+
+    :returns: True if a node was deleted
+    '''
     xpath = serialize(xast)
     child = _find_xml_node(xpath, node, context)
     if child is not None:
+        # if if_empty was specified and node has children or attributes,
+        # do not remove it
+        if if_empty is True and (len(child) != 0 or len(child.attrib) != 0):
+            return False
         node.remove(child)
         return True
-
 
 def _remove_attribute_node(node, context, xast):
     node_name, node_xpath, nsmap = _get_attribute_name(xast, context)
     del node.attrib[node_name]
     return True
 
+def _remove_predicates(xast, node, context):
+    '''Remove any constructible predicates specified in the xpath
+    relative to the specified node.
+    
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param node: lxml element which predicates will be removed from
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+
+    :returns: updated xast without the predicates that were
+	successfully removed
+    '''
+    # work from a copy since it may be modified
+    xast_c = deepcopy(xast) 
+    # check if predicates are constructable
+    for pred in list(xast_c.predicates):
+        # ignore predicates that we can't construct
+        if not _predicate_is_constructible(pred):
+            continue
+    
+        if isinstance(pred, ast.BinaryExpression):
+            # TODO: support any other predicate operators?
+            
+            # if the xml still matches the constructed value, remove it
+            if pred.op == '=' and \
+                   node.xpath(serialize(pred), **context) is True:
+                # (predicate xpath is True if node=value)
+                
+                if pred.left.axis in ('@', 'attribute'):
+                    if _remove_attribute_node(node, context, pred.left):
+                        # remove from the xast
+                        xast_c.predicates.remove(pred)
+                elif pred.left.axis in (None, 'child'):
+                    if _remove_child_node(node, context, pred.left, if_empty=True):
+                        xast_c.predicates.remove(pred)
+                    
+    return xast_c
+
+                                               
 
 def _get_attribute_name(step, context):
     # calculate attribute name, xpath, and nsmap based on node info and context namespaces

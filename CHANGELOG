@@ -11,8 +11,12 @@ any necessary information about installation or upgrade notes.
 * :class:`eulxml.xmlmap.XmlObject` now supports lazy-loading for XSD
   Schemas.  To take advantage of this feature,
   :class:`~eulxml.xmlmap.XmlObject` subclasses should define an
-  ``XSD_SCHEMA`` location but should not set an ``xmlschema``.
-
+  ``XSD_SCHEMA`` location but should not set an ``xmlschema``.  
+* When :ref:`field <xmlmap-field>` mapped on a
+  :class:`eulxml.xmlmap.XmlObject` is deleted, any XPath predicates
+  that could have been automatically constructed when setting the
+  value will be deleted from the :class:`~eulxml.xmlmap.XmlObject`
+  where possible, if they are otherwise empty.
 
 0.16.0 - MODS and PREMIS
 ------------------------
