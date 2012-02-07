@@ -463,9 +463,10 @@ class TestFields(unittest.TestCase):
 
         class PredicateObject(xmlmap.XmlObject):
             text = xmlmap.StringField('missing[@type="foo"]/bar/text()')
-            nested_attr = xmlmap.StringField('missing[@type="foo"]/bar/@label')
+            nested_attr = xmlmap.StringField('missing[@type="foo"]/bar[@type="foobar"]/@label')
             nested_text = xmlmap.StringField('missing[@type="foo"]/baz')
             child_pred = xmlmap.StringField('missing[@type="foo"][baz="bah"]/txt')
+            nested_pred = xmlmap.StringField('foo[@id="a"]/bar[@id="b"]/baz[@id="c"]/qux')
 
         obj = PredicateObject(self._empty_fixture())
         # set text and then delete
@@ -489,7 +490,6 @@ class TestFields(unittest.TestCase):
         obj.nested_text = 'la'
         del obj.text
         self.assertEqual(1, obj.node.xpath('count(missing/baz)'))
-        del obj
 
         # child predicates should work similarly to attributes
         obj = PredicateObject(self._empty_fixture())
@@ -505,6 +505,12 @@ class TestFields(unittest.TestCase):
         obj.text = 'la'
         # should NOT be removed
         self.assertEqual(1, obj.node.xpath('count(missing/baz[.="bah"])'))
+
+        # nested path steps with predicates should be removed
+        obj = PredicateObject(self._empty_fixture())
+        obj.nested_pred = 'la'
+        del obj.nested_pred
+        self.assertEqual(0, obj.node.xpath('count(foo)'))
 
 
 # tests for settable listfields

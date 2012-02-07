@@ -395,33 +395,29 @@ def _remove_xml(xast, node, context, if_empty=False):
         elif _is_text_nodetest(xast):
             node.text = ''
             return True
+
+    # If the xpath is a multi-step path (e.g., foo[@id="a"]/bar[@id="b"]/baz),
+    # remove the leaf node.  If the remaining portions of that path
+    # could have been constructed when setting the node and are empty
+    # (other than any predicates defined in the xpath), remove them as well.
     elif isinstance(xast, ast.BinaryExpression):
         if xast.op == '/':
             left_xpath = serialize(xast.left)
             left_node = _find_xml_node(left_xpath, node, context)
             if left_node is not None:
                 # remove the last element in the xpath
-                removed = _remove_xml(xast.right, left_node, context)
+                removed = _remove_xml(xast.right, left_node, context,
+                                      if_empty=if_empty) # honor current if_empty flag
                 
-                # if the left portion of the xpath is something we 
-                # could have constructed, remove if it empty after deleting child node
-                if _predicate_is_constructible(left_xpath):
-                    # if the path still has multiple steps, remove
-                    # relative to the current node - but only if empty
-                    if isinstance(xast.left, ast.BinaryExpression):
-                        _remove_xml(xast.left, node, context, if_empty=True)
-
-                    # otherwise, remove relative to left node's parent element
-                    else:
-                        # remove auto-constructed predicates (from both node & xast)
-                        xast_c = _remove_predicates(xast.left, left_node, context)
-                        # remove node if it is empty (after removing any predicates)
-                        parent_removed = _remove_xml(xast_c, left_node.getparent(),
-                                                     context, if_empty=True)
+                # If the left portion of the xpath is something we
+                # could have constructed, remove it if it is empty.
+                if removed and _predicate_is_constructible(left_xpath):
+                    _remove_xml(xast.left, node, context, if_empty=True)
 
                 # report on whether the leaf node was removed or not,
                 # regardless of what was done with left portion of the path
                 return removed
+
     return False
 
     
@@ -442,9 +438,10 @@ def _remove_child_node(node, context, xast, if_empty=False):
     xpath = serialize(xast)
     child = _find_xml_node(xpath, node, context)
     if child is not None:
-        # if if_empty was specified and node has children or attributes,
-        # do not remove it
-        if if_empty is True and (len(child) != 0 or len(child.attrib) != 0):
+        # if if_empty was specified and node has children or attributes
+        # other than any predicates defined in the xpath, don't remove
+        if if_empty is True and \
+               not _empty_except_predicates(xast, child, context):
             return False
         node.remove(child)
         return True
@@ -464,8 +461,8 @@ def _remove_predicates(xast, node, context):
     :param context: any context required for the xpath (e.g.,
     	namespace definitions)
 
-    :returns: updated xast without the predicates that were
-	successfully removed
+    :returns: updated a copy of the xast without the predicates that
+	were successfully removed
     '''
     # work from a copy since it may be modified
     xast_c = deepcopy(xast) 
@@ -477,11 +474,12 @@ def _remove_predicates(xast, node, context):
     
         if isinstance(pred, ast.BinaryExpression):
             # TODO: support any other predicate operators?
+            # predicate construction supports op /
             
             # if the xml still matches the constructed value, remove it
             if pred.op == '=' and \
                    node.xpath(serialize(pred), **context) is True:
-                # (predicate xpath is True if node=value)
+                # predicate xpath returns True if node=value
                 
                 if pred.left.axis in ('@', 'attribute'):
                     if _remove_attribute_node(node, context, pred.left):
@@ -493,7 +491,23 @@ def _remove_predicates(xast, node, context):
                     
     return xast_c
 
-                                               
+def _empty_except_predicates(xast, node, context):
+    '''Check if a node is empty (no child nodes or attributes) except
+    for any predicates defined in the specified xpath.
+    
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param node: lxml element to check
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+
+    :returns: boolean indicating if the element is empty or not
+    '''
+    # copy the node, remove predicates, and check for any remaining
+    # child nodes or attributes
+    node_c = deepcopy(node) 
+    _remove_predicates(xast, node_c, context)
+    return bool(len(node_c) == 0 and len(node_c.attrib) == 0)
 
 def _get_attribute_name(step, context):
     # calculate attribute name, xpath, and nsmap based on node info and context namespaces
