@@ -465,7 +465,7 @@ class TestFields(unittest.TestCase):
             text = xmlmap.StringField('missing[@type="foo"]/bar/text()')
             nested_attr = xmlmap.StringField('missing[@type="foo"]/bar[@type="foobar"]/@label')
             nested_text = xmlmap.StringField('missing[@type="foo"]/baz')
-            child_pred = xmlmap.StringField('missing[@type="foo"][baz="bah"]/txt')
+            child_pred = xmlmap.StringField('missing[@type="foo"][baz/@type="bah"]/txt')
             nested_pred = xmlmap.StringField('foo[@id="a"]/bar[@id="b"]/baz[@id="c"]/qux')
 
         obj = PredicateObject(self._empty_fixture())
@@ -503,8 +503,11 @@ class TestFields(unittest.TestCase):
         # create them in this order so they will be in the same subtree
         obj.child_pred = 'boo'
         obj.text = 'la'
-        # should NOT be removed
-        self.assertEqual(1, obj.node.xpath('count(missing/baz[.="bah"])'))
+        del obj.text
+        # text was removed
+        self.assertEqual(0, obj.node.xpath('count(%s)' % obj._fields['text'].xpath))
+        # parent element should NOT be removed because it is not empty
+        self.assertEqual(1, obj.node.xpath('count(missing/baz[@type="bah"])'))
 
         # nested path steps with predicates should be removed
         obj = PredicateObject(self._empty_fixture())

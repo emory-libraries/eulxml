@@ -319,7 +319,7 @@ def _construct_predicate(xast, node, context):
     elif isinstance(xast, ast.BinaryExpression):
         if xast.op == '/':
             left_leaf = _construct_predicate(xast.left, node, context)
-            right_node = _construct_predicate(xast.right, left_node, context)
+            right_node = _construct_predicate(xast.right, left_leaf, context)
             return right_node
         elif xast.op == '=':
             left_leaf = _construct_predicate(xast.left, node, context)
@@ -476,18 +476,26 @@ def _remove_predicates(xast, node, context):
             # TODO: support any other predicate operators?
             # predicate construction supports op /
             
-            # if the xml still matches the constructed value, remove it
+            # If the xml still matches the constructed value, remove it.
+            # e.g., @type='text' or level='leaf'
             if pred.op == '=' and \
                    node.xpath(serialize(pred), **context) is True:
                 # predicate xpath returns True if node=value
-                
-                if pred.left.axis in ('@', 'attribute'):
-                    if _remove_attribute_node(node, context, pred.left):
-                        # remove from the xast
-                        xast_c.predicates.remove(pred)
-                elif pred.left.axis in (None, 'child'):
-                    if _remove_child_node(node, context, pred.left, if_empty=True):
-                        xast_c.predicates.remove(pred)
+
+                if isinstance(pred.left, ast.Step):
+                    if pred.left.axis in ('@', 'attribute'):
+                        if _remove_attribute_node(node, context, pred.left):
+                            # remove from the xast
+                            xast_c.predicates.remove(pred)
+                    elif pred.left.axis in (None, 'child'):
+                        if _remove_child_node(node, context, pred.left, if_empty=True):
+                            xast_c.predicates.remove(pred)
+                            
+                elif isinstance(pred.left, ast.BinaryExpression):
+                    # e.g., level/@id='b' or level/deep='deeper'
+                    # - value has already been checked by xpath above,
+                    # so just remove the multipart path
+                    _remove_xml(pred.left, node, context, if_empty=True)
                     
     return xast_c
 
