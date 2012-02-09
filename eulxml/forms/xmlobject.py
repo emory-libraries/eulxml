@@ -90,6 +90,7 @@ class SubformAwareModelFormOptions(ModelFormOptions):
         # store maximum number of repeated subforms that should be allowed
         self.max_num = getattr(options, 'max_num', None)
         self.can_delete = getattr(options, 'can_delete', True)
+        self.extra = getattr(options, 'extra', 1)
         
         self.parsed_fields = None
         if isinstance(self.fields, ParsedFieldList):
@@ -106,7 +107,7 @@ class SubformAwareModelFormOptions(ModelFormOptions):
 
 
 def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, options=None,
-        declared_subforms=None, max_num=None):
+        declared_subforms=None, max_num=None, extra=None):
     """
     Returns three sorted dictionaries (:class:`django.utils.datastructures.SortedDict`).
      * The first is a dictionary of form fields based on the
@@ -136,6 +137,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
                 the corresponding subform (for a :class:`~eulxml.xmlmap.fields.NodeField`)
                 or a formset (for a :class:`~eulxml.xmlmap.fields.NodeListField`)
     :param max_num: optional value for the maximum number of times a fieldset should repeat.
+    :param max_num: optional value for the number of extra forms to provide.
     """
 
     # first collect fields and excludes for the form and all subforms. base
@@ -239,9 +241,10 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
             if isinstance(field, xmlmap.fields.NodeField):
                 subforms[name] = subform
             elif isinstance(field, xmlmap.fields.NodeListField):
-                #formset_factory is from django core and we link into it here.
+                # formset_factory is from django core and we link into it here.
                 formsets[name] = formset_factory(subform, formset=BaseXmlObjectFormSet,
-                    max_num=subform._meta.max_num, can_delete=subform._meta.can_delete)
+                    max_num=subform._meta.max_num, can_delete=subform._meta.can_delete,
+                    extra=subform._meta.extra)
 
                 formsets[name].form_label = form_label
 
@@ -721,7 +724,8 @@ class XmlObjectForm(BaseForm):
 
 
 def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
-                            widgets=None, max_num=None, label=None, can_delete=True):
+                          widgets=None, max_num=None, label=None, can_delete=True,
+                          extra=None):
     """Dynamically generate a new :class:`XmlObjectForm` class using the
     specified :class:`eulxml.xmlmap.XmlObject` class.
     
@@ -737,6 +741,8 @@ def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
         attrs['widgets'] = widgets
     if max_num is not None:
         attrs['max_num'] = max_num
+    if extra is not None:
+        attrs['extra'] = extra
     if can_delete is not None:
         attrs['can_delete'] = can_delete
         
