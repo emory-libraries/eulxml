@@ -90,6 +90,7 @@ class SubformAwareModelFormOptions(ModelFormOptions):
         # store maximum number of repeated subforms that should be allowed
         self.max_num = getattr(options, 'max_num', None)
         self.can_delete = getattr(options, 'can_delete', True)
+        self.can_order = getattr(options, 'can_order', False)
         self.extra = getattr(options, 'extra', 1)
         
         self.parsed_fields = None
@@ -244,7 +245,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
                 # formset_factory is from django core and we link into it here.
                 formsets[name] = formset_factory(subform, formset=BaseXmlObjectFormSet,
                     max_num=subform._meta.max_num, can_delete=subform._meta.can_delete,
-                    extra=subform._meta.extra)
+                    extra=subform._meta.extra, can_order=subform._meta.can_order)
 
                 formsets[name].form_label = form_label
 
@@ -367,6 +368,7 @@ class XmlObjectFormType(type):
         # sort declared fields into sub-form overrides and regular fields
         for fname, f in tmp_fields.iteritems():
             if isinstance(f, SubformField):
+                # FIXME: pass can_delete, can_delete from subformfield to formset? 
                 declared_subforms[fname] = f.formclass
                 # if a declared subform fields has a label specified, store it
                 if hasattr(f, 'form_label') and f.form_label is not None:
@@ -725,7 +727,7 @@ class XmlObjectForm(BaseForm):
 
 def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
                           widgets=None, max_num=None, label=None, can_delete=True,
-                          extra=None):
+                          extra=None, can_order=False):
     """Dynamically generate a new :class:`XmlObjectForm` class using the
     specified :class:`eulxml.xmlmap.XmlObject` class.
     
@@ -745,6 +747,8 @@ def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
         attrs['extra'] = extra
     if can_delete is not None:
         attrs['can_delete'] = can_delete
+    if can_order is not None:
+        attrs['can_order'] = can_order
         
     # If parent form class already has an inner Meta, the Meta we're
     # creating needs to inherit from the parent's inner meta.
@@ -790,13 +794,25 @@ class BaseXmlObjectFormSet(BaseFormSet):
             # be removed the first time, so don't consider it an error if it's not present
             if form.instance in self.instances:
                 self.instances.remove(form.instance)
-        for form in self.initial_forms:
-            if form.has_changed():
-                form.update_instance()
-        for form in self.extra_forms:
-            if form.has_changed():
+
+        # if forms can be ordered, remove existing records and re-add
+        # in the appropriate order so that any changes in order are
+        # reflected in the xml
+        if self.can_order:
+            for form in self.ordered_forms:
+                if form.instance in self.instances:
+                    self.instances.remove(form.instance)
                 form.update_instance()
                 self.instances.append(form.instance)
+
+        else:
+            for form in self.initial_forms:
+                if form.has_changed():
+                    form.update_instance()
+            for form in self.extra_forms:
+                if form.has_changed():
+                    form.update_instance()
+                    self.instances.append(form.instance)
 
     # NOTE: when displaying forms that use formsets to the user, it is recommended
     # to re-initialize the form after a successful update before re-displaying it
@@ -823,12 +839,14 @@ class SubformField(Field):
     In this example, the subform ``part`` on an instance of **MyForm** will be
     created as an instance of **MyFormPart**.
     """
-    def __init__(self, formclass=None, label=None, can_delete=True, *args, **kwargs):
+    def __init__(self, formclass=None, label=None, can_delete=True, can_order=False,
+                 *args, **kwargs):
         if formclass is not None:
             self.formclass = formclass
         if label is not None:
             self.form_label = label
         self.can_delete = can_delete
+        self.can_order = can_order
         
         # may not need to actually call init since we don't really use this as a field
         super(SubformField, self).__init__(*args, **kwargs)
