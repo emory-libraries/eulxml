@@ -44,7 +44,6 @@ class DublinCore(_BaseDublinCore):
     ROOT_NAME = 'dc'
 
     XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
-    xmlschema = xmlmap.loadSchema(XSD_SCHEMA)
 
     contributor = xmlmap.StringField("dc:contributor", required=False)
     contributor_list = xmlmap.StringListField("dc:contributor",

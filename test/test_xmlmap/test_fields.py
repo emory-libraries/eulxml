@@ -52,6 +52,11 @@ class TestFields(unittest.TestCase):
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
 
         self.fixture = xmlmap.parseString(self.FIXTURE_TEXT, url)
+        
+        self.rel_url = '%s#%s' % (__file__, self.__class__.__name__)
+
+    def _empty_fixture(self):
+        return xmlmap.parseString('<root/>', self.rel_url)
 
     def testInvalidXpath(self):
         self.assertRaises(Exception, xmlmap.StringField, '["')
@@ -111,6 +116,12 @@ class TestFields(unittest.TestCase):
 
         # check required
         self.assertFalse(obj._fields['missing'].required)
+
+        # is_empty
+        self.assertFalse(obj.children.is_empty())
+        del obj.children
+        self.assertTrue(obj.children.is_empty())
+
 
     def testStringField(self):
         class TestObject(xmlmap.XmlObject):
@@ -221,7 +232,10 @@ class TestFields(unittest.TestCase):
         class TextObject(xmlmap.XmlObject):
             text_node = xmlmap.StringField('text()')
             nested_text =  xmlmap.StringField('nest[@type="feather"]/text()')
-            missing_text = xmlmap.StringField('missing[@type="foo"]/text()')
+            missing_text = xmlmap.StringField('missing[@type="foo"]/bar/text()')
+            m_nested_attr = xmlmap.StringField('missing[@type="foo"]/bar/@label')
+            m_nested_text = xmlmap.StringField('missing[@type="foo"]/baz')
+            nested_child_pred = xmlmap.StringField('missing[@type="foo"][baz="bah"]/txt')
         # parseString wants a url. let's give it a proper one.
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'TEXT_XML_FIXTURES')
         xml = '''<text>some text<nest type='feather'>robin</nest></text>'''
@@ -247,9 +261,8 @@ class TestFields(unittest.TestCase):
 
         # create parent of a text node
         obj.missing_text = 'tra'
-        self.assertEqual('tra', obj.node.xpath('string(missing/text())'))
+        self.assertEqual('tra', obj.node.xpath('string(missing/bar/text())'))
         self.assertEqual('tra', obj.missing_text)
-
 
     def testStringListField(self):
         class TestObject(xmlmap.XmlObject):
@@ -435,6 +448,73 @@ class TestFields(unittest.TestCase):
 
         obj.nested_pred = 'test'
         self.assertEqual(obj.node.xpath('string(pred[pred[@a="foo"]]/val)'), 'test')
+
+
+    def test_delete_constructed_xpath(self):
+        # test deleting auto-constructed nodes
+        class TestObject(xmlmap.XmlObject):
+            multilevel_missing = xmlmap.StringField('missing_parent/missing_child')
+
+        # deleting a nested xpath element should delete parent nodes
+        obj = TestObject(self._empty_fixture())
+        obj.multilevel_missing = 'text'
+        del obj.multilevel_missing
+        self.assertEqual(0, obj.node.xpath('count(missing_parent)'))
+
+        class PredicateObject(xmlmap.XmlObject):
+            text = xmlmap.StringField('missing[@type="foo"]/bar/text()')
+            nested_attr = xmlmap.StringField('missing[@type="foo"]/bar[@type="foobar"]/@label')
+            nested_text = xmlmap.StringField('missing[@type="foo"]/baz')
+            child_pred = xmlmap.StringField('missing[@type="foo"][baz/@type="bah"]/txt')
+            nested_pred = xmlmap.StringField('foo[@id="a"]/bar[@id="b"]/baz[@id="c"]/qux')
+
+        obj = PredicateObject(self._empty_fixture())
+        # set text and then delete
+        obj.text = 'some text'
+        del obj.text
+        # parent path with predicate should be automatically removed
+        self.assertEqual(0, obj.node.xpath('count(missing)'))
+
+        # delete when another attribute is set
+        # non-empty parent constructed path should NOT be removed
+        obj = PredicateObject(self._empty_fixture())
+        obj.nested_attr = 'tra'
+        obj.text = 'la'
+        del obj.text
+        self.assertEqual(1, obj.node.xpath('count(missing/bar[@label])'))
+        
+        # separate text node under the constructed parent
+        obj = PredicateObject(self._empty_fixture())
+        obj.nested_attr = None
+        obj.text = 'fa'
+        obj.nested_text = 'la'
+        del obj.text
+        self.assertEqual(1, obj.node.xpath('count(missing/baz)'))
+
+        # child predicates should work similarly to attributes
+        obj = PredicateObject(self._empty_fixture())
+        # set and then delete
+        obj.child_pred = 'boo'
+        del obj.child_pred
+        # the entire path should be removed
+        self.assertEqual(0, obj.node.xpath('count(missing)'))
+
+        obj = PredicateObject(self._empty_fixture())
+        # create them in this order so they will be in the same subtree
+        obj.child_pred = 'boo'
+        obj.text = 'la'
+        del obj.text
+        # text was removed
+        self.assertEqual(0, obj.node.xpath('count(%s)' % obj._fields['text'].xpath))
+        # parent element should NOT be removed because it is not empty
+        self.assertEqual(1, obj.node.xpath('count(missing/baz[@type="bah"])'))
+
+        # nested path steps with predicates should be removed
+        obj = PredicateObject(self._empty_fixture())
+        obj.nested_pred = 'la'
+        del obj.nested_pred
+        self.assertEqual(0, obj.node.xpath('count(foo)'))
+
 
 # tests for settable listfields
 class SubList(xmlmap.XmlObject):

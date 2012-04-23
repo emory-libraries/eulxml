@@ -14,6 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from copy import deepcopy
 from datetime import datetime
 import logging
 from lxml import etree
@@ -318,7 +319,7 @@ def _construct_predicate(xast, node, context):
     elif isinstance(xast, ast.BinaryExpression):
         if xast.op == '/':
             left_leaf = _construct_predicate(xast.left, node, context)
-            right_node = _construct_predicate(xast.right, left_node, context)
+            right_node = _construct_predicate(xast.right, left_leaf, context)
             return right_node
         elif xast.op == '=':
             left_leaf = _construct_predicate(xast.left, node, context)
@@ -367,12 +368,26 @@ def _set_in_xml(node, val, context, step):
             node.getparent().set(attribute, val)
 
 
-def _remove_xml(xast, node, context):
-    'Remove a node or attribute; returns True when something is deleted'
+def _remove_xml(xast, node, context, if_empty=False):
+    '''Remove a node or attribute.  For multipart XPaths that are
+    constructible by :mod:`eulxml.xmlmap`, the corresponding nodes
+    will be removed if they are empty (other than predicates specified
+    in the XPath).
+
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param node: lxml node relative to which xast should be removed
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+    :param if_empty: optional boolean; only remove a node if it is
+	empty (no attributes and no child nodes); defaults to False
+
+    :returns: True if something was deleted
+    '''
     if isinstance(xast, ast.Step):
         if isinstance(xast.node_test, ast.NameTest):
             if xast.axis in (None, 'child'):
-                return _remove_child_node(node, context, xast)
+                return _remove_child_node(node, context, xast, if_empty=if_empty)
             elif xast.axis in ('@', 'attribute'):
                 return _remove_attribute_node(node, context, xast)
         # special case for text()
@@ -380,28 +395,127 @@ def _remove_xml(xast, node, context):
         elif _is_text_nodetest(xast):
             node.text = ''
             return True
+
+    # If the xpath is a multi-step path (e.g., foo[@id="a"]/bar[@id="b"]/baz),
+    # remove the leaf node.  If the remaining portions of that path
+    # could have been constructed when setting the node and are empty
+    # (other than any predicates defined in the xpath), remove them as well.
     elif isinstance(xast, ast.BinaryExpression):
         if xast.op == '/':
             left_xpath = serialize(xast.left)
             left_node = _find_xml_node(left_xpath, node, context)
             if left_node is not None:
-                return _remove_xml(xast.right, left_node, context)
+                # remove the last element in the xpath
+                removed = _remove_xml(xast.right, left_node, context,
+                                      if_empty=if_empty) # honor current if_empty flag
+                
+                # If the left portion of the xpath is something we
+                # could have constructed, remove it if it is empty.
+                if removed and _predicate_is_constructible(left_xpath):
+                    _remove_xml(xast.left, node, context, if_empty=True)
+
+                # report on whether the leaf node was removed or not,
+                # regardless of what was done with left portion of the path
+                return removed
+
     return False
 
     
-def _remove_child_node(node, context, xast):
+def _remove_child_node(node, context, xast, if_empty=False):
+    '''Remove a child node based on the specified xpath.
+    
+    :param node: lxml element relative to which the xpath will be
+    	interpreted
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param if_empty: optional boolean; only remove a node if it is
+	empty (no attributes and no child nodes); defaults to False
+
+    :returns: True if a node was deleted
+    '''
     xpath = serialize(xast)
     child = _find_xml_node(xpath, node, context)
     if child is not None:
+        # if if_empty was specified and node has children or attributes
+        # other than any predicates defined in the xpath, don't remove
+        if if_empty is True and \
+               not _empty_except_predicates(xast, child, context):
+            return False
         node.remove(child)
         return True
-
 
 def _remove_attribute_node(node, context, xast):
     node_name, node_xpath, nsmap = _get_attribute_name(xast, context)
     del node.attrib[node_name]
     return True
 
+def _remove_predicates(xast, node, context):
+    '''Remove any constructible predicates specified in the xpath
+    relative to the specified node.
+    
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param node: lxml element which predicates will be removed from
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+
+    :returns: updated a copy of the xast without the predicates that
+	were successfully removed
+    '''
+    # work from a copy since it may be modified
+    xast_c = deepcopy(xast) 
+    # check if predicates are constructable
+    for pred in list(xast_c.predicates):
+        # ignore predicates that we can't construct
+        if not _predicate_is_constructible(pred):
+            continue
+    
+        if isinstance(pred, ast.BinaryExpression):
+            # TODO: support any other predicate operators?
+            # predicate construction supports op /
+            
+            # If the xml still matches the constructed value, remove it.
+            # e.g., @type='text' or level='leaf'
+            if pred.op == '=' and \
+                   node.xpath(serialize(pred), **context) is True:
+                # predicate xpath returns True if node=value
+
+                if isinstance(pred.left, ast.Step):
+                    if pred.left.axis in ('@', 'attribute'):
+                        if _remove_attribute_node(node, context, pred.left):
+                            # remove from the xast
+                            xast_c.predicates.remove(pred)
+                    elif pred.left.axis in (None, 'child'):
+                        if _remove_child_node(node, context, pred.left, if_empty=True):
+                            xast_c.predicates.remove(pred)
+                            
+                elif isinstance(pred.left, ast.BinaryExpression):
+                    # e.g., level/@id='b' or level/deep='deeper'
+                    # - value has already been checked by xpath above,
+                    # so just remove the multipart path
+                    _remove_xml(pred.left, node, context, if_empty=True)
+                    
+    return xast_c
+
+def _empty_except_predicates(xast, node, context):
+    '''Check if a node is empty (no child nodes or attributes) except
+    for any predicates defined in the specified xpath.
+    
+    :param xast: parsed xpath (xpath abstract syntax tree) from
+	:mod:`eulxml.xpath`
+    :param node: lxml element to check
+    :param context: any context required for the xpath (e.g.,
+    	namespace definitions)
+
+    :returns: boolean indicating if the element is empty or not
+    '''
+    # copy the node, remove predicates, and check for any remaining
+    # child nodes or attributes
+    node_c = deepcopy(node) 
+    _remove_predicates(xast, node_c, context)
+    return bool(len(node_c) == 0 and len(node_c.attrib) == 0)
 
 def _get_attribute_name(step, context):
     # calculate attribute name, xpath, and nsmap based on node info and context namespaces
@@ -520,6 +634,12 @@ class NodeList(object):
         # NOTE: retrieving from the xml every time rather than caching
         # because the xml document could change, and we want the latest data
         return self.node.xpath(self.xpath, **self.context)
+
+    def is_empty(self):
+        '''Parallel to :meth:`eulxml.xmlmap.XmlObject.is_empty`.  A
+        NodeList is considered to be empty if every element in the
+        list is empty.'''
+        return all(n.is_empty() for n in self)
 
     @property
     def data(self):

@@ -475,6 +475,13 @@ class XmlObjectForm(BaseForm):
             local_initial.update(xmlobject_to_dict(self.instance)) #, prefix=prefix))  # fields, exclude?
             # FIXME: is this backwards? should initial data override data from instance?
 
+
+        # In case XmlObject has a schema associated, make sure the
+        # schema is accessible on load, so any schema-unavailability
+        # on lazy-loaded schemas is discovered *before* form
+        # submission & validation.
+        self.instance.xmlschema
+
         # initialize subforms for all nodefields that belong to the xmlobject model
         self._init_subforms(data, prefix)
         self._init_formsets(data, prefix)

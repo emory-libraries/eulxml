@@ -3,3 +3,4 @@ sphinx
 coverage
 django
 rdflib>=3.0
+mock

@@ -251,7 +251,6 @@ class Account(_BaseCerp):
 
     ROOT_NAME = 'Account'
     XSD_SCHEMA = 'http://www.archives.ncdcr.gov/mail-account.xsd'
-    xmlschema = xmlmap.loadSchema(XSD_SCHEMA)
 
     email_address = xmlmap.StringField('xm:EmailAddress')
     global_id = xmlmap.StringField('xm:GlobalId')

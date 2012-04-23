@@ -270,7 +270,42 @@ class TestModsOriginInfo(unittest.TestCase):
         self.origin_info.publisher = 'MacMillan'
         self.assertFalse(self.origin_info.is_empty())
 
+class TestModsPart(unittest.TestCase):
 
+    def setUp(self):
+        super(TestModsPart, self).setUp()
+        self.part = mods.Part()
+
+    def test_is_empty(self):
+        # new, no values - empty
+        self.assertTrue(self.part.is_empty())
+
+        # with empty extent - still empty
+        self.part.create_extent()
+        self.assertTrue(self.part.is_empty())
+
+        # type value - not empty
+        self.part.type = 'something'
+        self.assertFalse(self.part.is_empty())
+
+
+class TestTitleInfo(unittest.TestCase):
+
+    def setUp(self):
+        super(TestTitleInfo, self).setUp()
+        self.titleinfo = mods.TitleInfo()
+
+    def test_is_empty(self):
+        # new, no values - empty
+        self.assertTrue(self.titleinfo.is_empty())
+
+        # with empty field - still empty
+        self.titleinfo.title = ''
+        self.assertTrue(self.titleinfo.is_empty())
+        
+        # actual value - not empty
+        self.titleinfo.title = 'This a Test'
+        self.assertFalse(self.titleinfo.is_empty())
 
 
 if __name__ == '__main__':

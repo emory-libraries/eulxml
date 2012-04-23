@@ -26,21 +26,22 @@ MODS_NAMESPACE = 'http://www.loc.gov/mods/v3'
 MODS_SCHEMA = "http://www.loc.gov/standards/mods/mods.xsd"
 MODSv34_SCHEMA = "http://www.loc.gov/standards/mods/v3/mods-3-4.xsd"
 
-# MODS schema is loaded by several of the mods classes - load once and reuse
-_mods_xmlschema = xmlmap.loadSchema(MODS_SCHEMA)
-
 class Common(xmlmap.XmlObject):
-    "MODS class with namespace declaration common to all MODS XmlObjects."
+    '''MODS class with namespace declaration common to all MODS
+    XmlObjects.  Defines the MODS schema (e.g., for use with
+    :class:`xmlmap.SchemaField`), but by sets ``schema_validate`` to
+    False.
+    '''
     ROOT_NS = MODS_NAMESPACE
     ROOT_NAMESPACES = {'mods': MODS_NAMESPACE }
+    XSD_SCHEMA = MODS_SCHEMA
+    schema_validate = False
 
 class Date(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` for MODS date element (common fields
     for the dates under mods:originInfo).'''
     # this class not meant for direct use; should be extended for specific dates.
-    # FIXME: schema required here for schemafields; this should be refactored
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
+
     date = xmlmap.StringField('text()')
     key_date = xmlmap.SimpleBooleanField('@keyDate', 'yes', false=None)
     encoding = xmlmap.SchemaField('@encoding', 'dateEncodingAttributeDefinition')
@@ -123,8 +124,6 @@ class NamePart(Common):
     ':class:`~eulxml.xmlmap.XmlObject` for MODS namePart'
     ROOT_NAME = 'namePart'
     # FIXME: schema required here for schemafields; this should be refactored
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
 
     type = xmlmap.SchemaField('@type', 'namePartTypeAttributeDefinition',
                               required=False) # type is optional
@@ -140,9 +139,6 @@ class Role(Common):
 class Name(Common):
     ':class:`~eulxml.xmlmap.XmlObject` for MODS name'
     ROOT_NAME = 'name'
-    # FIXME: schema required here for schemafields; this should be refactored
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
 
     type = xmlmap.SchemaField('@type', 'nameTypeAttributeDefinition', required=False)
     authority = xmlmap.StringField('@authority', choices=['', 'local', 'naf'], required=False) # naf = NACO authority file
@@ -193,9 +189,6 @@ class Subject(Common):
 
 class TitleInfo(Common):
     ROOT_NAME = 'titleInfo'
-    # FIXME: schema required here for schemafields; this should be refactored
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
 
     title = xmlmap.StringField('mods:title')
     subtitle = xmlmap.StringField('mods:subTitle')
@@ -203,6 +196,13 @@ class TitleInfo(Common):
     part_name = xmlmap.StringField('mods:partName')
     non_sort = xmlmap.StringField('mods:nonSort')
     type  = xmlmap.SchemaField('@type', 'titleInfoTypeAttributeDefinition')
+
+
+    def is_empty(self):
+        '''Returns True if all titleInfo subfields are not set or
+        empty; returns False if any of the fields are not empty.'''
+        return not bool(self.title or self.subtitle or self.part_number \
+                        or self.part_name or self.non_sort or self.type)
 
 class Abstract(Common):
     ROOT_NAME = 'abstract'
@@ -250,11 +250,18 @@ class Part(Common):
     details = xmlmap.NodeListField('mods:detail', PartDetail)
     extent = xmlmap.NodeField('mods:extent', PartExtent)
 
+    def is_empty(self):
+        '''Returns True if details, extent, and type are not set or
+        return True for ``is_empty``; returns False if any of the
+        fields are not empty.'''
+        return all(field.is_empty() for field in [self.details, self.extent]
+                   			if field is not None) \
+               and not self.type
+
 class BaseMods(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` with common field declarations for all
     top-level MODS elements; base class for :class:`MODS` and :class:`RelatedItem`.'''
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
+    schema_validate = True
 
     title = xmlmap.StringField("mods:titleInfo/mods:title")
     title_info = xmlmap.NodeField('mods:titleInfo', TitleInfo)
@@ -281,9 +288,6 @@ class RelatedItem(BaseMods):
     ''':class:`~eulxml.xmlmap.XmlObject` for MODS relatedItem: contains all the
     top-level MODS fields defined by :class:`BaseMods`, plus a type attribute.'''
     ROOT_NAME = 'relatedItem'
-    # FIXME: schema required here for schemafields; this should be refactored
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
     type = xmlmap.SchemaField("@type", 'relatedItemTypeAttributeDefinition')
     label = xmlmap.StringField('@displayLabel')
     
@@ -293,8 +297,6 @@ class MODS(BaseMods):
     a mapping for :class:`RelatedItem`.
     '''
     ROOT_NAME = 'mods'
-    XSD_SCHEMA = MODS_SCHEMA
-    xmlschema = _mods_xmlschema
     related_items = xmlmap.NodeListField('mods:relatedItem', RelatedItem)
 
 
@@ -304,5 +306,4 @@ class MODSv34(MODS):
     3.4 schema for validation.
     '''
     XSD_SCHEMA = MODSv34_SCHEMA
-    xmlschema = xmlmap.loadSchema(XSD_SCHEMA)
     # FIXME: how to set version attribute when creating from scratch?

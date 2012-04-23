@@ -54,6 +54,9 @@ def parseString(string, uri=None):
     :mod:`lxml.etree` document. String cannot be a Unicode string.
     Base_uri should be provided for the calculation of relative URIs."""
     return etree.fromstring(string, parser=_get_xmlparser(), base_url=uri)
+
+# internal cache for loaded schemas, so we only load each schema once
+_loaded_schemas = {}
 def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     """Load an XSD XML document (specified by filename or URL), and return a
     :class:`lxml.etree.XMLSchema`.
@@ -65,6 +68,9 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     """
 
     # uri to use for reporting errors - include base uri if any
+    if uri in _loaded_schemas:
+        return _loaded_schemas[uri]
+    
     error_uri = uri
     if base_uri is not None:
         error_uri += ' (base URI %s)' % base_uri
@@ -90,7 +96,11 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
             return None
 
     try:
-        return etree.XMLSchema(etree.parse(uri, parser=_get_xmlparser(), base_url=base_uri))
+        logger.debug('Loading schema %s' % uri)
+        _loaded_schemas[uri] = etree.XMLSchema(etree.parse(uri,
+                                                           parser=_get_xmlparser(),
+                                                           base_url=base_uri))
+        return _loaded_schemas[uri]
     except IOError as io_err:
         # add a little more detail to the error message - but should still be an IO error
         raise IOError('Failed to load schema %s : %s' % (error_uri, io_err))
@@ -149,6 +159,9 @@ class XmlObjectType(type):
             base_fields = getattr(base, '_fields', None)
             if base_fields:
                 fields.update(base_fields)
+            base_xsd = getattr(base, 'XSD_SCHEMA', None)
+
+        schema_obj = None
 
         for attr_name, attr_val in defined_attrs.items():
             # XXX: not a fan of isintance here. maybe use something like
@@ -156,9 +169,17 @@ class XmlObjectType(type):
             if isinstance(attr_val, Field):
                 if isinstance(attr_val, SchemaField):
                     # special case: schema field will look at the schema and return appropriate field type
-                    if 'XSD_SCHEMA' in defined_attrs:
-                        # FIXME: currently reloading schema every time...
-                        schema_obj = load_xmlobject_from_file(defined_attrs['XSD_SCHEMA'], XsdSchema)
+                    if 'XSD_SCHEMA' in defined_attrs or base_xsd:
+                        # load schema_obj the first time we need it
+                        if schema_obj is None:
+                            # if xsd schema is directly defined, use that
+                            if 'XSD_SCHEMA' in defined_attrs:
+                                schema_obj = load_xmlobject_from_file(defined_attrs['XSD_SCHEMA'],
+                                                                      XsdSchema)
+                            # otherwise, use nearest parent xsd
+                            else:
+                                schema_obj = load_xmlobject_from_file(base_xsd, XsdSchema)
+                        
                         attr_val = attr_val.get_field(schema_obj)
                 field = attr_val
                 fields[attr_name] = field
@@ -207,7 +228,6 @@ class XmlObjectType(type):
             field.create_for_node(xmlobject.node, xmlobject.context)
         create_field.__name__ = field_name
         return create_field
-
 
 class XmlObject(object):
 
@@ -258,16 +278,28 @@ class XmlObject(object):
     :meth:`load_xmlobject_from_string` and :meth:`load_xmlobject_from_file`,
     and with :meth:`is_valid`.
     """
-    xmlschema = None 
-    """A parsed XSD schema instance of :class:`lxml.etree.XMLSchema`; will be
-    loaded at class initialization time if XSD_SCHEMA is set and xmlchema is None.
-    If you wish to load and parse the schema at class definition time, instead
-    of at class instance initialization time, you may want to define your schema
-    in your subclass like this::
 
+    schema_validate = True
+    '''Override for schema validation; if a schema must be defined for
+     the use of :class:`xmlmap.fields.SchemaField` for a sub-xmlobject
+     that should not be validated, set to False.'''
+    
+    @property
+    def xmlschema(self):
+        """A parsed XSD schema instance of
+        :class:`lxml.etree.XMLSchema`; will be loaded the first time
+        it is requested on any instance of this class if XSD_SCHEMA is
+        set and xmlchema is None.  If you wish to load and parse the
+        schema at class definition time, instead of at class instance
+        initialization time, you may want to define your schema in
+        your subclass like this::
+        
         XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
         xmlschema = xmlmap.loadSchema(XSD_SCHEMA)     
-    """
+        """
+        if self.XSD_SCHEMA:
+            return loadSchema(self.XSD_SCHEMA)
+    
     # NOTE: DTD and RNG validation could be handled similarly to XSD validation logic
 
     def __init__(self, node=None, context=None, **kwargs):
@@ -292,10 +324,6 @@ class XmlObject(object):
         if hasattr(self, 'ROOT_NAMESPACES'):
             # also include any root namespaces to guarantee that expected prefixes are available
             self.context['namespaces'].update(self.ROOT_NAMESPACES)
-
-        if self.XSD_SCHEMA is not None and self.xmlschema is None:
-            # load xml schema if one is defined and has not already been loaded
-            self.xmlschema = loadSchema(self.XSD_SCHEMA)
 
         for field, value in kwargs.iteritems():
             # TODO (maybe): handle setting/creating list fields
@@ -415,15 +443,17 @@ class XmlObject(object):
         return self.validation_errors() == []
 
     def validation_errors(self):
-        """Return a list of validation errors.  Returns an empty list if the xml
-        is schema valid or no schema is defined.
+        """Return a list of validation errors.  Returns an empty list
+        if the xml is schema valid or no schema is defined.  If a
+        schema is defined but :attr:`schema_validate` is False, schema
+        validation will be skipped.
         
         Currently only supports schema validation.
 
         :rtype: list
         """
         # if we add other types of validation (DTD, RNG), incorporate them here
-        if self.xmlschema and not self.schema_valid():
+        if self.xmlschema and self.schema_validate and not self.schema_valid():
             return self.schema_validation_errors()
         return []
 
@@ -464,15 +494,11 @@ class Urllib2Resolver(etree.Resolver):
     def resolve(self, url, public_id, context):
         if url.startswith('/'):
             url = 'file:' + url
-        logger.info('Resolving %s' % url)
-        f = urllib2.urlopen(url)
-        # urlopen may return None if no handler handles the request
-        if f is None:
-            logger.error('Error resolving %s (no handler for this request)' \
-                         % url)
-            return None  # defer to the next registered resolver
-        else:
-            return self.resolve_file(f, context, base_url=url)
+
+        logger.debug('Resolving url %s' % url)
+        f = urllib2.urlopen(url, None, 10)
+        # set a timeout in case connection fails or is unreasonably slow
+        return self.resolve_file(f, context, base_url=url)
 _defaultResolver = Urllib2Resolver()
 
 def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver):
@@ -483,10 +509,12 @@ def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver
     """
     if validate:
         if hasattr(xmlclass, 'XSD_SCHEMA') and xmlclass.XSD_SCHEMA is not None:
-            if xmlclass.xmlschema is not None:
-                # if the schema is already loaded, use that
-                xmlschema = xmlclass.xmlschema
-            else:         # otherwise, load the schema
+            # If the schema has already been loaded, use that.
+            # (since we accessing the *class*, accessing 'xmlschema' returns a property,
+            # not the initialized schema object we actually want).
+            xmlschema = getattr(xmlclass, '_xmlschema', None)
+            # otherwise, load the schema
+            if xmlschema is None:
                 xmlschema = loadSchema(xmlclass.XSD_SCHEMA)
             opts = {'schema': xmlschema}
         else:
