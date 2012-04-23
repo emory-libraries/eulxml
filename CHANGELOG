@@ -11,8 +11,8 @@ any necessary information about installation or upgrade notes.
 * :class:`eulxml.forms.xmlobject.XmlObjectForm` formsets now support
   ``can_order``.
 
-0.17
-----
+0.17 - Minor Enhancements
+-------------------------
 
 * :class:`eulxml.xmlmap.XmlObject` now supports lazy-loading for XSD
   Schemas.  To take advantage of this feature,
