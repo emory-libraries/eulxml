@@ -5,11 +5,19 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+
 0.18
 ----
 
 * :class:`eulxml.forms.xmlobject.XmlObjectForm` formsets now support
   ``can_order``.
+
+0.17.1 - Bugfix Release
+-----------------------
+
+* Fixed an error in eulxml.xpath parse that resulted in parse errors
+  when other lexers are defined.
+
 
 0.17 - Minor Enhancements
 -------------------------
@@ -23,6 +31,7 @@ any necessary information about installation or upgrade notes.
   that could have been automatically constructed when setting the
   value will be deleted from the :class:`~eulxml.xmlmap.XmlObject`
   where possible, if they are otherwise empty.
+
 
 0.16.0 - MODS and PREMIS
 ------------------------
