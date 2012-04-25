@@ -135,7 +135,13 @@ lexer.last = None
 # than the lexer wackiness.
 parsedir = os.path.dirname(parserules.__file__)
 parser = yacc.yacc(module=parserules, outputdir=parsedir, debug=0)
-parse = parser.parse
+
+def parse(xpath):
+    '''Parse an xpath.'''
+    # Expose the parse method of the constructed parser,
+    # but explicitly specify the lexer created here,
+    # since otherwise parse will use the most-recently created lexer. 
+    return parser.parse(xpath, lexer=lexer)
 
 def ptokens(s):
     '''Lex a string as XPath tokens, and print each token as it is lexed.
