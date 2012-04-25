@@ -7,6 +7,13 @@ any necessary information about installation or upgrade notes.
 
 =======
 
+0.17.1 - Bugfix Release
+-----------------------
+
+* Fixed an error in eulxml.xpath parse that resulted in parse errors
+  when other lexers are defined.
+
+
 0.17 - Minor Enhancements
 -------------------------
 
