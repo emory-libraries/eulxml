@@ -120,25 +120,36 @@ class IntegerMapper(Mapper):
 
 class SimpleBooleanMapper(Mapper):
     XPATH = etree.XPath('string()')
-    def __init__(self, true, false):
+    def __init__(self, true=None, false=None, callback=None, normalize=False):
         self.true = true
         self.false = false
-        
+        self.callback = callback
+        if normalize:
+            self.XPATH = etree.XPath('normalize-space(string())')
+
     def to_python(self, node):
-        if node is None and \
-                self.false is None:
+
+        if node is not None:
+            if isinstance(node, basestring):
+                value = node
+            else:
+                value = self.XPATH(node)
+        else:
+            value = None
+
+        if self.callback is not None:
+            return self.callback(true=self.true, false=self.false, value=value)
+
+        if self.false is None:
+            if value is None:
+                return False
+        elif value == str(self.false):
             return False
 
-        if isinstance(node, basestring):
-            value = node
-        else:
-            value = self.XPATH(node)
         if value == str(self.true):
             return True
-        if self.false is not None and \
-                value == str(self.false):
-            return False        
-        # what happens if it is neither of these?
+
+        # what happens if it is neither true or false?
         raise Exception("Boolean field value '%s' is neither '%s' nor '%s'" % (value, self.true, self.false))
 
     def to_xml(self, value):
@@ -152,6 +163,11 @@ class SimpleBooleanMapper(Mapper):
 
 class DateMapper(object):
     XPATH = etree.XPath('string()')
+    def __init__(self, format=None, normalize=False):
+        self.format = format
+        if normalize:
+            self.XPATH = etree.XPath('normalize-space(string())')
+
     def to_python(self, node):
         if node is None:
             return None
@@ -163,11 +179,15 @@ class DateMapper(object):
             rep = rep[:-1]
         if rep[-6] in '+-': # strip tz
             rep = rep[:-6]
-        try:
-            dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
-        except ValueError, v:
-            # if initial format fails, attempt to parse with microseconds
-            dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
+
+        if self.format is not None:
+            dt = datetime.strptime(rep, self.format)
+        else:
+            try:
+                dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
+            except ValueError, v:
+                # if default format fails, attempt to parse with microseconds
+                dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
         return dt
 
     def to_xml(self, dt):
@@ -876,11 +896,13 @@ class SimpleBooleanField(Field):
     Supports setting values for attributes, empty nodes, or text-only nodes.
     """
 
-    def __init__(self, xpath, true, false, *args, **kwargs):
+    def __init__(self, xpath, true=None, false=None, callback=None,
+                    normalize=False, *args, **kwargs):
         super(SimpleBooleanField, self).__init__(xpath,
                 manager = SingleNodeManager(),
-                mapper = SimpleBooleanMapper(true, false), *args, **kwargs)
-
+                mapper = SimpleBooleanMapper(true=true, false=false,
+                    callback=callback, normalize=normalize),
+                     *args, **kwargs)
 
 
 class DateField(Field):
@@ -894,10 +916,10 @@ class DateField(Field):
        It is not part of any official release. Use it at your own risk.
     """
 
-    def __init__(self, xpath, *args, **kwargs):
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateField, self).__init__(xpath,
                 manager = SingleNodeManager(),
-                mapper = DateMapper(), *args, **kwargs)
+                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class DateListField(Field):
@@ -915,10 +937,10 @@ class DateListField(Field):
     treated like a regular Python list, and includes set and delete functionality.
     """
 
-    def __init__(self, xpath, *args, **kwargs):
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateListField, self).__init__(xpath,
                 manager = NodeListManager(),
-                mapper = DateMapper(), *args, **kwargs)
+                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class NodeField(Field):
