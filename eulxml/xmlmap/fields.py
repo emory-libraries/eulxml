@@ -152,6 +152,11 @@ class SimpleBooleanMapper(Mapper):
 
 class DateMapper(object):
     XPATH = etree.XPath('string()')
+    def __init__(self, format=None, normalize=False):
+        self.format = format
+        if normalize:
+            self.XPATH = etree.XPath('normalize-space(string())')
+
     def to_python(self, node):
         if node is None:
             return None
@@ -163,11 +168,15 @@ class DateMapper(object):
             rep = rep[:-1]
         if rep[-6] in '+-': # strip tz
             rep = rep[:-6]
-        try:
-            dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
-        except ValueError, v:
-            # if initial format fails, attempt to parse with microseconds
-            dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
+
+        if self.format is not None:
+            dt = datetime.strptime(rep, self.format)
+        else:
+            try:
+                dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
+            except ValueError, v:
+                # if default format fails, attempt to parse with microseconds
+                dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
         return dt
 
     def to_xml(self, dt):
@@ -882,7 +891,6 @@ class SimpleBooleanField(Field):
                 mapper = SimpleBooleanMapper(true, false), *args, **kwargs)
 
 
-
 class DateField(Field):
 
     """Map an XPath expression to a single Python `datetime.datetime`. If
@@ -894,10 +902,10 @@ class DateField(Field):
        It is not part of any official release. Use it at your own risk.
     """
 
-    def __init__(self, xpath, *args, **kwargs):
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateField, self).__init__(xpath,
                 manager = SingleNodeManager(),
-                mapper = DateMapper(), *args, **kwargs)
+                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class DateListField(Field):
@@ -915,10 +923,10 @@ class DateListField(Field):
     treated like a regular Python list, and includes set and delete functionality.
     """
 
-    def __init__(self, xpath, *args, **kwargs):
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateListField, self).__init__(xpath,
                 manager = NodeListManager(),
-                mapper = DateMapper(), *args, **kwargs)
+                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class NodeField(Field):
