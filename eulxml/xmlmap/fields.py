@@ -120,25 +120,36 @@ class IntegerMapper(Mapper):
 
 class SimpleBooleanMapper(Mapper):
     XPATH = etree.XPath('string()')
-    def __init__(self, true, false):
+    def __init__(self, true=None, false=None, callback=None, normalize=False):
         self.true = true
         self.false = false
-        
+        self.callback = callback
+        if normalize:
+            self.XPATH = etree.XPath('normalize-space(string())')
+
     def to_python(self, node):
-        if node is None and \
-                self.false is None:
+
+        if node is not None:
+            if isinstance(node, basestring):
+                value = node
+            else:
+                value = self.XPATH(node)
+        else:
+            value = None
+
+        if self.callback is not None:
+            return self.callback(true=self.true, false=self.false, value=value)
+
+        if self.false is None:
+            if value is None:
+                return False
+        elif value == str(self.false):
             return False
 
-        if isinstance(node, basestring):
-            value = node
-        else:
-            value = self.XPATH(node)
         if value == str(self.true):
             return True
-        if self.false is not None and \
-                value == str(self.false):
-            return False        
-        # what happens if it is neither of these?
+
+        # what happens if it is neither true or false?
         raise Exception("Boolean field value '%s' is neither '%s' nor '%s'" % (value, self.true, self.false))
 
     def to_xml(self, value):
@@ -885,10 +896,13 @@ class SimpleBooleanField(Field):
     Supports setting values for attributes, empty nodes, or text-only nodes.
     """
 
-    def __init__(self, xpath, true, false, *args, **kwargs):
+    def __init__(self, xpath, true=None, false=None, callback=None,
+                    normalize=False, *args, **kwargs):
         super(SimpleBooleanField, self).__init__(xpath,
                 manager = SingleNodeManager(),
-                mapper = SimpleBooleanMapper(true, false), *args, **kwargs)
+                mapper = SimpleBooleanMapper(true=true, false=false,
+                    callback=callback, normalize=normalize),
+                     *args, **kwargs)
 
 
 class DateField(Field):
