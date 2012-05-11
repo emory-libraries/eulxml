@@ -28,7 +28,7 @@ from django.forms import ValidationError
 from django.forms.formsets import BaseFormSet
 
 from eulxml import xmlmap
-from eulxml.xmlmap.fields import DateField     # not yet supported - testing for errors
+from eulxml.xmlmap.fields import DateTimeField     # not yet supported - testing for errors
 from eulxml.forms import XmlObjectForm, xmlobjectform_factory, SubformField
 from eulxml.forms.xmlobject import XmlObjectFormType, BaseXmlObjectListFieldFormSet, \
      ListFieldForm, IntegerListFieldForm
@@ -406,7 +406,7 @@ class XmlObjectFormTest(unittest.TestCase):
 
         class DateObject(xmlmap.XmlObject):
             ROOT_NAME = 'foo'
-            date = DateField('date')
+            date = DateTimeField('date')
 
         self.assertRaises(Exception, xmlobjectform_factory, DateObject)
 

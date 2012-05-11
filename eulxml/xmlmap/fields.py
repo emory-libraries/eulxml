@@ -27,9 +27,7 @@ __all__ = [
     'IntegerField', 'IntegerListField',
     'NodeField', 'NodeListField',
     'ItemField', 'SimpleBooleanField',
-# NOTE: DateField and DateListField are undertested and underdocumented. If
-#   you really need them, you should import them explicitly. Or even better,
-#   flesh them out so they can be properly released.
+    'DateTimeField', 'DateTimeListField',   
     'SchemaField',
 ]
 
@@ -150,7 +148,9 @@ class SimpleBooleanMapper(Mapper):
             return None
 
 
-class DateMapper(object):
+# TODO: DateMapper and Date fields
+
+class DateTimeMapper(object):
     XPATH = etree.XPath('string()')
     def to_python(self, node):
         if node is None:
@@ -163,6 +163,7 @@ class DateMapper(object):
             rep = rep[:-1]
         if rep[-6] in '+-': # strip tz
             rep = rep[:-6]
+
         try:
             dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
         except ValueError, v:
@@ -883,42 +884,41 @@ class SimpleBooleanField(Field):
 
 
 
-class DateField(Field):
+class DateTimeField(Field):
+    """
+    Map an XPath expression to a single Python
+    :class:`datetime.datetime`. If the XPath expression evaluates to
+    an empty :class:`NodeList`, a :class:`DateTimeField` evaluates to
+    `None`.
 
-    """Map an XPath expression to a single Python `datetime.datetime`. If
-    the XPath expression evaluates to an empty NodeList, a DateField evaluates
-    to `None`.
-
-    .. WARNING::
-       DateField processing is minimal, undocumented, and liable to change.
-       It is not part of any official release. Use it at your own risk.
+    XML dates are converted from full ISO date time format, with or
+    without microseconds; dates are written out to XML in ISO format
+    via :meth:`datetime.datetime.isoformat`.
+    
     """
 
     def __init__(self, xpath, *args, **kwargs):
-        super(DateField, self).__init__(xpath,
+        super(DateTimeField, self).__init__(xpath,
                 manager = SingleNodeManager(),
-                mapper = DateMapper(), *args, **kwargs)
+                mapper = DateTimeMapper(), *args, **kwargs)
 
 
-class DateListField(Field):
-
-    """Map an XPath expression to a list of Python `datetime.datetime`
-    objects. If the XPath expression evaluates to an empty NodeList, a
-    DateListField evaluates to an empty list.
-
-    .. WARNING::
-       DateListField processing is minimal, undocumented, and liable to
-       change. It is not part of any official release. Use it at your own
-       risk.
+class DateTimeListField(Field):
+    """
+    Map an XPath expression to a list of Python
+    :class:`datetime.datetime` objects. If the XPath expression
+    evaluates to an empty :class:`NodeList`, a
+    :class:`DateTimeListField` evaluates to an empty list.  Date
+    formatting is as described in :class:`DateTimeField`.
 
     Actual return type is :class:`~eulxml.xmlmap.fields.NodeList`, which can be
     treated like a regular Python list, and includes set and delete functionality.
     """
 
     def __init__(self, xpath, *args, **kwargs):
-        super(DateListField, self).__init__(xpath,
+        super(DateTimeListField, self).__init__(xpath,
                 manager = NodeListManager(),
-                mapper = DateMapper(), *args, **kwargs)
+                mapper = DateTimeMapper(), *args, **kwargs)
 
 
 class NodeField(Field):

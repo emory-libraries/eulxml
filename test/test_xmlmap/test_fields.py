@@ -16,6 +16,7 @@
 
 #!/usr/bin/env python
 
+from datetime import datetime
 import tempfile
 import unittest
 
@@ -42,6 +43,8 @@ class TestFields(unittest.TestCase):
         needs to be
                 normalized
             </spacey>
+            <date>2010-01-03T02:13:44</date>
+            <date>2010-01-03T02:13:44.003</date>
         </foo>
     '''
 
@@ -390,6 +393,31 @@ class TestFields(unittest.TestCase):
     #   work up some proper parsing and good testing for them, they should
     #   be considered untested and undocumented features.
 
+    
+    def testDateTimeField(self):        
+        class TestObject(xmlmap.XmlObject):
+            date = xmlmap.DateTimeField('date')
+            dates = xmlmap.DateTimeListField('date')
+
+        obj = TestObject(self.fixture)
+        # fields should be datetime objects
+        self.assert_(isinstance(obj.date, datetime))
+        self.assert_(isinstance(obj.dates[1], datetime))
+        # inspect date parsing
+        self.assertEqual(2010, obj.date.year)
+        self.assertEqual(1, obj.date.month)
+        self.assertEqual(3, obj.date.day)
+        self.assertEqual(2, obj.date.hour)
+        self.assertEqual(13, obj.date.minute)
+        self.assertEqual(44, obj.date.second)
+        # microsecond date parsing
+        self.assertEqual(3000, obj.dates[1].microsecond)
+
+        # set value via new datetime object
+        today = datetime.today()
+        obj.date = today
+        self.assertEqual(obj.node.xpath('string(date)'), today.isoformat())
+        
 
     def testSchemaField(self):
         # very simple xsd schema and valid/invalid xml based on the one from lxml docs:
