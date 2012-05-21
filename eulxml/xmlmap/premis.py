@@ -26,7 +26,7 @@ from eulxml import xmlmap
 
 PREMIS_NAMESPACE = 'info:lc/xmlns/premis-v2'
 'authoritative namespace for PREMIS'
-PREMIS_SCHEMA = 'http://www.loc.gov/standards/premis/premis.xsd'
+PREMIS_SCHEMA = 'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd'
 'authoritative schema location for PREMIS'
 
 class BasePremis(xmlmap.XmlObject):
