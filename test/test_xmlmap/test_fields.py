@@ -61,7 +61,7 @@ class TestFields(unittest.TestCase):
     def _empty_fixture(self):
         return xmlmap.parseString('<root/>', self.rel_url)
 
-    def elf.fixtureestInvalidXpath(self):
+    def testvalidXpath(self):
         self.assertRaises(Exception, xmlmap.StringField, '["')
         
     def testNodeField(self):
@@ -422,7 +422,7 @@ class TestFields(unittest.TestCase):
     def testFormattedDateTimeField(self):
         class TestObject(xmlmap.XmlObject):
             date = xmlmap.DateTimeField('date', format='%Y-%m-%dT%H:%M:%S')
-            dates = xmlmap.DateTimeListField('date', format='%Y-%m-%dT%H:%M:%S')
+            dates = xmlmap.DateTimeListField('date', format='%Y-%m-%dT%H:%M:%S.%f')
 
         obj = TestObject(self.fixture)
         # fields should be datetime objects
@@ -441,7 +441,7 @@ class TestFields(unittest.TestCase):
         # set value via new datetime object
         today = datetime.today()
         obj.date = today
-        self.assertEqual(obj.node.xpath('string(date)'), today.strftime('%Y-%m-%dT%H:%M:%S')))
+        self.assertEqual(obj.node.xpath('string(date)'), today.strftime('%Y-%m-%dT%H:%M:%S'))
 
 
     def testSchemaField(self):
