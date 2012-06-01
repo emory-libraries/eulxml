@@ -61,7 +61,7 @@ class TestFields(unittest.TestCase):
     def _empty_fixture(self):
         return xmlmap.parseString('<root/>', self.rel_url)
 
-    def testInvalidXpath(self):
+    def elf.fixtureestInvalidXpath(self):
         self.assertRaises(Exception, xmlmap.StringField, '["')
         
     def testNodeField(self):
@@ -417,7 +417,32 @@ class TestFields(unittest.TestCase):
         today = datetime.today()
         obj.date = today
         self.assertEqual(obj.node.xpath('string(date)'), today.isoformat())
-        
+
+
+    def testFormattedDateTimeField(self):
+        class TestObject(xmlmap.XmlObject):
+            date = xmlmap.DateTimeField('date', format='%Y-%m-%dT%H:%M:%S')
+            dates = xmlmap.DateTimeListField('date', format='%Y-%m-%dT%H:%M:%S')
+
+        obj = TestObject(self.fixture)
+        # fields should be datetime objects
+        self.assert_(isinstance(obj.date, datetime))
+        self.assert_(isinstance(obj.dates[1], datetime))
+        # inspect date parsing
+        self.assertEqual(2010, obj.date.year)
+        self.assertEqual(1, obj.date.month)
+        self.assertEqual(3, obj.date.day)
+        self.assertEqual(2, obj.date.hour)
+        self.assertEqual(13, obj.date.minute)
+        self.assertEqual(44, obj.date.second)
+        # microsecond date parsing
+        self.assertEqual(3000, obj.dates[1].microsecond)
+
+        # set value via new datetime object
+        today = datetime.today()
+        obj.date = today
+        self.assertEqual(obj.node.xpath('string(date)'), today.strftime('%Y-%m-%dT%H:%M:%S')))
+
 
     def testSchemaField(self):
         # very simple xsd schema and valid/invalid xml based on the one from lxml docs:
