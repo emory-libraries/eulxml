@@ -28,7 +28,7 @@ from django.forms import ValidationError
 from django.forms.formsets import BaseFormSet
 
 from eulxml import xmlmap
-from eulxml.xmlmap.fields import DateField     # not yet supported - testing for errors
+from eulxml.xmlmap.fields import DateTimeField     # not yet supported - testing for errors
 from eulxml.forms import XmlObjectForm, xmlobjectform_factory, SubformField
 from eulxml.forms.xmlobject import XmlObjectFormType, BaseXmlObjectListFieldFormSet, \
      ListFieldForm, IntegerListFieldForm
@@ -406,7 +406,7 @@ class XmlObjectFormTest(unittest.TestCase):
 
         class DateObject(xmlmap.XmlObject):
             ROOT_NAME = 'foo'
-            date = DateField('date')
+            date = DateTimeField('date')
 
         self.assertRaises(Exception, xmlobjectform_factory, DateObject)
 
@@ -584,6 +584,37 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assertTrue(str_formset.is_valid())
         self.assertEqual(['foo'], instance.text)        
 
+    def test_can_order(self):
+        class MySubFormset(XmlObjectForm):
+            class Meta:
+                model = TestSubobject
+                can_order = True
+        class OrderedTestForm(XmlObjectForm):
+            children = SubformField(formclass=MySubFormset)
+            class Meta:
+                model = TestObject
+                
+        # test init option - currently only Meta.can_order works
+        form = OrderedTestForm()
+        self.assertTrue(form.formsets['children'].can_order)
+        
+        post_data = self.post_data.copy()
+        post_data.update({
+            'children-0-ORDER': 3,
+            'children-1-ORDER': 2,
+            'children-2-ORDER': 1
+        })
+        # the values should be orderd by ORDER value, not form order
+        expected_order = [post_data['children-2-val'],
+                             post_data['children-1-val'],
+                             post_data['children-0-val']]
+        update_form = OrderedTestForm(post_data, instance=self.testobj)
+        self.assertTrue(update_form.is_valid())
+        instance = update_form.update_instance()
+        value_order = [ch.val for ch in instance.children]
+        
+        for i in range(3):
+            self.assertEqual(expected_order[i], value_order[i])
 
     def test_is_valid(self):
         # missing required fields for main form but not subform or formsets

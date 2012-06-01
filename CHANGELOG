@@ -5,7 +5,12 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
-=======
+
+0.18
+----
+
+* :class:`eulxml.forms.xmlobject.XmlObjectForm` formsets now support
+  ``can_order``.
 
 0.17.1 - Bugfix Release
 -----------------------
