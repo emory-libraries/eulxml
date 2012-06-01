@@ -152,6 +152,11 @@ class SimpleBooleanMapper(Mapper):
 
 class DateTimeMapper(object):
     XPATH = etree.XPath('string()')
+    def __init__(self, format=None, normalize=False):
+        self.format = format
+        if normalize:
+            self.XPATH = etree.XPath('normalize-space(string())')
+
     def to_python(self, node):
         if node is None:
             return None
@@ -164,15 +169,20 @@ class DateTimeMapper(object):
         if rep[-6] in '+-': # strip tz
             rep = rep[:-6]
 
-        try:
-            dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
-        except ValueError, v:
-            # if initial format fails, attempt to parse with microseconds
-            dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
+        if self.format is not None:
+            dt = datetime.strptime(rep, self.format)
+        else:
+            try:
+                dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
+            except ValueError, v:
+                # if initial format fails, attempt to parse with microseconds
+                dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
         return dt
 
     def to_xml(self, dt):
         # NOTE: untested!  this is probably close to what we need, but should be tested
+        if self.format is not None:
+            return unicode(dt.strftime(self.format))
         return unicode(dt.isoformat())
 
 
@@ -897,10 +907,12 @@ class DateTimeField(Field):
     
     """
 
-    def __init__(self, xpath, *args, **kwargs):
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateTimeField, self).__init__(xpath,
                 manager = SingleNodeManager(),
-                mapper = DateTimeMapper(), *args, **kwargs)
+                mapper = DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
+
+
 
 
 class DateTimeListField(Field):
@@ -915,10 +927,10 @@ class DateTimeListField(Field):
     treated like a regular Python list, and includes set and delete functionality.
     """
 
-    def __init__(self, xpath, *args, **kwargs):
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateTimeListField, self).__init__(xpath,
                 manager = NodeListManager(),
-                mapper = DateTimeMapper(), *args, **kwargs)
+                mapper = DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class NodeField(Field):
