@@ -901,9 +901,31 @@ class DateTimeField(Field):
     an empty :class:`NodeList`, a :class:`DateTimeField` evaluates to
     `None`.
 
-    XML dates are converted from full ISO date time format, with or
-    without microseconds; dates are written out to XML in ISO format
-    via :meth:`datetime.datetime.isoformat`.
+    :param format: optional date-time format.  Used with
+	:meth:`datetime.datetime.strptime` and
+	:meth:`datetime.datetime.strftime` to convert between XML text
+	and Python :class:`datetime.datetime` objects.  If no format
+	is specified, XML dates are converted from full ISO date time
+	format, with or without microseconds, and dates are written
+	out to XML in ISO format via
+	:meth:`datetime.datetime.isoformat`.
+
+    :param normalize: optional parameter to indicate string contents
+        should have whitespace normalized before converting to
+        :class:`~datetime.datetime`.  By default, no normalization is
+        done.
+
+    For example, if you define an attribute like this::
+
+      last_update = DateField('./last_update', format="%d-%m-%Y %H:%M:%S",
+      	  normalize=True)
+
+    This would returns a :class:`~datetime.datetime` object given XML
+    such as this::
+
+      <last_update>
+   	  21-04-2012 00:00:00
+      </last_update>
     
     """
 
@@ -923,6 +945,15 @@ class DateTimeListField(Field):
 
     Actual return type is :class:`~eulxml.xmlmap.fields.NodeList`, which can be
     treated like a regular Python list, and includes set and delete functionality.
+
+    :param format: optional date-time format.  See
+        :class:`DateTimeField` for more details.
+
+    :param normalize: optional parameter to indicate string contents
+        should have whitespace normalized before converting to
+        :class:`~datetime.datetime`.  By default, no normalization is
+        done.
+
     """
 
     def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
