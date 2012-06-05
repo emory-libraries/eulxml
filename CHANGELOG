@@ -14,7 +14,9 @@ any necessary information about installation or upgrade notes.
 * :class:`eulxml.xmlmap.fields.DateTimeField` is now included in
   available :mod:`eulxml.xmlmap` fields.  This replaces the previously
   officially-unreleased, under-documented and -tested and misnamed
-  ``DateField`.`
+  ``DateField``.  Date-time format handling and whitespace
+  normalization contributed by `jheath- <https://github.com/jheath->`_.
+
 
 0.17.1 - Bugfix Release
 -----------------------
