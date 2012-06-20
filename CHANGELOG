@@ -5,7 +5,18 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
-=======
+
+0.18.0 - Formset Ordering and DateTime
+--------------------------------------
+
+* :class:`eulxml.forms.xmlobject.XmlObjectForm` formsets now support
+  ``can_order``.
+* :class:`eulxml.xmlmap.fields.DateTimeField` is now included in
+  available :mod:`eulxml.xmlmap` fields.  This replaces the previously
+  officially-unreleased, under-documented and -tested and misnamed
+  ``DateField``.  Date-time format handling and whitespace
+  normalization contributed by `jheath- <https://github.com/jheath->`_.
+
 
 0.17.1 - Bugfix Release
 -----------------------
@@ -14,8 +25,8 @@ any necessary information about installation or upgrade notes.
   when other lexers are defined.
 
 
-0.17 - Minor Enhancements
--------------------------
+0.17.0 - Minor Enhancements
+---------------------------
 
 * :class:`eulxml.xmlmap.XmlObject` now supports lazy-loading for XSD
   Schemas.  To take advantage of this feature,

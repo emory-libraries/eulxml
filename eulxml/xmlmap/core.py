@@ -294,8 +294,9 @@ class XmlObject(object):
         initialization time, you may want to define your schema in
         your subclass like this::
         
-        XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
-        xmlschema = xmlmap.loadSchema(XSD_SCHEMA)     
+          XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
+          xmlschema = xmlmap.loadSchema(XSD_SCHEMA)
+          
         """
         if self.XSD_SCHEMA:
             return loadSchema(self.XSD_SCHEMA)
