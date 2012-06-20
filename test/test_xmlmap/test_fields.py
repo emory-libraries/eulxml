@@ -61,7 +61,7 @@ class TestFields(unittest.TestCase):
     def _empty_fixture(self):
         return xmlmap.parseString('<root/>', self.rel_url)
 
-    def testvalidXpath(self):
+    def testInvalidXpath(self):
         self.assertRaises(Exception, xmlmap.StringField, '["')
         
     def testNodeField(self):
