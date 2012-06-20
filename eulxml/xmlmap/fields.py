@@ -915,18 +915,22 @@ class DateTimeField(Field):
         :class:`~datetime.datetime`.  By default, no normalization is
         done.
 
-    For example, if you define an attribute like this::
+    For example, given the field definition::
 
-      last_update = DateField('./last_update', format="%d-%m-%Y %H:%M:%S",
+      last_update = DateField('last_update', format="%d-%m-%Y %H:%M:%S",
       	  normalize=True)
 
-    This would returns a :class:`~datetime.datetime` object given XML
-    such as this::
+    and the XML::
 
       <last_update>
    	  21-04-2012 00:00:00
       </last_update>
-    
+
+    accessing the field would return::
+
+      >>> myobj.last_update
+      datetime.datetime(2012, 4, 21, 0, 0)
+
     """
 
     def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
