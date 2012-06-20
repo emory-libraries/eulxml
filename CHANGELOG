@@ -6,8 +6,8 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
-0.18.0
-------
+0.18.0 - Formset Ordering and DateTime
+--------------------------------------
 
 * :class:`eulxml.forms.xmlobject.XmlObjectForm` formsets now support
   ``can_order``.
