@@ -1,0 +1,2 @@
+django
+rdflib>=3.0
