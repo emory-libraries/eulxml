@@ -5,6 +5,6 @@ python:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - "pip install . --use-mirrors"
-  - "pip install -r pip-dev-req.txt --use-mirrors"
+  - "pip install -r pip-opt-req.txt --use-mirrors"
 # command to run tests, e.g. python setup.py test
 script: python ./test/test_all.py
