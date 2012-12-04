@@ -27,10 +27,10 @@ Dependencies
 **eulxml** depends on `PLY <http://www.dabeaz.com/ply/>`_ and `lxml
 <http://lxml.de/>`_.
 
-**eulxml.forms** requires and was designed       to be used with 
+**eulxml.forms** requires and was designed       to be used with
 `Django <https://www.djangoproject.com/>`_, although Django is not
 required for installation and use of the non-form components of
-**eulxml**. 
+**eulxml**.
 
 
 Contact Information
@@ -53,3 +53,19 @@ Development History
 For instructions on how to see and interact with the full development
 history of **eulxml**, see
 `eulcore-history <https://github.com/emory-libraries/eulcore-history>`_.
+
+Developer notes
+---------------
+
+To install dependencies for your local check out of the code, run ``pip install``
+in the ``eulxml`` directory (the use of `virtualenv`_ is recommended)::
+
+    pip install -e .
+
+.. _virtualenv: http://www.virtualenv.org/en/latest/
+
+If you want to run unit tests or build sphinx documentation, you will also
+need to install development dependencies::
+
+    pip install eulxml[dev]
+

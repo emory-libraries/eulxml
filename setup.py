@@ -55,6 +55,14 @@ setup(
     extras_require={
         'django': ['Django'],
         'rdf': ['rdflib>=3.0'],
+        'dev': [
+            'unittest-xml-reporting>1.0.3',
+            'sphinx',
+            'coverage',
+            'Django',
+            'rdflib>=3.0',
+            'mock',
+        ]
     },
 
     description='XPath-based XML data binding, with Django form support',

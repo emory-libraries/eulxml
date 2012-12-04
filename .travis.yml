@@ -4,7 +4,7 @@ python:
   - "2.6"
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - "pip install . --use-mirrors"
-  - "pip install -r pip-opt-req.txt --use-mirrors"
+  - "pip install -e . --use-mirrors"
+  - "pip install 'eulxml[dev]' --use-mirrors"
 # command to run tests, e.g. python setup.py test
 script: python ./test/test_all.py
