@@ -1,6 +1,11 @@
 EULxml
 ======
 
+.. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
+  :alt: current build status for namedropper-py
+  :target: https://travis-ci.org/emory-libraries/eulxml
+
+
 EULxml is a `Python <http://www.python.org/>`_ module that provides
 utilities and classes for interacting with XML that allow the
 definition of re-usable XML objects that can be accessed, updated and
