@@ -1,5 +1,5 @@
 # file test_xmlmap/test_dc.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ import unittest
 
 from eulxml.xmlmap  import load_xmlobject_from_string
 from eulxml.xmlmap.dc import DublinCore
-from testcore import main
 
 class TestDc(unittest.TestCase):
     # massaged dublin core sample from an Emory ETD record (fields added to ensure every DC field is tested)
@@ -116,7 +115,7 @@ class TestDc(unittest.TestCase):
 
     def test_isvalid(self):
         self.assertTrue(self.dc.is_valid())
-        
+
         invalid = """<oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/">
   <dc:title>Feet in the Fire</dc:title>
         <not_a_dc_field>bogus</not_a_dc_field>
@@ -134,5 +133,3 @@ class TestDc(unittest.TestCase):
         self.assert_('Event' in types)
         self.assert_('Text' in types)
 
-if __name__ == '__main__':
-    main()

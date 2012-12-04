@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # file test_xmlmap/test_premis.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,6 @@ from os import path
 
 from eulxml.xmlmap  import load_xmlobject_from_file
 from eulxml.xmlmap import premis
-from testcore import main
 
 class TestPremis(unittest.TestCase):
     # LOC PREMIS v2.1 example document taken from:
@@ -86,6 +85,4 @@ class TestPremis(unittest.TestCase):
         #print pr.validation_errors()
         self.assertTrue(pr.is_valid())
 
-        
-if __name__ == '__main__':
-    main()
+

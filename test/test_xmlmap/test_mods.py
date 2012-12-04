@@ -1,5 +1,5 @@
 # file test_xmlmap/test_mods.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-#!/usr/bin/env python
 
 import unittest
 
 from eulxml.xmlmap import load_xmlobject_from_string, mods
-from testcore import main
 
 class TestMods(unittest.TestCase):
     # tests for MODS XmlObject
@@ -196,7 +194,7 @@ class TestMods(unittest.TestCase):
         # if additions to MODS test fixture cause validation errors, uncomment the next 2 lines to debug
         #self.mods.is_valid()
         #print self.mods.validation_errors()
-        self.assertTrue(self.mods.is_valid())        
+        self.assertTrue(self.mods.is_valid())
         invalid_mods = load_xmlobject_from_string(self.invalid_xml, mods.MODS)
         self.assertFalse(invalid_mods.is_valid())
 
@@ -214,7 +212,7 @@ class TestModsTypedNote(unittest.TestCase):
 
     def test_is_empty__extra_attribute(self):
         # set an attribute besides type
-        self.note.label = "Note"        
+        self.note.label = "Note"
         self.assertFalse(self.note.is_empty())
 
     def test_is_empty_text(self):
@@ -227,7 +225,7 @@ class TestModsDate(unittest.TestCase):
 
     def setUp(self):
         super(TestModsDate, self).setUp()
-        self.date = mods.DateCreated() 
+        self.date = mods.DateCreated()
 
     def test_is_empty(self):
         # starting fixture should be considered empty (no date)
@@ -302,11 +300,8 @@ class TestTitleInfo(unittest.TestCase):
         # with empty field - still empty
         self.titleinfo.title = ''
         self.assertTrue(self.titleinfo.is_empty())
-        
+
         # actual value - not empty
         self.titleinfo.title = 'This a Test'
         self.assertFalse(self.titleinfo.is_empty())
 
-
-if __name__ == '__main__':
-    main()

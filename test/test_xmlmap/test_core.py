@@ -22,7 +22,6 @@ import unittest
 import tempfile
 
 import eulxml.xmlmap.core as xmlmap
-from testcore import main
 
 class TestXsl(unittest.TestCase):
     FIXTURE_TEXT = '''
@@ -245,7 +244,6 @@ class TestXmlObject(unittest.TestCase):
         invalid = xmlmap.load_xmlobject_from_string(invalid_xml, TestSchemaObject)
         self.assertFalse(invalid.is_valid())
         invalid.is_valid()
-        print invalid.validation_errors()
         self.assertEqual(2, len(invalid.validation_errors()))
 
         # do schema validation at load time
@@ -374,5 +372,3 @@ class TestLoadSchema(unittest.TestCase):
             self.assert_('Failed to parse' in str(parse_err),
                 'schema parse exception includes detail about what went wrong')
 
-if __name__ == '__main__':
-    main()

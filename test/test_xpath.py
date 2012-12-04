@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # file test_xpath.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@ import unittest
 from eulxml import xpath
 from eulxml.xpath import ast, serialize
 
-from testcore import main
 
 class ParseTest(unittest.TestCase):
     def test_nametest_step(self):
@@ -202,5 +201,3 @@ class TestSerializeRoundTrip(unittest.TestCase):
     def test_function_multi_args(self):
         self.round_trip('''substring-after(.,':')''')
 
-if __name__ == '__main__':
-    main()
