@@ -6,6 +6,13 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.19.0
+-------
+
+* Corrected a minor bug where schema validation errors were not cleared between
+  multiple validations.
+
+
 0.18.0 - Formset Ordering and DateTime
 --------------------------------------
 
@@ -31,7 +38,7 @@ any necessary information about installation or upgrade notes.
 * :class:`eulxml.xmlmap.XmlObject` now supports lazy-loading for XSD
   Schemas.  To take advantage of this feature,
   :class:`~eulxml.xmlmap.XmlObject` subclasses should define an
-  ``XSD_SCHEMA`` location but should not set an ``xmlschema``.  
+  ``XSD_SCHEMA`` location but should not set an ``xmlschema``.
 * When :ref:`field <xmlmap-field>` mapped on a
   :class:`eulxml.xmlmap.XmlObject` is deleted, any XPath predicates
   that could have been automatically constructed when setting the

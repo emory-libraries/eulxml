@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/core.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ _loaded_schemas = {}
 def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     """Load an XSD XML document (specified by filename or URL), and return a
     :class:`lxml.etree.XMLSchema`.
-    
+
     Note that frequently loading a schema without using a web proxy may
     introduce significant network resource usage as well as instability if
     the schema becomes unavailable. Thus this function will fail if the
@@ -70,7 +70,7 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     # uri to use for reporting errors - include base uri if any
     if uri in _loaded_schemas:
         return _loaded_schemas[uri]
-    
+
     error_uri = uri
     if base_uri is not None:
         error_uri += ' (base URI %s)' % base_uri
@@ -80,7 +80,7 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     if 'HTTP_PROXY' not in os.environ and _http_uri(uri):
         message = ('Loading schema %s without a web proxy may introduce ' +
                    'significant network resource usage as well as ' +
-                   'instability if that server becomes inaccessible. ' + 
+                   'instability if that server becomes inaccessible. ' +
                    'The HTTP_PROXY environment variable is required ' +
                    'for loading schemas.  Schema validation will be disabled.') \
                   % (error_uri,)
@@ -119,7 +119,7 @@ class _FieldDescriptor(object):
             return self
         return self.field.get_for_node(obj.node, obj.context)
 
-    def __set__(self, obj, value):        
+    def __set__(self, obj, value):
         return self.field.set_for_node(obj.node, obj.context, value)
 
     def __delete__(self, obj):
@@ -179,7 +179,7 @@ class XmlObjectType(type):
                             # otherwise, use nearest parent xsd
                             else:
                                 schema_obj = load_xmlobject_from_file(base_xsd, XsdSchema)
-                        
+
                         attr_val = attr_val.get_field(schema_obj)
                 field = attr_val
                 fields[attr_name] = field
@@ -283,7 +283,7 @@ class XmlObject(object):
     '''Override for schema validation; if a schema must be defined for
      the use of :class:`xmlmap.fields.SchemaField` for a sub-xmlobject
      that should not be validated, set to False.'''
-    
+
     @property
     def xmlschema(self):
         """A parsed XSD schema instance of
@@ -293,14 +293,14 @@ class XmlObject(object):
         schema at class definition time, instead of at class instance
         initialization time, you may want to define your schema in
         your subclass like this::
-        
+
           XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
           xmlschema = xmlmap.loadSchema(XSD_SCHEMA)
-          
+
         """
         if self.XSD_SCHEMA:
             return loadSchema(self.XSD_SCHEMA)
-    
+
     # NOTE: DTD and RNG validation could be handled similarly to XSD validation logic
 
     def __init__(self, node=None, context=None, **kwargs):
@@ -340,7 +340,7 @@ class XmlObject(object):
         E = ElementMaker(**opts)
         root = E(self.ROOT_NAME)
         return root
-        
+
 
     def xsl_transform(self, filename=None, xsl=None, return_type=None, **params):
         """Run an xslt transform on the contents of the XmlObject.
@@ -448,7 +448,7 @@ class XmlObject(object):
         if the xml is schema valid or no schema is defined.  If a
         schema is defined but :attr:`schema_validate` is False, schema
         validation will be skipped.
-        
+
         Currently only supports schema validation.
 
         :rtype: list
@@ -466,6 +466,11 @@ class XmlObject(object):
         :raises: Exception if no XSD schema is defined for this XmlObject instance
         """
         if self.xmlschema is not None:
+            # clear out errors so they are not duplicated by repeated
+            # validations on the same schema object
+            self.xmlschema._clear_error_log()
+            # NOTE: _clear_error_log is technically private, but I can't find
+            # any public method to clear the validation log.
             return self.xmlschema.validate(self.node)
         else:
             raise Exception('No XSD schema is defined, cannot validate document')
@@ -474,7 +479,7 @@ class XmlObject(object):
         """
         Retrieve any validation errors that occured during schema validation
         done via :meth:`is_valid`.
-        
+
         :returns: a list of :class:`lxml.etree._LogEntry` instances
         :raises: Exception if no XSD schema is defined for this XmlObject instance
         """
@@ -520,16 +525,16 @@ def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver
             opts = {'schema': xmlschema}
         else:
             # if configured XmlObject does not have a schema defined, assume DTD validation
-            opts = {'dtd_validation': True}    
+            opts = {'dtd_validation': True}
     else:
         # if validation is not requested, no parser options are needed
         opts = {}
 
     parser = etree.XMLParser(**opts)
-    
+
     if resolver is not None:
         parser.resolvers.add(resolver)
-        
+
     return parser
 
 def load_xmlobject_from_string(string, xmlclass=XmlObject, validate=False,
@@ -550,7 +555,7 @@ def load_xmlobject_from_string(string, xmlclass=XmlObject, validate=False,
     :param validate: boolean, enable validation; defaults to false
     :rtype: instance of :class:`~eulxml.xmlmap.XmlObject` requested
     """
-    parser = _get_xmlparser(xmlclass=xmlclass, validate=validate, resolver=resolver)    
+    parser = _get_xmlparser(xmlclass=xmlclass, validate=validate, resolver=resolver)
     element = etree.fromstring(string, parser)
     return xmlclass(element)
 
@@ -566,7 +571,7 @@ def load_xmlobject_from_file(filename, xmlclass=XmlObject, validate=False,
     :param filename: name of the file that should be loaded as an xmlobject.
         :meth:`etree.lxml.parse` will accept a file name/path, a file object, a
         file-like object, or an HTTP or FTP url, however file path and URL are
-        recommended, as they are generally faster for lxml to handle.    
+        recommended, as they are generally faster for lxml to handle.
     """
     parser = _get_xmlparser(xmlclass=xmlclass, validate=validate, resolver=resolver)
 
@@ -594,7 +599,7 @@ class XsdType(XmlObject):
         else:
             basetype = self.base
         return basetype
-    
+
 
 class XsdSchema(XmlObject):
     ROOT_NAME = 'schema'
