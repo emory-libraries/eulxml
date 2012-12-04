@@ -56,12 +56,12 @@ setup(
         'django': ['Django'],
         'rdf': ['rdflib>=3.0'],
         'dev': [
-            'unittest-xml-reporting>1.0.3',
             'sphinx',
             'coverage',
             'Django',
             'rdflib>=3.0',
             'mock',
+            'nose',
         ]
     },
 

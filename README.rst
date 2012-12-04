@@ -69,3 +69,18 @@ need to install development dependencies::
 
     pip install eulxml[dev]
 
+To run all unit tests::
+
+    nosetests   # for normal development
+    nosetests --with-coverage --cover-package=eulxml --cover-xml --with-xunit   # for continuous integration
+
+To run unit tests for a specific module, use syntax like this::
+
+    nosetests test/test_spotlight.py
+
+
+To generate sphinx documentation::
+
+    cd doc
+    make html
+
