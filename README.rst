@@ -76,7 +76,7 @@ To run all unit tests::
 
 To run unit tests for a specific module, use syntax like this::
 
-    nosetests test/test_spotlight.py
+    nosetests test/test_xpath.py
 
 
 To generate sphinx documentation::
