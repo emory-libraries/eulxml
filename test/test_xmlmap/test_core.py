@@ -320,10 +320,10 @@ class TestXmlObject(unittest.TestCase):
         self.assertEqual(init_values['bool'], obj.bool)
 
 
-@skipIf('HTTP_PROXY' not in os.environ,
-    'Cchema validation test requires an HTTP_PROXY')
 class TestLoadSchema(unittest.TestCase):
 
+    @skipIf('HTTP_PROXY' not in os.environ,
+        'Schema validation test requires an HTTP_PROXY')
     def test_load_schema(self):
         schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')
         self.assert_(isinstance(schema, etree.XMLSchema),
