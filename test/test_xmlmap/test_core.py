@@ -17,7 +17,7 @@
 #!/usr/bin/env python
 
 from lxml import etree
-from os import path
+import os
 import unittest
 import tempfile
 
@@ -319,13 +319,12 @@ class TestXmlObject(unittest.TestCase):
         self.assertEqual(init_values['bool'], obj.bool)
 
 
+@unittest.skipIf('HTTP_PROXY' not in os.environ,
+    'Cchema validation test requires an HTTP_PROXY')
 class TestLoadSchema(unittest.TestCase):
 
     def test_load_schema(self):
-        # NOTE: overriding HTTP_PROXY requirement so schema logic can
-        # be tested even if a proxy is not set
-        schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd',
-            override_proxy_requirement=True)
+        schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')
         self.assert_(isinstance(schema, etree.XMLSchema),
             'loadSchema should return an etree.XMLSchema object when successful')
 
@@ -350,7 +349,8 @@ class TestLoadSchema(unittest.TestCase):
     def test_parse_error(self):
         # test document that is loaded but can't be parsed as a schema
         # valid xml non-schema doc
-        xmldoc = path.join(path.dirname(path.abspath(__file__)), 'fixtures', 'heaney653.xml')
+        xmldoc = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                'fixtures', 'heaney653.xml')
         # confirm an exception is raised
         self.assertRaises(etree.XMLSchemaParseError, xmlmap.loadSchema, xmldoc)
         # inspect the exception for expected detail in error messages
