@@ -14,9 +14,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-#!/usr/bin/env python
-
 import unittest
+from unittest2 import skipIf
 import os
 
 from eulxml.xmlmap import load_xmlobject_from_file, load_xmlobject_from_string
@@ -48,7 +47,7 @@ class TestEad(unittest.TestCase):
         self.assert_("12 oversized papers (OP)" in self.ead.physical_desc)
         self.assert_("materials relating to Irish poet Seamus Heaney" in unicode(self.ead.abstract))
 
-    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+    @skipIf('HTTP_PROXY' not in os.environ,
         'validation test requires an HTTP_PROXY')
     def test_validation(self):
         # EAD objects can now be validated aginst XSD schema

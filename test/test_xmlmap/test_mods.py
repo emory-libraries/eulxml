@@ -16,6 +16,7 @@
 
 
 import unittest
+from unittest2 import skipIf
 import os
 
 from eulxml.xmlmap import load_xmlobject_from_string, mods
@@ -192,7 +193,7 @@ class TestMods(unittest.TestCase):
 
         self.assertTrue(mymods.is_valid(), "MODS created from scratch should be schema-valid")
 
-    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+    @skipIf('HTTP_PROXY' not in os.environ,
         'schema validation test requires an HTTP_PROXY')
     def test_isvalid(self):
         # if additions to MODS test fixture cause validation errors, uncomment the next 2 lines to debug

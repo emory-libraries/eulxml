@@ -14,9 +14,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-#!/usr/bin/env python
-
 import unittest
+from unittest2 import skipIf
 import os
 
 from eulxml.xmlmap import load_xmlobject_from_string
@@ -115,7 +114,7 @@ class TestDc(unittest.TestCase):
         self.assert_('xmlns:dc="http://purl.org/dc/elements/1.1/"' in dc_xml)
         self.assert_('xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"' in dc_xml)
 
-    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+    @skipIf('HTTP_PROXY' not in os.environ,
         'schema validation test requires an HTTP_PROXY')
     def test_isvalid(self):
         self.assertTrue(self.dc.is_valid())

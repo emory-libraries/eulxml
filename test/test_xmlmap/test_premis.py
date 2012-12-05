@@ -15,6 +15,7 @@
 #   limitations under the License.
 
 import unittest
+from unittest2 import skipIf
 import os
 
 from eulxml.xmlmap import load_xmlobject_from_file
@@ -56,7 +57,7 @@ class TestPremis(unittest.TestCase):
         self.assertEqual('hdl', ev.object_type)
         self.assertEqual('loc.music/gottlieb.09601', ev.object_id)
 
-    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+    @skipIf('HTTP_PROXY' not in os.environ,
         'schema validation test requires an HTTP_PROXY')
     def test_create_valid_premis(self):
         # test creating a premis xml object from scratch - should be valid

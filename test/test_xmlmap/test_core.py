@@ -19,6 +19,7 @@
 from lxml import etree
 import os
 import unittest
+from unittest2 import skipIf
 import tempfile
 
 import eulxml.xmlmap.core as xmlmap
@@ -319,7 +320,7 @@ class TestXmlObject(unittest.TestCase):
         self.assertEqual(init_values['bool'], obj.bool)
 
 
-@unittest.skipIf('HTTP_PROXY' not in os.environ,
+@skipIf('HTTP_PROXY' not in os.environ,
     'Cchema validation test requires an HTTP_PROXY')
 class TestLoadSchema(unittest.TestCase):
 

@@ -62,6 +62,7 @@ setup(
             'rdflib>=3.0',
             'mock',
             'nose',
+            'unittest2',  # for python 2.6
         ]
     },
 
