@@ -24,6 +24,9 @@ import tempfile
 
 import eulxml.xmlmap.core as xmlmap
 
+proxy_required = skipIf('HTTP_PROXY' not in os.environ,
+    'Schema validation test requires an HTTP_PROXY')
+
 
 class TestXsl(unittest.TestCase):
     FIXTURE_TEXT = '''
@@ -322,8 +325,7 @@ class TestXmlObject(unittest.TestCase):
 
 class TestLoadSchema(unittest.TestCase):
 
-    @skipIf('HTTP_PROXY' not in os.environ,
-        'Schema validation test requires an HTTP_PROXY')
+    @proxy_required
     def test_load_schema(self):
         schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')
         self.assert_(isinstance(schema, etree.XMLSchema),

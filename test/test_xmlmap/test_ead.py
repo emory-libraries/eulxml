@@ -21,6 +21,9 @@ import os
 from eulxml.xmlmap import load_xmlobject_from_file, load_xmlobject_from_string
 from eulxml.xmlmap import eadmap
 
+proxy_required = skipIf('HTTP_PROXY' not in os.environ,
+    'Schema validation test requires an HTTP_PROXY')
+
 
 class TestEad(unittest.TestCase):
     FIXTURE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -47,8 +50,7 @@ class TestEad(unittest.TestCase):
         self.assert_("12 oversized papers (OP)" in self.ead.physical_desc)
         self.assert_("materials relating to Irish poet Seamus Heaney" in unicode(self.ead.abstract))
 
-    @skipIf('HTTP_PROXY' not in os.environ,
-        'validation test requires an HTTP_PROXY')
+    @proxy_required
     def test_validation(self):
         # EAD objects can now be validated aginst XSD schema
         self.assertTrue(self.ead.schema_valid())

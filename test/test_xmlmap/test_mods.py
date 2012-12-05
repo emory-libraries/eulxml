@@ -21,6 +21,9 @@ import os
 
 from eulxml.xmlmap import load_xmlobject_from_string, mods
 
+proxy_required = skipIf('HTTP_PROXY' not in os.environ,
+    'Schema validation test requires an HTTP_PROXY')
+
 
 class TestMods(unittest.TestCase):
     # tests for MODS XmlObject
@@ -193,8 +196,7 @@ class TestMods(unittest.TestCase):
 
         self.assertTrue(mymods.is_valid(), "MODS created from scratch should be schema-valid")
 
-    @skipIf('HTTP_PROXY' not in os.environ,
-        'schema validation test requires an HTTP_PROXY')
+    @proxy_required
     def test_isvalid(self):
         # if additions to MODS test fixture cause validation errors, uncomment the next 2 lines to debug
         #self.mods.is_valid()
