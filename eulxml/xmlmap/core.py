@@ -45,10 +45,13 @@ __all__ = [ 'XmlObject', 'parseUri', 'parseString', 'loadSchema',
 #   This lxml behavior has been logged as a bug:
 #   https://bugs.launchpad.net/lxml/+bug/673205
 
+
 def parseUri(stream, uri=None):
     """Read an XML document from a URI, and return a :mod:`lxml.etree`
     document."""
     return etree.parse(stream, parser=_get_xmlparser(), base_url=uri)
+
+
 def parseString(string, uri=None):
     """Read an XML document provided as a byte string, and return a
     :mod:`lxml.etree` document. String cannot be a Unicode string.
@@ -57,6 +60,8 @@ def parseString(string, uri=None):
 
 # internal cache for loaded schemas, so we only load each schema once
 _loaded_schemas = {}
+
+
 def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     """Load an XSD XML document (specified by filename or URL), and return a
     :class:`lxml.etree.XMLSchema`.
@@ -107,8 +112,11 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     except etree.XMLSchemaParseError as parse_err:
         # re-raise as a schema parse error, but ensure includes details about schema being loaded
         raise etree.XMLSchemaParseError('Failed to parse schema %s -- %s' % (error_uri, parse_err))
+
+
 def _http_uri(uri):
     return uri.startswith('http:') or uri.startswith('https:')
+
 
 class _FieldDescriptor(object):
     def __init__(self, field):
@@ -229,6 +237,7 @@ class XmlObjectType(type):
         create_field.__name__ = field_name
         return create_field
 
+
 class XmlObject(object):
 
     """
@@ -318,7 +327,8 @@ class XmlObject(object):
             nsmap = {}
 
         # xpath has no notion of a default namespace - omit any namespace with no prefix
-        self.context = {'namespaces': dict([(prefix, ns) for prefix, ns in nsmap.iteritems() if prefix ]) }
+        self.context = {'namespaces': dict([(prefix, ns) for prefix, ns
+                                            in nsmap.iteritems() if prefix])}
 
         if context is not None:
             self.context.update(context)
@@ -340,7 +350,6 @@ class XmlObject(object):
         E = ElementMaker(**opts)
         root = E(self.ROOT_NAME)
         return root
-
 
     def xsl_transform(self, filename=None, xsl=None, return_type=None, **params):
         """Run an xslt transform on the contents of the XmlObject.
@@ -494,7 +503,8 @@ class XmlObject(object):
         attributes, and no text. Returns False if any are present.
         """
         return len(self.node) == 0 and len(self.node.attrib) == 0 \
-            and not self.node.text and not self.node.tail # regular text or text after a node
+            and not self.node.text and not self.node.tail  # regular text or text after a node
+
 
 class Urllib2Resolver(etree.Resolver):
     def resolve(self, url, public_id, context):
@@ -506,6 +516,7 @@ class Urllib2Resolver(etree.Resolver):
         # set a timeout in case connection fails or is unreasonably slow
         return self.resolve_file(f, context, base_url=url)
 _defaultResolver = Urllib2Resolver()
+
 
 def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver):
     """Initialize an instance of :class:`lxml.etree.XMLParser` with appropriate
@@ -536,6 +547,7 @@ def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver
         parser.resolvers.add(resolver)
 
     return parser
+
 
 def load_xmlobject_from_string(string, xmlclass=XmlObject, validate=False,
         resolver=None):
@@ -585,6 +597,7 @@ from eulxml.xmlmap.fields import *
 # XSD schema xmlobjects - used in XmlObjectType to process SchemaFields
 # FIXME: where should these actually go? depends on both XmlObject and fields
 
+
 class XsdType(XmlObject):
     ROOT_NAME = 'simpleType'
     name = StringField('@name')
@@ -604,7 +617,7 @@ class XsdType(XmlObject):
 class XsdSchema(XmlObject):
     ROOT_NAME = 'schema'
     ROOT_NS = 'http://www.w3.org/2001/XMLSchema'
-    ROOT_NAMESPACES = {'xs': ROOT_NS }
+    ROOT_NAMESPACES = {'xs': ROOT_NS}
 
     def get_type(self, name=None, xpath=None):
         if xpath is None:
@@ -618,7 +631,4 @@ class XsdSchema(XmlObject):
         elif len(result) > 1:
             raise Exception("Too many schema type definitions found for xpath '%s' (found %d)" \
                         % (xpath, len(result)))
-        return XsdType(result[0], context=self.context) # pass in namespaces
-
-
-
+        return XsdType(result[0], context=self.context)  # pass in namespaces
