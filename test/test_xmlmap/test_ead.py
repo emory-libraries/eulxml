@@ -17,14 +17,16 @@
 #!/usr/bin/env python
 
 import unittest
-from os import path
+import os
 
-from eulxml.xmlmap  import load_xmlobject_from_file, load_xmlobject_from_string
+from eulxml.xmlmap import load_xmlobject_from_file, load_xmlobject_from_string
 from eulxml.xmlmap import eadmap
 
+
 class TestEad(unittest.TestCase):
-    FIXTURE_FILE = path.join(path.dirname(path.abspath(__file__)) ,
+    FIXTURE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              'fixtures', 'heaney653.xml')
+
     def setUp(self):
         self.ead = load_xmlobject_from_file(self.FIXTURE_FILE, eadmap.EncodedArchivalDescription)
 
@@ -46,6 +48,8 @@ class TestEad(unittest.TestCase):
         self.assert_("12 oversized papers (OP)" in self.ead.physical_desc)
         self.assert_("materials relating to Irish poet Seamus Heaney" in unicode(self.ead.abstract))
 
+    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+        'validation test requires an HTTP_PROXY')
     def test_validation(self):
         # EAD objects can now be validated aginst XSD schema
         self.assertTrue(self.ead.schema_valid())

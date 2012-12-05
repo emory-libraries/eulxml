@@ -23,6 +23,7 @@ import tempfile
 
 import eulxml.xmlmap.core as xmlmap
 
+
 class TestXsl(unittest.TestCase):
     FIXTURE_TEXT = '''
         <foo>
@@ -102,6 +103,7 @@ class TestXmlObjectStringInit(unittest.TestCase):
   <!ELEMENT b EMPTY>
 ]>
 <a><b/><b/></a>"""
+
     def test_load_from_string(self):
         """Test using shortcut to initialize XmlObject from string"""
         obj = xmlmap.load_xmlobject_from_string(TestXsl.FIXTURE_TEXT)
@@ -145,6 +147,7 @@ class TestXmlObjectFileInit(unittest.TestCase):
 
     def tearDown(self):
         self.FILE.close()
+
     def test_load_from_file(self):
         """Test using shortcut to initialize XmlObject from a file"""
         obj = xmlmap.load_xmlobject_from_file(self.FILE.name)
@@ -167,6 +170,7 @@ class TestXmlObjectFileInit(unittest.TestCase):
         # doctype, valid
         obj = xmlmap.load_xmlobject_from_file(self.VALID.name, validate=True)
         self.assert_(isinstance(obj, xmlmap.XmlObject))
+
 
 class TestXmlObject(unittest.TestCase):
 
@@ -257,8 +261,10 @@ class TestXmlObject(unittest.TestCase):
         FILE.close()
 
     def test_equal(self):
+
         class SubObj(xmlmap.XmlObject):
             baz = xmlmap.StringField('baz')
+
         class XmlObj(xmlmap.XmlObject):
             bar = xmlmap.NodeField('bar', SubObj)
             bar_list = xmlmap.NodeListField('bar', SubObj)
@@ -312,10 +318,14 @@ class TestXmlObject(unittest.TestCase):
         self.assertEqual(init_values['int'], obj.int)
         self.assertEqual(init_values['bool'], obj.bool)
 
+
 class TestLoadSchema(unittest.TestCase):
 
     def test_load_schema(self):
-        schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')
+        # NOTE: overriding HTTP_PROXY requirement so schema logic can
+        # be tested even if a proxy is not set
+        schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd',
+            override_proxy_requirement=True)
         self.assert_(isinstance(schema, etree.XMLSchema),
             'loadSchema should return an etree.XMLSchema object when successful')
 
@@ -324,8 +334,8 @@ class TestLoadSchema(unittest.TestCase):
         # lxml.etree.parse() to fail after a call to
         # lxml.etree.fromstring(). this causes the second call below to fail
         # unless we work around that bug in xmlmap.
-        xmlmap.parseString('<foo/>') # has global side effects in lxml
-        xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd') # fails
+        xmlmap.parseString('<foo/>')  # has global side effects in lxml
+        xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')  # fails
 
     def test_ioerror(self):
         # IO error - file path is wrong/incorrect OR network-based schema unavailable
@@ -371,4 +381,3 @@ class TestLoadSchema(unittest.TestCase):
         except etree.XMLSchemaParseError as parse_err:
             self.assert_('Failed to parse' in str(parse_err),
                 'schema parse exception includes detail about what went wrong')
-

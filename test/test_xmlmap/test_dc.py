@@ -17,9 +17,11 @@
 #!/usr/bin/env python
 
 import unittest
+import os
 
-from eulxml.xmlmap  import load_xmlobject_from_string
+from eulxml.xmlmap import load_xmlobject_from_string
 from eulxml.xmlmap.dc import DublinCore
+
 
 class TestDc(unittest.TestCase):
     # massaged dublin core sample from an Emory ETD record (fields added to ensure every DC field is tested)
@@ -113,6 +115,8 @@ class TestDc(unittest.TestCase):
         self.assert_('xmlns:dc="http://purl.org/dc/elements/1.1/"' in dc_xml)
         self.assert_('xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"' in dc_xml)
 
+    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+        'schema validation test requires an HTTP_PROXY')
     def test_isvalid(self):
         self.assertTrue(self.dc.is_valid())
 
@@ -132,4 +136,3 @@ class TestDc(unittest.TestCase):
         self.assert_('Still Image' in types)
         self.assert_('Event' in types)
         self.assert_('Text' in types)
-

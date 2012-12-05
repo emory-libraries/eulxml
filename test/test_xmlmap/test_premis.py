@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # file test_xmlmap/test_premis.py
 #
 #   Copyright 2011 Emory University Libraries
@@ -17,15 +15,16 @@
 #   limitations under the License.
 
 import unittest
-from os import path
+import os
 
-from eulxml.xmlmap  import load_xmlobject_from_file
+from eulxml.xmlmap import load_xmlobject_from_file
 from eulxml.xmlmap import premis
+
 
 class TestPremis(unittest.TestCase):
     # LOC PREMIS v2.1 example document taken from:
     # http://www.loc.gov/standards/premis/louis-2-1.xml
-    FIXTURE_FILE = path.join(path.dirname(path.abspath(__file__)),
+    FIXTURE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              'fixtures', 'loc-premis-2.1.xml')
 
     def setUp(self):
@@ -34,7 +33,7 @@ class TestPremis(unittest.TestCase):
     def test_init(self):
         self.assert_(isinstance(self.premis, premis.Premis))
         self.assert_(isinstance(self.premis.object, premis.Object))
-        self.assert_(self.premis.events) # list should be non-empty
+        self.assert_(self.premis.events)  # list should be non-empty
         self.assert_(isinstance(self.premis.events[0], premis.Event))
 
         self.assertTrue(self.premis.is_valid())
@@ -57,7 +56,8 @@ class TestPremis(unittest.TestCase):
         self.assertEqual('hdl', ev.object_type)
         self.assertEqual('loc.music/gottlieb.09601', ev.object_id)
 
-
+    @unittest.skipIf('HTTP_PROXY' not in os.environ,
+        'schema validation test requires an HTTP_PROXY')
     def test_create_valid_premis(self):
         # test creating a premis xml object from scratch - should be valid
         pr = premis.Premis()
@@ -84,5 +84,3 @@ class TestPremis(unittest.TestCase):
         #pr.is_valid()
         #print pr.validation_errors()
         self.assertTrue(pr.is_valid())
-
-
