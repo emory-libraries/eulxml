@@ -72,7 +72,7 @@ in the ``eulxml`` directory (the use of `virtualenv`_ is recommended)::
 If you want to run unit tests or build sphinx documentation, you will also
 need to install development dependencies::
 
-    pip install eulxml[dev]
+    pip install -e . "eulxml[dev]"
 
 To run all unit tests::
 
