@@ -7,4 +7,5 @@ install:
   - "pip install -e . --use-mirrors"
   - "pip install 'eulxml[dev]' --use-mirrors"
 # command to run tests, e.g. python setup.py test
-script: nosetests
+# - schema loading currently requires an HTTP PROXY; cheat and set an empty proxy
+script: env HTTP_PROY= nosetests
