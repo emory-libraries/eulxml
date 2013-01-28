@@ -382,7 +382,8 @@ class XmlObject(object):
         if result is None or result.getroot() is None:
             logger.warning("XSL transform generated an empty result")
         else:
-            return return_type(result)
+            # pass in root node, rather than the result tree object
+            return return_type(result.getroot())
 
     def __unicode__(self):
         if isinstance(self.node, basestring):
