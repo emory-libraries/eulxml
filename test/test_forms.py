@@ -1,5 +1,5 @@
 # file test_forms.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,6 @@ from eulxml.forms import XmlObjectForm, xmlobjectform_factory, SubformField
 from eulxml.forms.xmlobject import XmlObjectFormType, BaseXmlObjectListFieldFormSet, \
      ListFieldForm, IntegerListFieldForm
 
-from testcore import main
 
 # test xmlobject and xml content to generate test form
 
@@ -122,7 +121,7 @@ class XmlObjectFormTest(unittest.TestCase):
 
     def test_simple_fields(self):
         # there should be a form field for each simple top-level xmlmap field
-        
+
         # note: currently formobject uses field name for formfield label, but that could change
         formfields = self.new_form.base_fields
 
@@ -170,9 +169,9 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assertEqual(my_initial_data, initial_copy)
 
     def test_field_value_from_instance(self):
-        # when form is initialized from an xmlobject instance, form should 
+        # when form is initialized from an xmlobject instance, form should
         # have initial field values be pulled from the xml object
-        
+
         initial_data = self.update_form.initial   # initial values set on BaseForm
         expected, got = 'a', initial_data['id']
         self.assertEqual(expected, got,
@@ -229,7 +228,7 @@ class XmlObjectFormTest(unittest.TestCase):
             "xmlobject class 'TestObject' correctly set as model in form class Meta")
 
         # specify particular fields - should be set in form Meta
-        form = xmlobjectform_factory(TestObject, fields=['int', 'bool'])        
+        form = xmlobjectform_factory(TestObject, fields=['int', 'bool'])
         self.assert_('int' in form.Meta.fields)
         self.assert_('bool' in form.Meta.fields)
         self.assert_('id' not in form.Meta.fields)
@@ -355,7 +354,7 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assertEqual('b', instance.id)
         self.assertEqual('completely new text content', instance.longtext)
         self.assertEqual(0, instance.other_child.val)
-        
+
         # spot check that values were set properly in the xml
         xml = instance.serialize()
         self.assert_('id="b"' in xml)
@@ -476,9 +475,9 @@ class XmlObjectFormTest(unittest.TestCase):
         # initialize with request data to test subform validation / instance update
         update_form = TestForm(self.post_data, instance=self.testobj)
         subform = update_form.subforms['child']
-        self.assertTrue(update_form.is_valid()) 
+        self.assertTrue(update_form.is_valid())
         # nodefield instance should be set by main form update
-        instance = update_form.update_instance()        
+        instance = update_form.update_instance()
         self.assertEqual(2, instance.child.val)
         self.assertEqual('two', instance.child.id2)
 
@@ -496,7 +495,7 @@ class XmlObjectFormTest(unittest.TestCase):
         int_formset = self.new_form.formsets['numbers']
         self.assert_(isinstance(int_formset, BaseXmlObjectListFieldFormSet),
             'integerlist formset is an instance of BaseXmlObjectListFieldFormset')
-    
+
         # formset label
         self.assertEqual('Children', formset.form_label,
             'formset form_label should be set based on xmlobject field name; ' +
@@ -517,7 +516,7 @@ class XmlObjectFormTest(unittest.TestCase):
         str_subform = str_formset.forms[0]
         self.assert_(isinstance(str_subform, ListFieldForm),
             'stringfield formset forms should be instances of ListFieldForm')
-        
+
         int_subform = int_formset.forms[0]
         self.assert_(isinstance(int_subform, IntegerListFieldForm),
             'integerfield formset forms shoudl be instances of IntegerListFieldForm')
@@ -526,7 +525,7 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assert_('val' in subform.base_fields,
             'val field is present in subform fields')
         self.assert_('id2' in subform.base_fields,
-            'id2 field is present in subform fields')        
+            'id2 field is present in subform fields')
 
         # initialize with an instance and verify initial values
         formset = self.update_form.formsets['children']
@@ -582,7 +581,7 @@ class XmlObjectFormTest(unittest.TestCase):
         # stringlistfield
         str_formset = update_form.formsets['text']
         self.assertTrue(str_formset.is_valid())
-        self.assertEqual(['foo'], instance.text)        
+        self.assertEqual(['foo'], instance.text)
 
     def test_can_order(self):
         class MySubFormset(XmlObjectForm):
@@ -593,11 +592,11 @@ class XmlObjectFormTest(unittest.TestCase):
             children = SubformField(formclass=MySubFormset)
             class Meta:
                 model = TestObject
-                
+
         # test init option - currently only Meta.can_order works
         form = OrderedTestForm()
         self.assertTrue(form.formsets['children'].can_order)
-        
+
         post_data = self.post_data.copy()
         post_data.update({
             'children-0-ORDER': 3,
@@ -612,7 +611,7 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assertTrue(update_form.is_valid())
         instance = update_form.update_instance()
         value_order = [ch.val for ch in instance.children]
-        
+
         for i in range(3):
             self.assertEqual(expected_order[i], value_order[i])
 
@@ -648,7 +647,7 @@ class XmlObjectFormTest(unittest.TestCase):
             # exception should be raised on init, not validation
             self.assertRaises(Exception, TestForm,
                               self.post_data, instance=self.testobj)
-            
+
 
     def test_not_required(self):
         class MyForm(TestForm):
@@ -677,15 +676,15 @@ class XmlObjectFormTest(unittest.TestCase):
             class Meta:
                 model = TestObject
                 fields = ['id', 'int', 'child']
-                
+
         form = MyForm()
         self.assert_(isinstance(form.subforms['child'], MySubForm),
             "child subform should be instance of MySubForm, got %s instead" % \
             form.subforms['child'].__class__)
-        self.assertEqual('my id', form.subforms['child'].fields['id2'].label)        
+        self.assertEqual('my id', form.subforms['child'].fields['id2'].label)
         self.assert_('TEST ME' not in str(form),
                 "subform pseudo-field should not appear in form output")
-        
+
         # subform label - subformfield label should supercede field-based label
         self.assertEqual(subform_label, form.subforms['child'].form_label,
             'subform generated by SubformField form_label should be set by subform label; ' + \
@@ -713,7 +712,7 @@ class XmlObjectFormTest(unittest.TestCase):
         # test nested override - a subform with a formset
         class MyTestSubObj(TestSubobject):
             parts = xmlmap.NodeListField('parts', TestSubobject)
-            
+
         class MySubFormset(XmlObjectForm):
             uri = forms.URLField(label='uri')
             class Meta:
@@ -723,7 +722,7 @@ class XmlObjectFormTest(unittest.TestCase):
             parts = SubformField(formclass=MySubFormset)
             class Meta:
                 model = MyTestSubObj
-            
+
         class MyTestObj(TestObject):
             child = xmlmap.NodeField('bar[1]', MyTestSubObj)
 
@@ -738,5 +737,3 @@ class XmlObjectFormTest(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    main()

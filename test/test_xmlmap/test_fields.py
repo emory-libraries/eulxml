@@ -1,5 +1,5 @@
 # file test_xmlmap/test_fields.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ import tempfile
 import unittest
 
 import eulxml.xmlmap.core as xmlmap
-from testcore import main
+
 
 class TestFields(unittest.TestCase):
     FIXTURE_TEXT = '''
@@ -55,7 +55,7 @@ class TestFields(unittest.TestCase):
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
 
         self.fixture = xmlmap.parseString(self.FIXTURE_TEXT, url)
-        
+
         self.rel_url = '%s#%s' % (__file__, self.__class__.__name__)
 
     def _empty_fixture(self):
@@ -63,7 +63,7 @@ class TestFields(unittest.TestCase):
 
     def testInvalidXpath(self):
         self.assertRaises(Exception, xmlmap.StringField, '["')
-        
+
     def testNodeField(self):
         class TestSubobject(xmlmap.XmlObject):
             ROOT_NAME = 'bar'
@@ -154,7 +154,7 @@ class TestFields(unittest.TestCase):
         obj.val = "forty-two"
         # check that new value is set in the node
         self.assertEqual(obj.node.xpath('string(bar[1]/baz)'), "forty-two")
-        # check that new value is accessible via descriptor        
+        # check that new value is accessible via descriptor
         self.assertEqual(obj.val, 'forty-two')
 
         # set an attribute
@@ -245,7 +245,7 @@ class TestFields(unittest.TestCase):
         obj = TextObject(xmlmap.parseString(xml, url))
 
         self.assertEqual('some text', obj.text_node)
-        
+
         # set text node
         obj.text_node = 'la'
         self.assertEqual('la', obj.node.xpath('string(text())'))
@@ -288,7 +288,7 @@ class TestFields(unittest.TestCase):
 
         # check required
         self.assertTrue(obj._fields['vals'].required)
-        
+
 
     def testIntegerField(self):
         class TestObject(xmlmap.XmlObject):
@@ -338,7 +338,7 @@ class TestFields(unittest.TestCase):
         # check required
         self.assertFalse(obj._fields['missing'].required)
 
-    def testBooleanField(self):        
+    def testBooleanField(self):
         class TestObject(xmlmap.XmlObject):
             txt_bool1 = xmlmap.SimpleBooleanField('boolean/text1', 'yes', 'no', required=False)
             txt_bool2 = xmlmap.SimpleBooleanField('boolean/text2', 'yes', 'no')
@@ -393,8 +393,8 @@ class TestFields(unittest.TestCase):
     #   work up some proper parsing and good testing for them, they should
     #   be considered untested and undocumented features.
 
-    
-    def testDateTimeField(self):        
+
+    def testDateTimeField(self):
         class TestObject(xmlmap.XmlObject):
             date = xmlmap.DateTimeField('date')
             dates = xmlmap.DateTimeListField('date')
@@ -535,7 +535,7 @@ class TestFields(unittest.TestCase):
         obj.text = 'la'
         del obj.text
         self.assertEqual(1, obj.node.xpath('count(missing/bar[@label])'))
-        
+
         # separate text node under the constructed parent
         obj = PredicateObject(self._empty_fixture())
         obj.nested_attr = None
@@ -606,7 +606,7 @@ class TestNodeList(unittest.TestCase):
             </sub>
         </foo>
     '''
-    
+
     def setUp(self):
 
         # parseString wants a url. let's give it a proper one.
@@ -635,7 +635,7 @@ class TestNodeList(unittest.TestCase):
         self.assertFalse(self.obj.str == ['nine', 'thirteen'])
         self.assertTrue(self.obj.str != ['nine', 'sixteen'])
 
-    def test_set(self):           
+    def test_set(self):
         # set string values
         string_list = self.obj.str
         # - existing nodes in the xml
@@ -758,7 +758,7 @@ class TestNodeList(unittest.TestCase):
         self.assertEqual(4, self.obj.letters.count('a'))
         self.assertEqual(2, self.obj.letters.count('b'))
         self.assertEqual(0, self.obj.letters.count('z'))
-        
+
         self.assertEqual(0, self.obj.empty.count('z'))
 
         # nodelistfield
@@ -833,7 +833,7 @@ class TestNodeList(unittest.TestCase):
         del(self.obj.nodes[0])
         self.obj.nodes.append(node)
         self.assertEqual(1, self.obj.nodes.index(node),
-            "index returns 1 for nodefield appended to nodefield list of with 1 item")    
+            "index returns 1 for nodefield appended to nodefield list of with 1 item")
 
     def test_remove(self):
         letters = self.obj.letters
@@ -905,7 +905,7 @@ class TestNodeList(unittest.TestCase):
             "length of nodelistfield should be 3 after extending with 2 nodes, got %d" \
             % len(self.obj.nodes))
         self.assertEqual(node1.id, self.obj.nodes[1].id)
-        self.assertEqual(node2.id, self.obj.nodes[2].id)        
+        self.assertEqual(node2.id, self.obj.nodes[2].id)
 
     def test_insert(self):
         letters = self.obj.letters
@@ -958,5 +958,3 @@ class TestNodeList(unittest.TestCase):
         self.assertEqual(node.parts, self.obj.nodes[0].parts)
 
 
-if __name__ == '__main__':
-    main()

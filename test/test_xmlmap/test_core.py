@@ -1,5 +1,5 @@
 # file test_xmlmap/test_core.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,12 +17,16 @@
 #!/usr/bin/env python
 
 from lxml import etree
-from os import path
+import os
 import unittest
+from unittest2 import skipIf
 import tempfile
 
 import eulxml.xmlmap.core as xmlmap
-from testcore import main
+
+proxy_required = skipIf('HTTP_PROXY' not in os.environ,
+    'Schema validation test requires an HTTP_PROXY')
+
 
 class TestXsl(unittest.TestCase):
     FIXTURE_TEXT = '''
@@ -58,7 +62,7 @@ class TestXsl(unittest.TestCase):
         </xsl:template>
     </xsl:stylesheet>
     '''
-    
+
     def setUp(self):
         # parseString wants a url. let's give it a proper one.
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
@@ -103,6 +107,7 @@ class TestXmlObjectStringInit(unittest.TestCase):
   <!ELEMENT b EMPTY>
 ]>
 <a><b/><b/></a>"""
+
     def test_load_from_string(self):
         """Test using shortcut to initialize XmlObject from string"""
         obj = xmlmap.load_xmlobject_from_string(TestXsl.FIXTURE_TEXT)
@@ -110,15 +115,15 @@ class TestXmlObjectStringInit(unittest.TestCase):
 
     def test_load_from_string_with_classname(self):
         """Test using shortcut to initialize named XmlObject class from string"""
-        
+
         class TestObject(xmlmap.XmlObject):
             pass
-        
+
         obj = xmlmap.load_xmlobject_from_string(TestXsl.FIXTURE_TEXT, TestObject)
         self.assert_(isinstance(obj, TestObject))
 
     def test_load_from_string_with_validation(self):
-       
+
         self.assertRaises(Exception, xmlmap.load_xmlobject_from_string, self.INVALID_XML, validate=True)
         # fixture with no doctype also causes a validation error
         self.assertRaises(Exception, xmlmap.load_xmlobject_from_string,
@@ -127,9 +132,9 @@ class TestXmlObjectStringInit(unittest.TestCase):
         obj = xmlmap.load_xmlobject_from_string(self.VALID_XML)
         self.assert_(isinstance(obj, xmlmap.XmlObject))
 
-        
+
 class TestXmlObjectFileInit(unittest.TestCase):
-    
+
     def setUp(self):
         self.FILE = tempfile.NamedTemporaryFile(mode="w")
         self.FILE.write(TestXsl.FIXTURE_TEXT)
@@ -146,6 +151,7 @@ class TestXmlObjectFileInit(unittest.TestCase):
 
     def tearDown(self):
         self.FILE.close()
+
     def test_load_from_file(self):
         """Test using shortcut to initialize XmlObject from a file"""
         obj = xmlmap.load_xmlobject_from_file(self.FILE.name)
@@ -153,10 +159,10 @@ class TestXmlObjectFileInit(unittest.TestCase):
 
     def test_load_from_file_with_classname(self):
         """Test using shortcut to initialize named XmlObject class from string"""
-        
+
         class TestObject(xmlmap.XmlObject):
             pass
-        
+
         obj = xmlmap.load_xmlobject_from_file(self.FILE.name, TestObject)
         self.assert_(isinstance(obj, TestObject))
 
@@ -169,11 +175,12 @@ class TestXmlObjectFileInit(unittest.TestCase):
         obj = xmlmap.load_xmlobject_from_file(self.VALID.name, validate=True)
         self.assert_(isinstance(obj, xmlmap.XmlObject))
 
+
 class TestXmlObject(unittest.TestCase):
 
     def setUp(self):
         self.obj = xmlmap.load_xmlobject_from_string(TestXsl.FIXTURE_TEXT)
-        
+
     def test__unicode(self):
         u = self.obj.__unicode__()
         self.assert_("42 13" in u)
@@ -186,7 +193,7 @@ class TestXmlObject(unittest.TestCase):
         self.assertEqual('unicode &#8230;', obj.__string__())
 
     def test_serialize_tostring(self):
-        xml_s = self.obj.serialize()        
+        xml_s = self.obj.serialize()
         self.assert_("<baz>42</baz>" in xml_s)
 
         # serialize subobjects
@@ -237,12 +244,12 @@ class TestXmlObject(unittest.TestCase):
 
         class TestSchemaObject(xmlmap.XmlObject):
             XSD_SCHEMA = FILE.name
-        
+
         valid = xmlmap.load_xmlobject_from_string(valid_xml, TestSchemaObject)
         self.assertTrue(valid.is_valid())
         self.assertTrue(valid.schema_valid())
 
-        invalid = xmlmap.load_xmlobject_from_string(invalid_xml, TestSchemaObject)        
+        invalid = xmlmap.load_xmlobject_from_string(invalid_xml, TestSchemaObject)
         self.assertFalse(invalid.is_valid())
         invalid.is_valid()
         self.assertEqual(2, len(invalid.validation_errors()))
@@ -258,8 +265,10 @@ class TestXmlObject(unittest.TestCase):
         FILE.close()
 
     def test_equal(self):
+
         class SubObj(xmlmap.XmlObject):
             baz = xmlmap.StringField('baz')
+
         class XmlObj(xmlmap.XmlObject):
             bar = xmlmap.NodeField('bar', SubObj)
             bar_list = xmlmap.NodeListField('bar', SubObj)
@@ -313,8 +322,10 @@ class TestXmlObject(unittest.TestCase):
         self.assertEqual(init_values['int'], obj.int)
         self.assertEqual(init_values['bool'], obj.bool)
 
+
 class TestLoadSchema(unittest.TestCase):
-    
+
+    @proxy_required
     def test_load_schema(self):
         schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')
         self.assert_(isinstance(schema, etree.XMLSchema),
@@ -325,9 +336,9 @@ class TestLoadSchema(unittest.TestCase):
         # lxml.etree.parse() to fail after a call to
         # lxml.etree.fromstring(). this causes the second call below to fail
         # unless we work around that bug in xmlmap.
-        xmlmap.parseString('<foo/>') # has global side effects in lxml
-        xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd') # fails
-    
+        xmlmap.parseString('<foo/>')  # has global side effects in lxml
+        xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')  # fails
+
     def test_ioerror(self):
         # IO error - file path is wrong/incorrect OR network-based schema unavailable
         self.assertRaises(IOError, xmlmap.loadSchema, '/bogus.xsd')
@@ -341,7 +352,8 @@ class TestLoadSchema(unittest.TestCase):
     def test_parse_error(self):
         # test document that is loaded but can't be parsed as a schema
         # valid xml non-schema doc
-        xmldoc = path.join(path.dirname(path.abspath(__file__)), 'fixtures', 'heaney653.xml')
+        xmldoc = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                'fixtures', 'heaney653.xml')
         # confirm an exception is raised
         self.assertRaises(etree.XMLSchemaParseError, xmlmap.loadSchema, xmldoc)
         # inspect the exception for expected detail in error messages
@@ -372,6 +384,3 @@ class TestLoadSchema(unittest.TestCase):
         except etree.XMLSchemaParseError as parse_err:
             self.assert_('Failed to parse' in str(parse_err),
                 'schema parse exception includes detail about what went wrong')
-
-if __name__ == '__main__':
-    main()

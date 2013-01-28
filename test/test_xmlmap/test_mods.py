@@ -1,5 +1,5 @@
 # file test_xmlmap/test_mods.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-#!/usr/bin/env python
 
 import unittest
+from unittest2 import skipIf
+import os
 
 from eulxml.xmlmap import load_xmlobject_from_string, mods
-from testcore import main
+
+proxy_required = skipIf('HTTP_PROXY' not in os.environ,
+    'Schema validation test requires an HTTP_PROXY')
+
 
 class TestMods(unittest.TestCase):
     # tests for MODS XmlObject
@@ -176,7 +180,7 @@ class TestMods(unittest.TestCase):
         mymods.access_conditions.extend([mods.AccessCondition(type='restriction', text='unavailable'),
                                        mods.AccessCondition(type='use', text='Tuesdays only')])
         mymods.related_items.extend([mods.RelatedItem(type='host', title='EU Archives'),
-                                   mods.RelatedItem(type='isReferencedBy', title='Finding Aid'),])
+                                   mods.RelatedItem(type='isReferencedBy', title='Finding Aid')])
         mymods.subjects.extend([mods.Subject(authority='keyword', topic='automated testing'),
                                 mods.Subject(authority='keyword', topic='test records')])
         mymods.parts.append(mods.Part())
@@ -192,13 +196,15 @@ class TestMods(unittest.TestCase):
 
         self.assertTrue(mymods.is_valid(), "MODS created from scratch should be schema-valid")
 
+    @proxy_required
     def test_isvalid(self):
         # if additions to MODS test fixture cause validation errors, uncomment the next 2 lines to debug
         #self.mods.is_valid()
         #print self.mods.validation_errors()
-        self.assertTrue(self.mods.is_valid())        
+        self.assertTrue(self.mods.is_valid())
         invalid_mods = load_xmlobject_from_string(self.invalid_xml, mods.MODS)
         self.assertFalse(invalid_mods.is_valid())
+
 
 class TestModsTypedNote(unittest.TestCase):
     # node fields tested in main mods test case; testing custom is_empty logic here
@@ -214,7 +220,7 @@ class TestModsTypedNote(unittest.TestCase):
 
     def test_is_empty__extra_attribute(self):
         # set an attribute besides type
-        self.note.label = "Note"        
+        self.note.label = "Note"
         self.assertFalse(self.note.is_empty())
 
     def test_is_empty_text(self):
@@ -222,12 +228,13 @@ class TestModsTypedNote(unittest.TestCase):
         self.note.text = 'here is some general info'
         self.assertFalse(self.note.is_empty())
 
+
 class TestModsDate(unittest.TestCase):
     # node fields tested in main mods test case; testing custom is_empty logic here
 
     def setUp(self):
         super(TestModsDate, self).setUp()
-        self.date = mods.DateCreated() 
+        self.date = mods.DateCreated()
 
     def test_is_empty(self):
         # starting fixture should be considered empty (no date)
@@ -242,6 +249,7 @@ class TestModsDate(unittest.TestCase):
         # set date value
         self.date.date = '1066'
         self.assertFalse(self.date.is_empty())
+
 
 class TestModsOriginInfo(unittest.TestCase):
     # node fields tested in main mods test case; testing custom is_empty logic here
@@ -269,6 +277,7 @@ class TestModsOriginInfo(unittest.TestCase):
     def test_not_empty_with_publisher(self):
         self.origin_info.publisher = 'MacMillan'
         self.assertFalse(self.origin_info.is_empty())
+
 
 class TestModsPart(unittest.TestCase):
 
@@ -302,11 +311,8 @@ class TestTitleInfo(unittest.TestCase):
         # with empty field - still empty
         self.titleinfo.title = ''
         self.assertTrue(self.titleinfo.is_empty())
-        
+
         # actual value - not empty
         self.titleinfo.title = 'This a Test'
         self.assertFalse(self.titleinfo.is_empty())
 
-
-if __name__ == '__main__':
-    main()
