@@ -23,12 +23,12 @@ import warnings
 from lxml import etree
 from lxml.builder import ElementMaker
 
-from eulxml.xmlmap.fields import Field, NodeList
+from eulxml.xmlmap.fields import Field
 
 logger = logging.getLogger(__name__)
 
-__all__ = [ 'XmlObject', 'parseUri', 'parseString', 'loadSchema',
-    'load_xmlobject_from_string', 'load_xmlobject_from_file' ]
+__all__ = ['XmlObject', 'parseUri', 'parseString', 'loadSchema',
+    'load_xmlobject_from_string', 'load_xmlobject_from_file']
 
 # NB: When parsing XML in this module, we explicitly create a new parser
 #   each time. Without this, lxml 2.2.7 uses a global default parser. When
@@ -374,7 +374,15 @@ class XmlObject(object):
         # - to output xml result, use serialize instead of unicode
         if return_type is None:
             return_type = XmlObject
-        return return_type(transform(self.node))
+
+        result = transform(self.node)
+        # If XSLT returns nothing, transform returns an _XSLTResultTree
+        # with no root node.  Log a warning, and don't generate an
+        # empty xmlobject which will behave unexpectedly.
+        if result is None or result.getroot() is None:
+            logger.warning("XSL transform generated an empty result")
+        else:
+            return return_type(result)
 
     def __unicode__(self):
         if isinstance(self.node, basestring):
