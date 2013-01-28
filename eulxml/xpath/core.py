@@ -1,5 +1,5 @@
 # file eulxml/xpath/core.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,16 +27,17 @@ eulxml.xpath, not directly from here."""
 import os
 import re
 from ply import lex, yacc
+import tempfile
 
 from eulxml.xpath import lexrules
 from eulxml.xpath import parserules
 from eulxml.xpath.ast import serialize
 
-__all__ = [ 'lexer', 'parser', 'parse', 'serialize' ]
+__all__ = ['lexer', 'parser', 'parse', 'serialize']
 
 # build the lexer. This will generate a lextab.py in the eulxml.xpath
 # directory. Unfortunately, xpath requires some wonky lexing.
-# Per http://www.w3.org/TR/xpath/#exprlex : 
+# Per http://www.w3.org/TR/xpath/#exprlex :
 #  1 If there is a preceding token and the preceding token is not one of @,
 #    ::, (, [, , or an Operator, then a * must be recognized as a
 #    MultiplyOperator and an NCName must be recognized as an OperatorName.
@@ -74,7 +75,10 @@ OPERATOR_FORCERS = set([
     # call it part of the qname)
     'COLON',
 ])
+
 NODE_TYPES = set(['comment', 'text', 'processing-instruction', 'node'])
+
+
 class LexerWrapper(lex.Lexer):
     def token(self):
         tok = lex.Lexer.token(self)
@@ -116,7 +120,7 @@ class LexerWrapper(lex.Lexer):
 lexdir = os.path.dirname(lexrules.__file__)
 lexer = None
 try:
-    lexer = lex.lex(module=lexrules, optimize=1, outputdir=lexdir, 
+    lexer = lex.lex(module=lexrules, optimize=1, outputdir=lexdir,
         reflags=re.UNICODE)
 except IOError, e:
     import errno
@@ -134,14 +138,20 @@ lexer.last = None
 # (contrast lex's explosion). Other than that, it's much less exciting
 # than the lexer wackiness.
 parsedir = os.path.dirname(parserules.__file__)
+# By default, store generated parse files with the code
+# If we don't have write permission, put them in the configured tempdir
+if (not os.access(parsedir, os.W_OK)):
+    parsedir = tempfile.gettempdir()
 parser = yacc.yacc(module=parserules, outputdir=parsedir, debug=0)
+
 
 def parse(xpath):
     '''Parse an xpath.'''
     # Expose the parse method of the constructed parser,
     # but explicitly specify the lexer created here,
-    # since otherwise parse will use the most-recently created lexer. 
+    # since otherwise parse will use the most-recently created lexer.
     return parser.parse(xpath, lexer=lexer)
+
 
 def ptokens(s):
     '''Lex a string as XPath tokens, and print each token as it is lexed.
