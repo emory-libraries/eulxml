@@ -18,7 +18,11 @@ any necessary information about installation or upgrade notes.
 * When an XSLT transformation results in an empty document,
   :meth:`eulxml.xmlap.XmlObject.xsl_transform` now returns None.
   [`Issue 6 <https://github.com/emory-libraries/eulxml/issues/6>`_]
-*
+* Development requirements can now be installed as an optional requirement
+  of the eulxml package (``pip install "eulxml[dev]"``).
+* Unit tests have been updated to use :mod:`nose`
+* New functionality in :mod:`eulxml.xmlmap.cerp` for parsing email dates
+  and generating CERP xml from a Python email message object.
 
 
 0.18.0 - Formset Ordering and DateTime
