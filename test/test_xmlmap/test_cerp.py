@@ -1,5 +1,5 @@
 # file test_xmlmap/test_cerp.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
 
 #!/usr/bin/env python
 
+import email
 import unittest
 import os
 
 from eulxml.xmlmap import cerp, load_xmlobject_from_file
-from testcore import main
 
 class TestCerp(unittest.TestCase):
     FIXTURE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -61,5 +61,30 @@ class TestCerp(unittest.TestCase):
 
         self.assertEqual(self.message.eol, 'LF')
 
-if __name__ == '__main__':
-    main()
+    # simple email text fixture from RFC822 Appendix A
+    simple_email_content = '''This is a message just to say hello.
+So, "Hello".'''
+
+    simple_email = '''From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Saying Hello
+Date: Fri, 21 Nov 1997 09:55:06 -0600
+Message-ID: <1234@local.machine.example>
+Content-Type: text/plain; charset=us-ascii
+
+%s''' % simple_email_content
+
+    def test_message_from_email(self):
+        email_msg = email.message_from_string(self.simple_email)
+        cerp_msg = cerp.Message.from_email_message(email_msg)
+
+        self.assertEqual(email_msg['From'], cerp_msg.from_list[0])
+        self.assertEqual(email_msg['To'], cerp_msg.to_list[0])
+        # dates in different format, how to compare ?
+        self.assertEqual(email_msg['Subject'], cerp_msg.subject_list[0])
+        self.assertEqual(email_msg['Message-Id'], cerp_msg.message_id)
+        self.assertEqual(self.simple_email_content, cerp_msg.body.content.content)
+
+        # TODO: multiple recipients, attachments, etc.
+
+

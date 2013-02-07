@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+  - "2.6"
+# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+# install a local squid proxy to allow testing schemas
+install:
+  - "pip install -e . --use-mirrors"
+  - "pip install 'eulxml[dev]' --use-mirrors"
+  - "sudo apt-get install squid"
+  - "sudo squid3"
+# command to run tests, e.g. python setup.py test
+script: env HTTP_PROXY=localhost:3128 nosetests

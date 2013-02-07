@@ -14,7 +14,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import codecs
+import datetime
+import email
+import logging
+import os
+
 from eulxml import xmlmap
+
+logger = logging.getLogger(__name__)
 
 # CERP is described at http://siarchives.si.edu/cerp/ . XML spec available at
 # http://www.records.ncdcr.gov/emailpreservation/mail-account/mail-account_docs.html
@@ -165,8 +173,10 @@ class _BaseMessage(_BaseCerp):
     message_id_supplied = xmlmap.SimpleBooleanField('xm:MessageId/@Supplied',
             true='1', false=None)
     mime_version = xmlmap.StringField('xm:MimeVersion')
-
-    orig_date_list = xmlmap.StringListField('xm:OrigDate') # FIXME: actually a dateTime
+    orig_date_list = xmlmap.StringListField('xm:OrigDate') # FIXME: really datetime
+    # NOTE: eulxml.xmlmap.DateTimeField supports specifying format,
+    # but we might need additional work since %z only works with
+    # strftime, not strptime
     from_list = xmlmap.StringListField('xm:From')
     sender_list = xmlmap.StringListField('xm:Sender')
     to_list = xmlmap.StringListField('xm:To')
@@ -200,6 +210,103 @@ class Message(_BaseMessage, _BaseExternal):
                             'Draft', 'Recent']
     status_flags = xmlmap.StringListField('xm:StatusFlag', 
             choices=STATUS_FLAG_CHOICES)
+
+    @classmethod
+    def from_email_message(cls, message, local_id=None):
+        '''
+        Convert an :class:`email.message.Message` or compatible message
+        object into a CERP XML :class:`eulxml.xmlmap.cerp.Message`. If an
+        id is specified, it will be stored in the Message <LocalId>.
+
+        :param message: `email.message.Message` object
+        :param id: optional message id to be set as `local_id` 
+    
+        :returns: :class:`eulxml.xmlmap.cerp.Message` instance populated
+    	    with message information
+          
+        '''
+        result = cls()
+        if local_id is not None:
+            result.local_id = id
+
+        message_id = message.get('Message-Id')
+        if message_id:
+            result.message_id_supplied = True
+            result.message_id = message_id
+
+        result.mime_version = message.get('MIME-Version')
+
+        dates = message.get_all('Date', [])
+        result.orig_date_list.extend([parse_mail_date(d) for d in dates])
+
+        result.from_list.extend(message.get_all('From', []))
+        result.sender_list.extend(message.get_all('From', []))
+        try:
+            result.to_list.extend(message.get_all('To', []))
+        except UnicodeError:
+            print repr(message['To'])
+            raise
+        result.cc_list.extend(message.get_all('Cc', []))
+        result.bcc_list.extend(message.get_all('Bcc', []))
+        result.in_reply_to_list.extend(message.get_all('In-Reply-To', []))
+        result.references_list.extend(message.get_all('References', []))
+        result.subject_list.extend(message.get_all('Subject', []))
+        result.comments_list.extend(message.get_all('Comments', []))
+        result.keywords_list.extend(message.get_all('Keywords', []))
+
+        headers = [ Header(name=key, value=val) for key, val in message.items() ]
+        result.headers.extend(headers)
+
+        # FIXME: skip multipart messages for now
+        if not message.is_multipart():
+            result.create_single_body()
+
+            # FIXME: this is a small subset of the actual elements CERP allows.
+            # we should add the rest of them, too.
+
+            # message.get_content_type() always returns something. only
+            # put it in the CERP if a Content-Type was explicitly specified.
+            if message['Content-Type']:
+                result.single_body.content_type_list.append(message.get_content_type())
+            if message.get_content_charset():
+                result.single_body.charset_list.append(message.get_content_charset())
+            if message.get_filename():
+                result.single_body.content_name_list.append(message.get_filename())
+
+            # FIXME: attaching the body_content only makes sense for text
+            # content types. we'll eventually need a better solution for
+            # non-text messages
+            result.single_body.create_body_content()
+            payload = message.get_payload(decode=True)
+
+            # if not unicode, attempt to convert
+            if isinstance(payload, str):
+                charset = message.get_charset()
+                # decode according to the specified character set, if any
+                if charset is not None:
+                    charset_decoder = codecs.getdecoder(str(charset))
+                    payload, length = charset_decoder(payload)
+
+                # otherwise, just try to convert
+                else:
+                    payload = unicode(payload)
+
+            # remove any control characters not allowed in XML
+            control_char_map = dict.fromkeys(range(32))
+            for i in [9, 10, 13]: # preserve horizontal tab, line feed, carriage return
+                del control_char_map[i]
+            payload = payload.translate(control_char_map)
+                
+            result.single_body.body_content.content = payload
+            
+        else:
+            # TODO: handle multipart
+            logger.warn('CERP conversion does not yet handle multipart')
+    
+        # assume we've normalized newlines:
+        result.eol = EOLMAP[os.linesep]
+
+        return result
 
 
 class ChildMessage(_BaseMessage):
@@ -261,3 +368,26 @@ class Account(_BaseCerp):
     def __repr__(self):
         return '<%s %s>' % (self.__class__.__name__,
                 self.global_id or self.email_address or '(no id)')
+
+
+
+
+def parse_mail_date(datestr):
+    '''Helper method used by :meth:`Message.from_email_message` to
+    convert dates from rfc822 format to iso 8601.
+
+    :param datestr: string containing a date in rfc822 format
+    :returns: string with date in iso 8601 format
+    '''
+
+    time_tuple = email.utils.parsedate_tz(datestr)
+    if time_tuple is None:
+        return datestr 
+    dt = datetime.datetime.fromtimestamp(email.utils.mktime_tz(time_tuple))
+    return dt.isoformat()
+    
+EOLMAP = {
+    '\r': 'CR',
+    '\n': 'LF',
+    '\r\n': 'CRLF',
+}

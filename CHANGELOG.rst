@@ -6,6 +6,25 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.19.0
+-------
+
+* Corrected a minor bug where schema validation errors were not cleared between
+  multiple validations.
+* To avoid permission denied warning for auto-generated parser files,
+  parsetab files are now created in python tempdir if the running user
+  doesn't have write permission in the package installation directory.
+  [`Issue 1 <https://github.com/emory-libraries/eulxml/issues/1>`_]
+* When an XSLT transformation results in an empty document,
+  :meth:`eulxml.xmlap.XmlObject.xsl_transform` now returns None.
+  [`Issue 6 <https://github.com/emory-libraries/eulxml/issues/6>`_]
+* Development requirements can now be installed as an optional requirement
+  of the eulxml package (``pip install "eulxml[dev]"``).
+* Unit tests have been updated to use :mod:`nose`
+* New functionality in :mod:`eulxml.xmlmap.cerp` for parsing email dates
+  and generating CERP xml from a Python email message object.
+
+
 0.18.0 - Formset Ordering and DateTime
 --------------------------------------
 
@@ -31,7 +50,7 @@ any necessary information about installation or upgrade notes.
 * :class:`eulxml.xmlmap.XmlObject` now supports lazy-loading for XSD
   Schemas.  To take advantage of this feature,
   :class:`~eulxml.xmlmap.XmlObject` subclasses should define an
-  ``XSD_SCHEMA`` location but should not set an ``xmlschema``.  
+  ``XSD_SCHEMA`` location but should not set an ``xmlschema``.
 * When :ref:`field <xmlmap-field>` mapped on a
   :class:`eulxml.xmlmap.XmlObject` is deleted, any XPath predicates
   that could have been automatically constructed when setting the

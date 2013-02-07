@@ -1,5 +1,5 @@
 # file test_xmlmap/test_ead.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +14,21 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-#!/usr/bin/env python
-
 import unittest
-from os import path
+from unittest2 import skipIf
+import os
 
-from eulxml.xmlmap  import load_xmlobject_from_file, load_xmlobject_from_string
+from eulxml.xmlmap import load_xmlobject_from_file, load_xmlobject_from_string
 from eulxml.xmlmap import eadmap
-from testcore import main
+
+proxy_required = skipIf('HTTP_PROXY' not in os.environ,
+    'Schema validation test requires an HTTP_PROXY')
+
 
 class TestEad(unittest.TestCase):
-    FIXTURE_FILE = path.join(path.dirname(path.abspath(__file__)) ,
+    FIXTURE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              'fixtures', 'heaney653.xml')
+
     def setUp(self):
         self.ead = load_xmlobject_from_file(self.FIXTURE_FILE, eadmap.EncodedArchivalDescription)
 
@@ -47,6 +50,7 @@ class TestEad(unittest.TestCase):
         self.assert_("12 oversized papers (OP)" in self.ead.physical_desc)
         self.assert_("materials relating to Irish poet Seamus Heaney" in unicode(self.ead.abstract))
 
+    @proxy_required
     def test_validation(self):
         # EAD objects can now be validated aginst XSD schema
         self.assertTrue(self.ead.schema_valid())
@@ -63,7 +67,7 @@ class TestEad(unittest.TestCase):
     def test_ArchivalDescription(self):
         self.assert_(isinstance(self.ead.archdesc, eadmap.ArchivalDescription))
         ad = self.ead.archdesc
-        self.assertEqual("Heaney, Seamus, 1939-", ad.origination) 
+        self.assertEqual("Heaney, Seamus, 1939-", ad.origination)
         self.assert_(isinstance(ad.unitid, eadmap.Unitid))
         self.assertEqual("Manuscript Collection No.653", ad.unitid.value)
         self.assertEqual("Manuscript Collection No.653", unicode(ad.unitid))
@@ -142,7 +146,7 @@ class TestEad(unittest.TestCase):
         # multiple indexes
         self.assert_(isinstance(ad.index[1], eadmap.Index))
         self.assertEqual("Second Index", unicode(ad.index[1].head))
-        self.assertEqual("index2", ad.index[1].id)        
+        self.assertEqual("index2", ad.index[1].id)
 
     def test_ControlledAccessHeadings(self):
         ca = self.ead.archdesc.controlaccess
@@ -224,7 +228,7 @@ class TestEad(unittest.TestCase):
         self.assertEqual("Robert W. Woodruff Library", filedesc.publication.address.lines[0])
         self.assertEqual("404-727-6887", filedesc.publication.address.lines[3])
         self.assertEqual("marbl@emory.edu", filedesc.publication.address.lines[-1])
-    
+
     def test_ProfileDescription(self):
         profiledesc = self.ead.profiledesc
         self.assert_(isinstance(profiledesc, eadmap.ProfileDescription))
@@ -234,7 +238,7 @@ class TestEad(unittest.TestCase):
         self.assert_(isinstance(profiledesc.date, eadmap.DateField))
         self.assertEqual(u'May 5, 2005', unicode(profiledesc.date))
         self.assertEqual('2005-05-05', profiledesc.date.normalized)
-    
+
     def test_DateField(self):
         date = self.ead.file_desc.publication.date
         self.assert_(isinstance(date, eadmap.DateField))
@@ -242,7 +246,7 @@ class TestEad(unittest.TestCase):
         self.assertEqual("May 5, 2005", unicode(date))
         self.assertEqual("ce", date.era)
         self.assertEqual("gregorian", date.calendar)
-        
+
         unitdate = self.ead.dsc.c[1].c[0].did.unitdate
         self.assert_(isinstance(unitdate, eadmap.DateField))
         self.assertEqual("1974/1986", unitdate.normalized)
@@ -258,6 +262,3 @@ class TestEad(unittest.TestCase):
         self.assertEqual(u'Writings by Seamus Heaney',
             unicode(self.ead.dsc.c[0].did.unittitle.short))
 
-        
-if __name__ == '__main__':
-    main()

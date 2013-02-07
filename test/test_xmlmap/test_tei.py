@@ -1,5 +1,5 @@
 # file test_xmlmap/test_tei.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ from os import path
 
 from eulxml.xmlmap import load_xmlobject_from_file, NodeListField
 from eulxml.xmlmap import teimap
-from testcore import main
+
 
 class ExtendedTei(teimap.Tei):
     # additional mappings for testing
@@ -58,7 +58,7 @@ class TestTei(unittest.TestCase):
         self.assertEqual('George Herbert Clarke', header.editor_list[0].value)
         self.assert_('Lewis H. Beck Center for Electronic Collections' in header.publisher)
         self.assertEqual('2004', header.publication_date)
-        self.assert_('download, transmit, or otherwise reproduce,' in header.availability)        
+        self.assert_('download, transmit, or otherwise reproduce,' in header.availability)
         self.assert_('A Treasury of War Poetry: British' in header.source_description)
         self.assert_('The Great War' in header.series_statement)
 
@@ -66,7 +66,7 @@ class TestTei(unittest.TestCase):
         div = self.tei.body.div[0]
         self.assertEqual('clarke005', div.id)
         self.assertEqual('Chapter', div.type)
-        self.assertEqual('America', div.title)       
+        self.assertEqual('America', div.title)
         # subdiv (recursive mapping)
         self.assert_(isinstance(div.div[0], teimap.TeiDiv))
         self.assertEqual('clarke006', div.div[0].id)
@@ -100,7 +100,7 @@ class TestTei(unittest.TestCase):
         self.assertEqual(0, poem.linegroup[0].line[2].indent())
        # print poem.linegroup[0].line[2].indent()
 
-        
+
     def testTeiEpigraph(self):
         epigraph = self.tei.front.div[1].epigraph[0] #using clarke002
         self.assertEqual("epigraph", self.tei.front.div[1].type)
@@ -108,6 +108,4 @@ class TestTei(unittest.TestCase):
         self.assert_(isinstance(epigraph.quote[0], teimap.TeiQuote))
         self.assert_(isinstance(epigraph.quote[0].line[0], teimap.TeiLine))
 
-        
-if __name__ == '__main__':
-    main()
+

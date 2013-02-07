@@ -1,6 +1,0 @@
-unittest-xml-reporting>1.0.3
-sphinx
-coverage
-django
-rdflib>=3.0
-mock
