@@ -263,6 +263,7 @@ class BaseMods(Common):
     top-level MODS elements; base class for :class:`MODS` and :class:`RelatedItem`.'''
     schema_validate = True
 
+    id = xmlmap.StringField("@ID")
     title = xmlmap.StringField("mods:titleInfo/mods:title")
     title_info = xmlmap.NodeField('mods:titleInfo', TitleInfo)
     resource_type  = xmlmap.SchemaField("mods:typeOfResource", "resourceTypeDefinition")
