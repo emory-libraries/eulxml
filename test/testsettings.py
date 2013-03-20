@@ -1,5 +1,5 @@
 # file testsettings.py
-# 
+#
 #   Copyright 2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,4 +19,9 @@
 # eulxml.forms code relies on django code, which can't be imported
 # without a settings file configured, even though we don't actually
 # rely on any of those settings.
+<<<<<<< HEAD
 SECRET_KEY = 'notreallythatbigofasecret'
+=======
+
+SECRET_KEY = 'notreallythatbigofasecret'
+>>>>>>> update tests to be compatible with django 1.5 (secret key required)
