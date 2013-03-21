@@ -28,7 +28,7 @@ proxy_required = skipIf('HTTP_PROXY' not in os.environ,
 class TestMods(unittest.TestCase):
     # tests for MODS XmlObject
 
-    FIXTURE = """<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+    FIXTURE = """<mods:mods xmlns:mods="http://www.loc.gov/mods/v3" ID="id1">
   <mods:titleInfo>
     <mods:title>A simple record</mods:title>
     <mods:subTitle> (for test purposes)</mods:subTitle>
@@ -100,6 +100,7 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.locations[0], mods.Location))
 
     def test_fields(self):
+        self.assertEqual('id1', self.mods.id)
         self.assertEqual('A simple record', self.mods.title)
         self.assertEqual('text', self.mods.resource_type)
         self.assertEqual('a general note', self.mods.note.label)
