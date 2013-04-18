@@ -6,6 +6,11 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.20.0
+-------
+
+* Update :mod:`eulxml.xmlmap.eadmap` with support digital archival object tags.
+
 0.19.0
 -------
 
