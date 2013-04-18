@@ -29,7 +29,7 @@ class _EadBase(xmlmap.XmlObject):
     ROOT_NS = EAD_NAMESPACE
     ROOT_NAME = 'ead'
     ROOT_NAMESPACES = {
-        'e' : ROOT_NS,
+        'e': ROOT_NS,
         'xlink': 'http://www.w3.org/1999/xlink',
         'exist': 'http://exist.sourceforge.net/NS/exist'
     }
@@ -170,6 +170,18 @@ class UnitTitle(_EadBase):
         # and the short version should reflect any changes made
 
 
+class DigitalArchivalObject(_EadBase):
+    'Digital Archival Object (`dao` element)'
+    audience = xmlmap.StringField('@audience')
+    'audience (internal or external)'
+    id = xmlmap.StringField("@id")
+    'identifier'
+    title = xmlmap.StringField("@xlink:title")
+    'title'
+    href = xmlmap.StringField("@xlink:href")
+    'url where the digital archival object can be accessed'
+
+
 class DescriptiveIdentification(_EadBase):
     """Descriptive Information (`did` element) for materials in a component"""
     unitid = xmlmap.NodeField("e:unitid", Unitid)
@@ -190,6 +202,8 @@ class DescriptiveIdentification(_EadBase):
     "physical location - `physloc`"
     container = xmlmap.NodeListField("e:container", Container)
     ":class:`Container` - `container`"
+    dao_list = xmlmap.NodeListField("e:dao", DigitalArchivalObject)
+    "list of digital archival object references as :class:`DigitalArchivalObject`"
 
 
 class Component(_EadBase):
@@ -231,6 +245,8 @@ class Component(_EadBase):
     "use restrictions :class:`Section` - `userestrict`"
     access_restriction = xmlmap.NodeField("e:accessrestrict", Section)
     "access restrictions :class:`Section` - `accessrestrict`"
+    dao_list = xmlmap.NodeListField("e:dao", DigitalArchivalObject)
+    "list of digital archival object references as :class:`DigitalArchivalObject`"
 
     c = xmlmap.NodeListField("e:c02|e:c03|e:c04|e:c05|e:c06|e:c07|e:c08|e:c09|e:c10|e:c11|e:c12", "self")
     "list of :class:`Component` - recursive mapping to any c-level 2-12; `c02|c03|c04|c05|c06|c07|c08|c09|c10|c11|c12`"
@@ -370,6 +386,8 @@ class ArchivalDescription(_EadBase):
     ":class:`ControlledAccessHeadings` - `controlaccess`; subject terms, names, etc."
     index = xmlmap.NodeListField("e:index", Index)
     "list of :class:`Index` - `index`; e.g., index of selected correspondents"
+    dao_list = xmlmap.NodeListField("e:dao", DigitalArchivalObject)
+    "list of digital archival object references as :class:`DigitalArchivalObject`"
 
 
 class Address(_EadBase):

@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<ead xmlns="urn:isbn:1-931666-22-9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" relatedencoding="MARC21" id="heaney653-011">
+<ead xmlns="urn:isbn:1-931666-22-9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd" relatedencoding="MARC21" id="heaney653-011"
+   xmlns:xlink="http://www.w3.org/1999/xlink" >
   <!-- NOTE: this ead is based on an actual finding aid from MARBL, but has been heavily modified
         to provide a more complete example of the kind os tags that can be included in a finding aid -->
   <eadheader countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b" relatedencoding="Dublin Core" repositoryencoding="iso15511" scriptencoding="iso15924">
@@ -24,7 +25,7 @@
       </publicationstmt>
     </filedesc>
     <profiledesc>
-      <creation>Finding aid encoded, 
+      <creation>Finding aid encoded,
 		  <date calendar="gregorian" encodinganalog="Date" era="ce" normal="2005-05-05">May 5, 2005</date></creation>
       <langusage>
         <language encodinganalog="Language" langcode="eng" scriptcode="Latn">English</language>
@@ -38,7 +39,7 @@
       </origination>
       <unittitle encodinganalog="245$a">Seamus Heaney collection,<unitdate calendar="gregorian" encodinganalog="245$f" era="ce" normal="1972/2003" type="inclusive">1972-2005</unitdate></unittitle>
       <unitid countrycode="US" repositorycode="geu-s" identifier="653">Manuscript Collection No.653</unitid>
-      <physdesc encodinganalog="300"><extent>1 linear ft.</extent><extent>(3 boxes)</extent>, 
+      <physdesc encodinganalog="300"><extent>1 linear ft.</extent><extent>(3 boxes)</extent>,
 		<extent>12 oversized papers (OP)</extent></physdesc>
       <physloc label="Location">In the Archives.</physloc>
       <abstract>Collection of materials relating to Irish poet Seamus Heaney
@@ -114,11 +115,11 @@
       <p>While at St. Joseph's he began to write, publishing work in university
 		  magazines under the pseudonym Incertus. During that time, he joined a poetry
 		  workshop organized by Philip Hobsbaum. In 1965, in connection with the Belfast
-		  Festival, he published 
+		  Festival, he published
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Eleven Poems</title>, and in August of that year he married Marie
 		Devlin. The following year he became a lecturer in modern English literature at
 		Queens College; his first son, Michael, was born; and Faber and Faber published
-		
+
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Death of a Naturalist</title>. This collection earned him the Eric
 		Gregory Award, the Cholmondeley Award, the Somerset Maugham Award, and the
 		Geoffrey Faber Memorial Prize. Marie and Seamus Heaney's second son, Michael,
@@ -127,33 +128,33 @@
 		Society Choice for the year. In 1970-1971, Heaney was guest lecturer at the
 		University of California, Berkeley. He returned to Northern Ireland in 1971,
 		and in 1972 he resigned his lectureship at Queens College, moved his family to
-		Glanmore, in County Wicklow, and published 
+		Glanmore, in County Wicklow, and published
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Wintering Out</title>. In 1973 his daughter Catherine Ann was
 		born. During this year he also received the Denis Devlin Award and the Writer
-		in Residence Award from the American Irish Foundation. In 1975 
+		in Residence Award from the American Irish Foundation. In 1975
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">North</title> was published, winning the E.M. Forster Award and
 		the Duff Cooper Memorial Prize. During these years at Glanmore, Heaney also
 		gave many readings in the United States and England and edited two poetry
 		anthologies. </p>
       <p>In 1975 Heaney began teaching at Carysfort College in Dublin, and in
 		  1976 he and his family moved to Sandymount in the city. In 1979 Heaney
-		  published 
-		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Field Work</title> and in 1980 
-		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Selected Poems</title> and 
+		  published
+		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Field Work</title> and in 1980
+		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Selected Poems</title> and
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Preoccupations</title>. In 1981 he gave up his position at
 		Carysfort to become visiting professor at Harvard. In 1982 he won the Bennett
 		Award and Queens University awarded him an honorary Doctor of Letters. He
 		co-founded Field Day company with the playwright Brian Friel and others in
-		1983. 
+		1983.
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Station Island</title>, his first collection in five years, was
 		published in 1984. During that year he was elected Boylston Professor of
 		Rhetoric and Oratory at Harvard. That same year his mother died. </p>
       <p>In 1988 Seamus Heaney visited Emory University where he inaugurated
 		  the Richard Ellmann Lectures in Modern Literature. These lectures were
-		  collected and published as 
+		  collected and published as
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">The Place of Writing</title> in 1989. In 1991 Heaney published a
-		new collection 
-		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Seeing Things</title>, followed by the 
+		new collection
+		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Seeing Things</title>, followed by the
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Redress of Poetry</title> in 1995. In the fall of that year,
 		Heaney was awarded the Nobel Prize in Literature.</p>
     </bioghist>
@@ -163,9 +164,9 @@
 		  1972-2005 including, writings by Heaney, printed materials, photographs and
 		  correspondence. The manuscript writings in the collection include multiple
 		  drafts of "Fosterage," a two-page typescript on Michael McLaverty (published as
-		  an introduction to McLaverty's 
+		  an introduction to McLaverty's
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Collected Stories</title> in 1978), a manuscript of a talk on
-		Wordsworth's 
+		Wordsworth's
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Prelude</title> which Heaney wrote for Irish radio around 1974,
 		and settings copies of the poems "Bog Queen," "Punishment," "The Grauballe
 		Man," and "Kinship," with editor's markings and corrections in Heaney's hand.
@@ -180,7 +181,7 @@
 		  as President of the Poetry Society. Additional correspondence with Mrs. Parker
 		  (1976) and "Robert" (1978) relate to items found in the writing series of this
 		  collection and the J. Howard Woolmer correspondence relates to the publication
-		  of 
+		  of
 		<title xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">Stern</title>, a poem in memory of Ted Hughes.</p>
     </scopecontent>
     <arrangement encodinganalog="351">
@@ -277,6 +278,7 @@
 				  written for the christening of Polly Devlin's (Garnett) daughter Daisy Garnett.
 				  [See also Series 3, Photographs: "Polly Garnett and three children," and Series
 				  4, Restricted correspondence: "Mrs. Parker"]</unittitle>
+             <dao xlink:href="http://some.url/item/id1234" audience="internal" xlink:title="Digitized Content" id="id1234"/>
           </did>
         </c02>
       </c01>
@@ -313,7 +315,7 @@
       <indexentry>
         <persname>Batten, Guinn</persname>
         <ptrgrp>
-          <ref xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">1995 July 29, ALS, 1p.</ref>
+          <ref xlink:type="simple" xlink:href="">1995 July 29, ALS, 1p.</ref>
           <ref xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">undated APCS [August 7]</ref>
           <ref xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="">1996 September 23, TLS, 1p.</ref>
         </ptrgrp>
