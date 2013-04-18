@@ -9,6 +9,8 @@ any necessary information about installation or upgrade notes.
 0.20.0
 -------
 
+* Update :mod:`eulxml.xmlmap.mods` with support for id attribute on top-level MODS
+  element. Contributed by `bcail <https://github.com/bcail>`_.
 * Update :mod:`eulxml.xmlmap.eadmap` with support digital archival object tags.
 
 0.19.1
