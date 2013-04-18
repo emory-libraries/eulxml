@@ -22,6 +22,7 @@ from eulxml import xmlmap
 # organized from smallest/lowest level to highest level
 
 EAD_NAMESPACE = 'urn:isbn:1-931666-22-9'
+XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink'
 
 
 class _EadBase(xmlmap.XmlObject):
@@ -30,7 +31,7 @@ class _EadBase(xmlmap.XmlObject):
     ROOT_NAME = 'ead'
     ROOT_NAMESPACES = {
         'e': ROOT_NS,
-        'xlink': 'http://www.w3.org/1999/xlink',
+        'xlink': XLINK_NAMESPACE,
         'exist': 'http://exist.sourceforge.net/NS/exist'
     }
     # TODO: if there are any universal EAD attributes, they should be added here
