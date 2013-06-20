@@ -196,6 +196,7 @@ class TitleInfo(Common):
     part_name = xmlmap.StringField('mods:partName')
     non_sort = xmlmap.StringField('mods:nonSort')
     type  = xmlmap.SchemaField('@type', 'titleInfoTypeAttributeDefinition')
+    label  = xmlmap.StringField('@displayLabel')
 
 
     def is_empty(self):
@@ -266,6 +267,7 @@ class BaseMods(Common):
     id = xmlmap.StringField("@ID")
     title = xmlmap.StringField("mods:titleInfo/mods:title")
     title_info = xmlmap.NodeField('mods:titleInfo', TitleInfo)
+    title_info_list = xmlmap.NodeListField('mods:titleInfo', TitleInfo)
     resource_type  = xmlmap.SchemaField("mods:typeOfResource", "resourceTypeDefinition")
     name = xmlmap.NodeField('mods:name', Name)  # DEPRECATED: use names instead
     names = xmlmap.NodeListField('mods:name', Name)
