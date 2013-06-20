@@ -33,6 +33,9 @@ class TestMods(unittest.TestCase):
     <mods:title>A simple record</mods:title>
     <mods:subTitle> (for test purposes)</mods:subTitle>
   </mods:titleInfo>
+  <mods:titleInfo type="alternative" displayLabel="First line">
+    <mods:title>Alternative title</mods:title>
+  </mods:titleInfo>
   <mods:typeOfResource>text</mods:typeOfResource>
   <mods:note displayLabel="a general note" type="general">remember to...</mods:note>
   <mods:originInfo>
@@ -93,6 +96,7 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.access_conditions[0], mods.AccessCondition))
         self.assert_(isinstance(self.mods.related_items[0], mods.RelatedItem))
         self.assert_(isinstance(self.mods.title_info, mods.TitleInfo))
+        self.assert_(isinstance(self.mods.title_info_list[1], mods.TitleInfo))
         self.assert_(isinstance(self.mods.abstract, mods.Abstract))
         self.assert_(isinstance(self.mods.parts[0], mods.Part))
         self.assert_(isinstance(self.mods.parts[0].details[0], mods.PartDetail))
@@ -137,6 +141,9 @@ class TestMods(unittest.TestCase):
         # titleInfo subfields
         self.assertEqual('A simple record', self.mods.title_info.title)
         self.assertEqual(' (for test purposes)', self.mods.title_info.subtitle)
+        self.assertEqual('alternative', self.mods.title_info_list[1].type)
+        self.assertEqual('First line', self.mods.title_info_list[1].label)
+        self.assertEqual('Alternative title', self.mods.title_info_list[1].title)
         # part
         self.assertEqual('volume', self.mods.parts[0].details[0].type)
         self.assertEqual('II', self.mods.parts[0].details[0].number)
@@ -158,6 +165,8 @@ class TestMods(unittest.TestCase):
         mymods.title_info.subtitle = ': for testing'
         mymods.title_info.part_number = '1'
         mymods.title_info.part_name = 'first installment'
+        mymods.title_info_list.append(mods.TitleInfo(non_sort='An ', title='Alternative Title', subtitle=': for testing', 
+                                            part_number = '1', part_name='first installment', label='First line'))
         mymods.resource_type = 'text'
         mymods.create_name()
         mymods.name.type = 'personal'
