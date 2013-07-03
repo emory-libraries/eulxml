@@ -61,6 +61,22 @@ class DateCreated(Date):
 class DateIssued(Date):
     ROOT_NAME = 'dateIssued'
 
+class DateCaptured(Date):
+    ROOT_NAME = 'dateCaptured'
+
+class DateValid(Date):
+    ROOT_NAME = 'dateValid'
+
+class DateModified(Date):
+    ROOT_NAME = 'dateModified'
+
+class CopyrightDate(Date):
+    ROOT_NAME = 'copyrightDate'
+
+class DateOther(Date):
+    ROOT_NAME = 'dateOther'
+    type = xmlmap.StringField('@type')
+
 class OriginInfo(Common):
     ":class:`~eulxml.xmlmap.XmlObject` for MODS originInfo element (incomplete)"
     ROOT_NAME = 'originInfo'
@@ -71,6 +87,21 @@ class OriginInfo(Common):
     issued = xmlmap.NodeListField('mods:dateIssued', DateIssued,
         verbose_name='Date Issued',
         help_text='Date the resource was published, released, or issued')
+    captured = xmlmap.NodeListField('mods:dateCaptured', DateCaptured,
+        verbose_name='Date Captured',
+        help_text='Date on which the resource was digitized or a subsequent snapshot was taken')
+    valid = xmlmap.NodeListField('mods:dateValid', DateValid,
+        verbose_name='Date Valid',
+        help_text='Date in which the content of a resource is valid')
+    modified = xmlmap.NodeListField('mods:dateModified', DateModified,
+        verbose_name='Date Modified',
+        help_text='Date in which a resource is modified or changed')
+    copyright = xmlmap.NodeListField('mods:copyrightDate', CopyrightDate,
+        verbose_name='Copyright Date',
+        help_text='Date in which a resource is copyrighted')
+    other = xmlmap.NodeListField('mods:dateOther', DateOther,
+        verbose_name='Other Date',
+        help_text='Date that does not fall into another category but is important to record')
     publisher = xmlmap.StringField('mods:publisher')
 
     def is_empty(self):
