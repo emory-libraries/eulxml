@@ -34,7 +34,9 @@ class Common(xmlmap.XmlObject):
     '''
     ROOT_NS = MODS_NAMESPACE
     ROOT_NAMESPACES = {'mods': MODS_NAMESPACE }
-    XSD_SCHEMA = MODS_SCHEMA
+    # This pins the schema to a particular version to guard against new versions of the schema breaking validation. 
+    #  This allows us to control when we upgrade to the next version 
+    XSD_SCHEMA = MODSv34_SCHEMA
     schema_validate = False
 
 class Date(Common):
