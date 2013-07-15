@@ -14,7 +14,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+<<<<<<< HEAD
 __version_info__ = (0, 20, 0, 'dev')
+=======
+__version_info__ = (0, 19, 1, None)
+>>>>>>> hotfix/0.19.1
 
 # Dot-connect all but the last. Last is dash-connected if not None.
 __version__ = '.'.join([str(i) for i in __version_info__[:-1]])

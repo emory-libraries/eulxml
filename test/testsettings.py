@@ -19,5 +19,9 @@
 # eulxml.forms code relies on django code, which can't be imported
 # without a settings file configured, even though we don't actually
 # rely on any of those settings.
+<<<<<<< HEAD
 
 SECRET_KEY = 'notreallythatbigofasecret'
+=======
+SECRET_KEY = 'notreallythatbigofasecret'
+>>>>>>> hotfix/0.19.1
