@@ -6,6 +6,12 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.19.1
+-------
+
+* Pinned MODS version to 3.4 to guard against new versions of the schema breaking validation
+
+
 0.19.0
 -------
 
