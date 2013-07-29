@@ -40,6 +40,12 @@ class TestMods(unittest.TestCase):
   <mods:note displayLabel="a general note" type="general">remember to...</mods:note>
   <mods:originInfo>
     <mods:dateCreated keyDate='yes'>2010-06-17</mods:dateCreated>
+    <mods:dateIssued keyDate='yes'>2010-06-18</mods:dateIssued>
+    <mods:dateCaptured point='end'>2010-06-19</mods:dateCaptured>
+    <mods:dateValid qualifier='approximate'>2010-06-20</mods:dateValid>
+    <mods:dateModified encoding='w3cdtf'>2010-06-21</mods:dateModified>
+    <mods:copyrightDate point='start'>2010-06-22</mods:copyrightDate>
+    <mods:dateOther keyDate='yes' type='some_type'>2010-06-23</mods:dateOther>
     <mods:publisher>Little, Brown</mods:publisher>
   </mods:originInfo>
   <mods:identifier type='uri'>http://so.me/uri</mods:identifier>
@@ -89,6 +95,12 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.note, mods.Note))
         self.assert_(isinstance(self.mods.origin_info, mods.OriginInfo))
         self.assert_(isinstance(self.mods.origin_info.created[0], mods.DateCreated))
+        self.assert_(isinstance(self.mods.origin_info.issued[0], mods.DateIssued))
+        self.assert_(isinstance(self.mods.origin_info.captured[0], mods.DateCaptured))
+        self.assert_(isinstance(self.mods.origin_info.valid[0], mods.DateValid))
+        self.assert_(isinstance(self.mods.origin_info.modified[0], mods.DateModified))
+        self.assert_(isinstance(self.mods.origin_info.copyright[0], mods.CopyrightDate))
+        self.assert_(isinstance(self.mods.origin_info.other[0], mods.DateOther))
         self.assert_(isinstance(self.mods.identifiers[0], mods.Identifier))
         self.assert_(isinstance(self.mods.name, mods.Name))
         self.assert_(isinstance(self.mods.name.name_parts[0], mods.NamePart))
@@ -113,6 +125,13 @@ class TestMods(unittest.TestCase):
         self.assertEqual('remember to...', self.mods.note.text)
         self.assertEqual(u'2010-06-17', unicode(self.mods.origin_info.created[0]))
         self.assertEqual('2010-06-17', self.mods.origin_info.created[0].date)
+        self.assertEqual('2010-06-18', self.mods.origin_info.issued[0].date)
+        self.assertEqual('2010-06-19', self.mods.origin_info.captured[0].date)
+        self.assertEqual('2010-06-20', self.mods.origin_info.valid[0].date)
+        self.assertEqual('2010-06-21', self.mods.origin_info.modified[0].date)
+        self.assertEqual('2010-06-22', self.mods.origin_info.copyright[0].date)
+        self.assertEqual('2010-06-23', self.mods.origin_info.other[0].date)
+        self.assertEqual('some_type', self.mods.origin_info.other[0].type)
         self.assertEqual(True, self.mods.origin_info.created[0].key_date)
         self.assertEqual('Little, Brown', self.mods.origin_info.publisher)
         self.assertEqual(u'http://so.me/uri', self.mods.identifiers[0].text)
