@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/fields.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 #   limitations under the License.
 
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, date
 import logging
 from lxml import etree
 from lxml.builder import ElementMaker
@@ -27,7 +27,8 @@ __all__ = [
     'IntegerField', 'IntegerListField',
     'NodeField', 'NodeListField',
     'ItemField', 'SimpleBooleanField',
-    'DateTimeField', 'DateTimeListField',   
+    'DateTimeField', 'DateTimeListField',
+    'DateField', 'DateListField',
     'SchemaField',
 ]
 
@@ -92,14 +93,14 @@ class StringMapper(Mapper):
     def __init__(self, normalize=False):
         if normalize:
             self.XPATH = etree.XPath('normalize-space(string())')
-        
+
     def to_python(self, node):
         if node is None:
             return None
         if isinstance(node, basestring):
             return node
         return self.XPATH(node)
-       
+
 class IntegerMapper(Mapper):
     XPATH = etree.XPath('number()')
     def to_python(self, node):
@@ -121,7 +122,7 @@ class SimpleBooleanMapper(Mapper):
     def __init__(self, true, false):
         self.true = true
         self.false = false
-        
+
     def to_python(self, node):
         if node is None and \
                 self.false is None:
@@ -135,7 +136,7 @@ class SimpleBooleanMapper(Mapper):
             return True
         if self.false is not None and \
                 value == str(self.false):
-            return False        
+            return False
         # what happens if it is neither of these?
         raise Exception("Boolean field value '%s' is neither '%s' nor '%s'" % (value, self.true, self.false))
 
@@ -147,8 +148,6 @@ class SimpleBooleanMapper(Mapper):
         else:
             return None
 
-
-# TODO: DateMapper and Date fields
 
 class DateTimeMapper(object):
     XPATH = etree.XPath('string()')
@@ -175,15 +174,37 @@ class DateTimeMapper(object):
         else:
             try:
                 dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S')
-            except ValueError, v:
+            except ValueError:
                 # if initial format fails, attempt to parse with microseconds
                 dt = datetime.strptime(rep, '%Y-%m-%dT%H:%M:%S.%f')
         return dt
 
     def to_xml(self, dt):
+        val = None
         if self.format is not None:
-            return unicode(dt.strftime(self.format))
-        return unicode(dt.isoformat())
+            val = unicode(dt.strftime(self.format))
+        else:
+            val = unicode(dt.isoformat())
+        return val
+
+
+class DateMapper(DateTimeMapper):
+
+    def __init__(self, format=None, normalize=False):
+        if format is None:
+            format = '%Y-%m-%d'
+        super(DateMapper, self).__init__(format=format, normalize=normalize)
+
+    def to_python(self, node):
+        if node is None:
+            return None
+        if isinstance(node, basestring):
+            rep = node
+        elif hasattr(node, 'text'):
+            rep = node.text
+
+        dt = datetime.strptime(rep, self.format)
+        return date(dt.year, dt.month, dt.day)
 
 
 class NullMapper(object):
@@ -252,7 +273,7 @@ def _create_xml_node(xast, node, context, insert_index=None):
         # return the node that will be parent to text()
         elif _is_text_nodetest(xast):
             return node
-        
+
     elif isinstance(xast, ast.BinaryExpression):
         if xast.op == '/':
             left_xpath = serialize(xast.left)
@@ -362,13 +383,13 @@ def _set_in_xml(node, val, context, step):
         else: # set node contents to string val
             if not list(node):      # no child elements
                 node.text = val
-            else:                 
+            else:
                 raise Exception("Cannot set string value - not a text node!")
 
     # by default, etree returns a "smart" string for attributes and text.
     # if it's not an element (above) then it is either a text node
     # or an attribute
-    elif hasattr(node, 'getparent'): 
+    elif hasattr(node, 'getparent'):
         # if node test is text(), set the text of the parent node
         if _is_text_nodetest(step):
             node.getparent().text = val
@@ -419,7 +440,7 @@ def _remove_xml(xast, node, context, if_empty=False):
                 # remove the last element in the xpath
                 removed = _remove_xml(xast.right, left_node, context,
                                       if_empty=if_empty) # honor current if_empty flag
-                
+
                 # If the left portion of the xpath is something we
                 # could have constructed, remove it if it is empty.
                 if removed and _predicate_is_constructible(left_xpath):
@@ -431,10 +452,10 @@ def _remove_xml(xast, node, context, if_empty=False):
 
     return False
 
-    
+
 def _remove_child_node(node, context, xast, if_empty=False):
     '''Remove a child node based on the specified xpath.
-    
+
     :param node: lxml element relative to which the xpath will be
     	interpreted
     :param context: any context required for the xpath (e.g.,
@@ -465,7 +486,7 @@ def _remove_attribute_node(node, context, xast):
 def _remove_predicates(xast, node, context):
     '''Remove any constructible predicates specified in the xpath
     relative to the specified node.
-    
+
     :param xast: parsed xpath (xpath abstract syntax tree) from
 	:mod:`eulxml.xpath`
     :param node: lxml element which predicates will be removed from
@@ -476,17 +497,17 @@ def _remove_predicates(xast, node, context):
 	were successfully removed
     '''
     # work from a copy since it may be modified
-    xast_c = deepcopy(xast) 
+    xast_c = deepcopy(xast)
     # check if predicates are constructable
     for pred in list(xast_c.predicates):
         # ignore predicates that we can't construct
         if not _predicate_is_constructible(pred):
             continue
-    
+
         if isinstance(pred, ast.BinaryExpression):
             # TODO: support any other predicate operators?
             # predicate construction supports op /
-            
+
             # If the xml still matches the constructed value, remove it.
             # e.g., @type='text' or level='leaf'
             if pred.op == '=' and \
@@ -501,19 +522,19 @@ def _remove_predicates(xast, node, context):
                     elif pred.left.axis in (None, 'child'):
                         if _remove_child_node(node, context, pred.left, if_empty=True):
                             xast_c.predicates.remove(pred)
-                            
+
                 elif isinstance(pred.left, ast.BinaryExpression):
                     # e.g., level/@id='b' or level/deep='deeper'
                     # - value has already been checked by xpath above,
                     # so just remove the multipart path
                     _remove_xml(pred.left, node, context, if_empty=True)
-                    
+
     return xast_c
 
 def _empty_except_predicates(xast, node, context):
     '''Check if a node is empty (no child nodes or attributes) except
     for any predicates defined in the specified xpath.
-    
+
     :param xast: parsed xpath (xpath abstract syntax tree) from
 	:mod:`eulxml.xpath`
     :param node: lxml element to check
@@ -524,7 +545,7 @@ def _empty_except_predicates(xast, node, context):
     '''
     # copy the node, remove predicates, and check for any remaining
     # child nodes or attributes
-    node_c = deepcopy(node) 
+    node_c = deepcopy(node)
     _remove_predicates(xast, node_c, context)
     return bool(len(node_c) == 0 and len(node_c.attrib) == 0)
 
@@ -608,7 +629,7 @@ class SingleNodeManager(object):
         # match must be None. if it exists, delete it.
         if match is not None:
             _remove_xml(xast, node, context)
-            
+
 
 class NodeList(object):
     """Custom List-like object to handle ListFields like :class:`IntegerListField`,
@@ -622,10 +643,10 @@ class NodeList(object):
     be retrieved, set, and deleted by index, but slice indexing is not supported.
     Supports the methods that Python documentation indicates should be provided
     by Mutable sequences, with the exceptions of reverse and sort; in the
-    particular case of :class:`NodeListField`, it is unclear how a list of 
+    particular case of :class:`NodeListField`, it is unclear how a list of
     :class:`~eulxml.xmlmap.XmlObject` should be sorted, or whether or not such
     a thing would be useful or meaningful for XML content.
-    
+
     When a new element is appended to a :class:`~eulxml.xmlmap.fields.NodeList`,
     it will be added to the XML immediately after the last element in the list.
     In the case of an empty list, the new content will be appended at the end of
@@ -693,7 +714,7 @@ class NodeList(object):
     def __setitem__(self, key, value):
         self._check_key_type(key)
         if key == len(self.matches):
-            # just after the end of the list - create a new node            
+            # just after the end of the list - create a new node
             if len(self.matches):
                 # if there are existing nodes, use last element in list
                 # to determine where the new node should be created
@@ -717,12 +738,12 @@ class NodeList(object):
             # terminal (rightmost) step informs how we update the xml
             step = _find_terminal_step(self.xast)
             _set_in_xml(match, self.mapper.to_xml(value), self.context, step)
-        
+
     def __delitem__(self, key):
         self._check_key_type(key)
         if key >= len(self.matches):
             raise IndexError("Can't delete at index %d - out of range" % key )
-        
+
         match = self.matches[key]
         match.getparent().remove(match)
 
@@ -769,7 +790,7 @@ class NodeList(object):
             self.append(x)
         elif len(self.matches) > i:
             # create a new xml node at the requested position
-            insert_index = self.matches[i].getparent().index(self.matches[i])                        
+            insert_index = self.matches[i].getparent().index(self.matches[i])
             _create_xml_node(self.xast, self.node, self.context, insert_index)
             # then use default set logic
             self[i] = x
@@ -785,7 +806,7 @@ class NodeListManager(object):
     def delete(self, xpath, xast, node, context, mapper):
         current_list = self.get(xpath, node, context, mapper, xast)
         [current_list.remove(x) for x in current_list]
-        
+
     def set(self, xpath, xast, node, context, mapper, value):
         current_list = self.get(xpath, node, context, mapper, xast)
         # for each value in the new list, set the equivalent value
@@ -797,7 +818,7 @@ class NodeListManager(object):
         while len(current_list) > len(value):
             current_list.pop()
 
-        
+
 
 
 # finished field classes mixing a manager and a mapper
@@ -815,7 +836,7 @@ class StringField(Field):
 
     Supports setting values for attributes, empty nodes, or text-only nodes.
     """
-    
+
     def __init__(self, xpath, normalize=False, choices=None, *args, **kwargs):
         self.choices = choices
         # FIXME: handle at a higher level, common to all/more field types?
@@ -917,7 +938,7 @@ class DateTimeField(Field):
 
     For example, given the field definition::
 
-      last_update = DateField('last_update', format="%d-%m-%Y %H:%M:%S",
+      last_update = DateTimeField('last_update', format="%d-%m-%Y %H:%M:%S",
       	  normalize=True)
 
     and the XML::
@@ -966,13 +987,46 @@ class DateTimeListField(Field):
                 mapper = DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
+class DateField(Field):
+    '''
+    Map an XPath expression to a single Python :class:`datetime.date`,
+    roughly comparable to :class:`DateTimeField`.
+
+    :param format: optional date-time format.  Used to convert between
+        XML and Python :class:`datetime.date`; if no format, then
+        the ISO format YYYY-MM-DD (%Y-%m-%d) will be used.
+    :param normalize: optional parameter to indicate string contents
+        should have whitespace normalized before converting to
+        :class:`~datetime.date`.  By default, no normalization is
+        done.
+    '''
+
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
+        super(DateField, self).__init__(xpath,
+                manager = SingleNodeManager(),
+                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
+
+
+class DateListField(Field):
+    '''
+    Map an XPath expression to a list of Python
+    :class:`datetime.date` objects. See :class:`DateField` and
+    :class:`DateTimeListField` for more details.
+    '''
+
+    def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
+        super(DateListField, self).__init__(xpath,
+                manager = NodeListManager(),
+                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
+
+
 class NodeField(Field):
 
     """Map an XPath expression to a single
     :class:`~eulxml.xmlmap.XmlObject` subclass instance. If the XPath
     expression evaluates to an empty NodeList, a NodeField evaluates
     to `None`.
-    
+
     Normally a ``NodeField``'s ``node_class`` is a class. As a special
     exception, it may be the string ``"self"``, in which case it recursively
     refers to objects of its containing :class:`~eulxml.xmlmap.XmlObject` class.
@@ -1011,7 +1065,7 @@ class NodeListField(Field):
     :class:`~eulxml.xmlmap.XmlObject` subclass instances. If the XPath
     expression evalues to an empty NodeList, a NodeListField evaluates
     to an empty list.
-    
+
     Normally a ``NodeListField``'s ``node_class`` is a class. As a special
     exception, it may be the string ``"self"``, in which case it recursively
     refers to objects of its containing :class:`~eulxml.xmlmap.XmlObject` class.
@@ -1059,8 +1113,8 @@ class SchemaField(Field):
 
         resource_type  = xmlmap.SchemaField("mods:typeOfResource", "resourceTypeDefinition")
 
-    
-    
+
+
 
     Currently only supports simple string-based schema types.
     """
@@ -1094,12 +1148,12 @@ class SchemaField(Field):
             # restricted values could include a blank
             # if it's there, remove it so we don't get two
             if '' in choices:
-                choices.remove('')            
+                choices.remove('')
             choices.insert(0, '')   # add blank choice at the beginning of the list
             kwargs['choices'] = choices
-            
+
         # TODO: possibly also useful to look for pattern restrictions
-        
+
         basetype = type.base_type()
         if basetype == 'string':
             newfield = StringField(self.xpath, required=self.required, **kwargs)
