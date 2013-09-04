@@ -50,12 +50,14 @@ class TestObject(xmlmap.XmlObject):
     int = xmlmap.IntegerField('bar[2]/baz')
     bool = xmlmap.SimpleBooleanField('boolean', 'yes', 'no')
     longtext = xmlmap.StringField('longtext', normalize=True, required=False)
+    date = xmlmap.DateField('date')
     child = xmlmap.NodeField('bar[1]', TestSubobject, verbose_name='Child bar1')
     children = xmlmap.NodeListField('bar', TestSubobject)
     other_child = xmlmap.NodeField('plugh', OtherTestSubobject)
     my_opt = xmlmap.StringField('opt', choices=['a', 'b', 'c'])
     text = xmlmap.StringListField('text')
     numbers = xmlmap.IntegerListField('number')
+
 
 FIXTURE_TEXT = '''
     <foo id='a'>
@@ -85,6 +87,7 @@ class XmlObjectFormTest(unittest.TestCase):
         'longtext': 'completely new text content',
         'int': 21,
         'bool': False,
+        'date': '2010-01-01',
         'id': 'b',
         'my_opt': 'c',
         'other_child-val': '0',
@@ -148,6 +151,10 @@ class XmlObjectFormTest(unittest.TestCase):
         expected, got = 'Bool', formfields['bool'].label
         self.assertEqual(expected, got, "form field label should be set to " + \
             "xmlmap field name; expected %s, got %s" % (expected, got))
+        # date field
+        self.assert_('date' in formfields, 'date field is present in form fields')
+        self.assert_(isinstance(formfields['date'], forms.DateField),
+            "xmlmap.DateField 'date' field initialized as DateField")
 
         # choice field
         self.assert_('my_opt' in formfields, 'my_opt field is present in form fields')

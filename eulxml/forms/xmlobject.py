@@ -1,5 +1,5 @@
 # file eulxml/forms/xmlobject.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ from collections import defaultdict
 from string import capwords
 
 from django.forms import BaseForm, CharField, IntegerField, BooleanField, \
-        ChoiceField, Field, Form
+        ChoiceField, Field, Form, DateField
 from django.forms.forms import NON_FIELD_ERRORS
 from django.forms.forms import get_declared_fields
 from django.forms.formsets import formset_factory, BaseFormSet
@@ -43,7 +43,7 @@ def _parse_field_list(fieldnames, include_parents=False):
     Parse a list of field names, possibly including dot-separated subform
     fields, into an internal ParsedFieldList object representing the base
     fields and subform listed.
-    
+
     :param fieldnames: a list of field names as strings. dot-separated names
         are interpreted as subform fields.
     :param include_parents: optional boolean, defaults to False. if True,
@@ -78,7 +78,7 @@ class ParsedFieldList(object):
     def __init__(self, fields, subfields):
         self.fields = fields
         self.subfields = subfields
-        
+
 class SubformAwareModelFormOptions(ModelFormOptions):
     """A :class:`~django.forms.models.ModelFormOptions` subclass aware of
     fields and exclude lists, parsing them for later reference by
@@ -86,13 +86,13 @@ class SubformAwareModelFormOptions(ModelFormOptions):
 
     def __init__(self, options=None):
         super(SubformAwareModelFormOptions, self).__init__(options)
-        
+
         # store maximum number of repeated subforms that should be allowed
         self.max_num = getattr(options, 'max_num', None)
         self.can_delete = getattr(options, 'can_delete', True)
         self.can_order = getattr(options, 'can_order', False)
         self.extra = getattr(options, 'extra', 1)
-        
+
         self.parsed_fields = None
         if isinstance(self.fields, ParsedFieldList):
             self.parsed_fields = self.fields
@@ -157,7 +157,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
 
     if widgets is None and options is not None:
         widgets = options.widgets
-        
+
     if max_num is None and options is not None:
         max_num = options.max_num
 
@@ -168,7 +168,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
     field_order = {}
     subform_labels = {}
 
-    for name, field in model._fields.iteritems():  
+    for name, field in model._fields.iteritems():
         if fieldlist and not name in fieldlist.fields:
             # if specific fields have been requested and this is not one of them, skip it
             continue
@@ -190,7 +190,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
             kwargs['label'] = field.verbose_name
         if field.help_text is not None:
             kwargs['help_text'] = field.help_text
-            
+
         if hasattr(field, 'choices') and field.choices:
             # if a field has choices defined, use a choice field (no matter what base type)
             field_type = ChoiceField
@@ -205,29 +205,31 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
             field_type = CharField
         elif isinstance(field, xmlmap.fields.IntegerField):
             field_type = IntegerField
+        elif isinstance(field, xmlmap.fields.DateField):
+            field_type = DateField
         elif isinstance(field, xmlmap.fields.SimpleBooleanField):
             # by default, fields are required - for a boolean, required means it must be checked
             # since that seems nonsensical and not useful for a boolean,
             # setting required to False to allow True or False values
             kwargs['required'] = False
             field_type = BooleanField
-            
-        # datefield ? - not yet well-supported; leaving out for now        
+
+        # datefield ? - not yet well-supported; leaving out for now
         # ... should probably distinguish between date and datetime field
-        
+
         elif isinstance(field, xmlmap.fields.NodeField) or \
             isinstance(field, xmlmap.fields.NodeListField):
             form_label = kwargs['label'] if 'label' in kwargs else fieldname_to_label(name)
             # store subform label in case we can't set on subform/formset
             subform_labels[name] = form_label
-            
+
              # if a subform class was declared, use that class exactly as is
             if name in declared_subforms:
             	subform = declared_subforms[name]
 
             # otherwise, define a new xmlobject form for the nodefield or
             # nodelistfield class, using any options passed in for fields under this one
-            else:              
+            else:
                 subform_opts = {
                     'fields': fieldlist.subfields[name] if fieldlist and name in fieldlist.subfields else None,
                     'exclude': excludelist.subfields[name] if excludelist and name in excludelist.subfields else None,
@@ -237,7 +239,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
 
                 # create the subform class
                 subform = xmlobjectform_factory(field.node_class, **subform_opts)
-            
+
             # store subform or generate and store formset, depending on field type
             if isinstance(field, xmlmap.fields.NodeField):
                 subforms[name] = subform
@@ -277,7 +279,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
             if 'label' not in kwargs:
                 kwargs['label'] = fieldname_to_label(name)
             formfields[name] = field_type(**kwargs)
-            
+
         # create a dictionary indexed by field creation order, for default field ordering
         field_order[field.creation_counter] = name
 
@@ -368,7 +370,7 @@ class XmlObjectFormType(type):
         # sort declared fields into sub-form overrides and regular fields
         for fname, f in tmp_fields.iteritems():
             if isinstance(f, SubformField):
-                # FIXME: pass can_delete, can_delete from subformfield to formset? 
+                # FIXME: pass can_delete, can_delete from subformfield to formset?
                 declared_subforms[fname] = f.formclass
                 # if a declared subform fields has a label specified, store it
                 if hasattr(f, 'form_label') and f.form_label is not None:
@@ -455,7 +457,7 @@ class XmlObjectForm(BaseForm):
     :class:`~eulxml.xmlmap.fields.NodeField` belonging to this Form's
     :class:`~eulxml.xmlmap.XmlObject` model, keyed on field name.  Ordered by
     field creation order or by specified fields."""
-    
+
     form_label = None
     '''Label for this form or subform (set automatically for subforms &
     formsets, using the same logic that is used for field labels.'''
@@ -490,7 +492,7 @@ class XmlObjectForm(BaseForm):
         # initialize subforms for all nodefields that belong to the xmlobject model
         self._init_subforms(data, prefix)
         self._init_formsets(data, prefix)
-            
+
         super_init = super(XmlObjectForm, self).__init__
         super_init(data=data, prefix=prefix, initial=local_initial, **kwargs)
         # other kwargs accepted by XmlObjectForm.__init__:
@@ -511,7 +513,7 @@ class XmlObjectForm(BaseForm):
                 subinstance = getattr(self.instance, name, None)
             else:
                 subinstance = None
-    
+
             if prefix:
                 subprefix = '%s-%s' % (prefix, name)
             else:
@@ -553,7 +555,9 @@ class XmlObjectForm(BaseForm):
         if hasattr(self, 'cleaned_data'):   # possible to have an empty object/no data
 
             opts = self._meta
+            # FIXME: _fields doesn't seem to preserver order; problematic for some xml
             for name in self.instance._fields.iterkeys():
+            # for name in self.declared_fields.iterkeys():
                 if opts.fields and name not in opts.parsed_fields.fields:
                     continue
                 if opts.exclude and name in opts.parsed_exclude.fields:
@@ -588,14 +592,14 @@ class XmlObjectForm(BaseForm):
         # subform AND the updated one is empty, then remove the node.
         if old_subinstance is not None and new_subinstance.is_empty():
             delattr(self.instance, name)
-    
+
     def is_valid(self):
         """Returns True if this form and all subforms (if any) are valid.
-        
+
         If all standard form-validation tests pass, uses :class:`~eulxml.xmlmap.XmlObject`
         validation methods to check for schema-validity (if a schema is associated)
         and reporting errors.  Additonal notes:
-        
+
          * schema validation requires that the :class:`~eulxml.xmlmap.XmlObject`
            be initialized with the cleaned form data, so if normal validation
            checks pass, the associated :class:`~eulxml.xmlmap.XmlObject` instance
@@ -611,7 +615,7 @@ class XmlObjectForm(BaseForm):
         # because xmlobject must be updated with cleaned_data
         if valid and self.instance is not None:
             # update instance required to check schema-validity
-            instance = self.update_instance()     
+            instance = self.update_instance()
             if instance.is_valid():
                 return True
             else:
@@ -632,7 +636,7 @@ class XmlObjectForm(BaseForm):
 
     def _html_output(self, normal_row, error_row, row_ender,  help_text_html, errors_on_separate_row):
         """Extend BaseForm's helper function for outputting HTML. Used by as_table(), as_ul(), as_p().
-        
+
         Combines the HTML version of the main form's fields with the HTML content
         for any subforms.
         """
@@ -649,7 +653,7 @@ class XmlObjectForm(BaseForm):
             if hasattr(subform, 'form_label'):
                 name = subform.form_label
             parts.append(self._html_subform_output(subform, name, _subform_output))
-        
+
         for name, formset in self.formsets.iteritems():
             parts.append(unicode(formset.management_form))
             # use form label if one was set
@@ -663,7 +667,7 @@ class XmlObjectForm(BaseForm):
 
             # collect the html output for all the forms in the formset
             subform_parts = list()
-                
+
             for subform in formset.forms:
                 subform_parts.append(self._html_subform_output(subform,
                                       gen_html=_subform_output, suppress_section=True))
@@ -674,20 +678,20 @@ class XmlObjectForm(BaseForm):
 
     def _html_subform_output(self, subform=None, name=None, gen_html=None, content=None,
                              suppress_section=False):
-        
+
         # pass the configured html section to subform in case of any sub-subforms
         if subform is not None:
             subform._html_section = self._html_section
             if gen_html is not None:
                 content = gen_html(subform)
-                
+
         # if html section is configured, add section label and wrapper for
         if self._html_section is not None and not suppress_section:
             return self._html_section % \
-                {'label': fieldname_to_label(name), 'content': content}               
+                {'label': fieldname_to_label(name), 'content': content}
         else:
             return content
-        
+
 
     # intercept the three standard html output formats to set an appropriate section format
     def as_table(self):
@@ -730,7 +734,7 @@ def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
                           extra=None, can_order=False):
     """Dynamically generate a new :class:`XmlObjectForm` class using the
     specified :class:`eulxml.xmlmap.XmlObject` class.
-    
+
     Based on django's modelform_factory.
     """
 
@@ -749,7 +753,7 @@ def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
         attrs['can_delete'] = can_delete
     if can_order is not None:
         attrs['can_order'] = can_order
-        
+
     # If parent form class already has an inner Meta, the Meta we're
     # creating needs to inherit from the parent's inner meta.
     parent = (object,)
@@ -847,7 +851,7 @@ class SubformField(Field):
             self.form_label = label
         self.can_delete = can_delete
         self.can_order = can_order
-        
+
         # may not need to actually call init since we don't really use this as a field
         super(SubformField, self).__init__(*args, **kwargs)
 
@@ -894,7 +898,7 @@ class BaseXmlObjectListFieldFormSet(BaseFormSet):
         except:
             defaults = {}
         defaults.update(kwargs)
-            
+
         return super(BaseXmlObjectListFieldFormSet, self)._construct_form(i, **defaults)
 
     def update_instance(self):
