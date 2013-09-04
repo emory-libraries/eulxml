@@ -16,7 +16,7 @@
 
 #!/usr/bin/env python
 
-from datetime import datetime
+from datetime import datetime, date
 import tempfile
 import unittest
 
@@ -43,8 +43,10 @@ class TestFields(unittest.TestCase):
         needs to be
                 normalized
             </spacey>
-            <date>2010-01-03T02:13:44</date>
-            <date>2010-01-03T02:13:44.003</date>
+            <datetime>2010-01-03T02:13:44</datetime>
+            <datetime>2010-01-03T02:13:44.003</datetime>
+            <date>2010-01-03</date>
+            <date>2013/05/01</date>
         </foo>
     '''
 
@@ -389,15 +391,10 @@ class TestFields(unittest.TestCase):
         self.assertFalse(obj._fields['txt_bool1'].required)
 
 
-    # FIXME: DateField and DateListField are hacked together. Until we
-    #   work up some proper parsing and good testing for them, they should
-    #   be considered untested and undocumented features.
-
-
     def testDateTimeField(self):
         class TestObject(xmlmap.XmlObject):
-            date = xmlmap.DateTimeField('date')
-            dates = xmlmap.DateTimeListField('date')
+            date = xmlmap.DateTimeField('datetime')
+            dates = xmlmap.DateTimeListField('datetime')
 
         obj = TestObject(self.fixture)
         # fields should be datetime objects
@@ -416,13 +413,13 @@ class TestFields(unittest.TestCase):
         # set value via new datetime object
         today = datetime.today()
         obj.date = today
-        self.assertEqual(obj.node.xpath('string(date)'), today.isoformat())
+        self.assertEqual(obj.node.xpath('string(datetime)'), today.isoformat())
 
 
     def testFormattedDateTimeField(self):
         class TestObject(xmlmap.XmlObject):
-            date = xmlmap.DateTimeField('date', format='%Y-%m-%dT%H:%M:%S')
-            dates = xmlmap.DateTimeListField('date', format='%Y-%m-%dT%H:%M:%S.%f')
+            date = xmlmap.DateTimeField('datetime', format='%Y-%m-%dT%H:%M:%S')
+            dates = xmlmap.DateTimeListField('datetime', format='%Y-%m-%dT%H:%M:%S.%f')
 
         obj = TestObject(self.fixture)
         # fields should be datetime objects
@@ -441,7 +438,32 @@ class TestFields(unittest.TestCase):
         # set value via new datetime object
         today = datetime.today()
         obj.date = today
-        self.assertEqual(obj.node.xpath('string(date)'), today.strftime('%Y-%m-%dT%H:%M:%S'))
+        self.assertEqual(obj.node.xpath('string(datetime)'), today.strftime('%Y-%m-%dT%H:%M:%S'))
+
+    def testDateField(self):
+        class TestObject(xmlmap.XmlObject):
+            date = xmlmap.DateField('date')
+            dates = xmlmap.DateListField('date', format='%Y/%m/%d')
+
+        obj = TestObject(self.fixture)
+        # fields should be datetime objects
+        self.assert_(isinstance(obj.date, date))
+        self.assert_(isinstance(obj.dates[1], date))
+        # inspect date parsing
+        self.assertEqual(2010, obj.date.year)
+        self.assertEqual(1, obj.date.month)
+        self.assertEqual(3, obj.date.day)
+        self.assertEqual(2013, obj.dates[1].year)
+        self.assertEqual(5, obj.dates[1].month)
+        self.assertEqual(1, obj.dates[1].day)
+
+        # set value via new datetime object
+        today = date.today()
+        obj.date = today
+        self.assertEqual(obj.node.xpath('string(date)'), today.isoformat())
+        # alternate format
+        obj.dates[1] = today
+        self.assertEqual(obj.node.xpath('string(date[1])'), unicode(today))
 
 
     def testSchemaField(self):
