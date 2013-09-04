@@ -11,8 +11,11 @@ any necessary information about installation or upgrade notes.
 
 * Update :mod:`eulxml.xmlmap.mods` with support for id attribute on top-level MODS
   element. Contributed by `bcail <https://github.com/bcail>`_.
-* Update :mod:`eulxml.xmlmap.eadmap` with support digital archival object tags.
-=======
+* Update :mod:`eulxml.xmlmap.eadmap` with support for digital archival object tags.
+* Add :class:`eulxml.xmlmap.fields.DateField` to support date fields
+  separately from :class:`eulxml.xmlmap.fields.DateTimeField`; also includes
+  minimal support for date fields in :class:`eulxml.forms.xmlobject.XmlObjectForm`.
+
 0.19.1
 -------
 
