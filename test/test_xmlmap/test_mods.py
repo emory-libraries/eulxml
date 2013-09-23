@@ -28,15 +28,24 @@ proxy_required = skipIf('HTTP_PROXY' not in os.environ,
 class TestMods(unittest.TestCase):
     # tests for MODS XmlObject
 
-    FIXTURE = """<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+    FIXTURE = """<mods:mods xmlns:mods="http://www.loc.gov/mods/v3" ID="id1">
   <mods:titleInfo>
     <mods:title>A simple record</mods:title>
     <mods:subTitle> (for test purposes)</mods:subTitle>
+  </mods:titleInfo>
+  <mods:titleInfo type="alternative" displayLabel="First line">
+    <mods:title>Alternative title</mods:title>
   </mods:titleInfo>
   <mods:typeOfResource>text</mods:typeOfResource>
   <mods:note displayLabel="a general note" type="general">remember to...</mods:note>
   <mods:originInfo>
     <mods:dateCreated keyDate='yes'>2010-06-17</mods:dateCreated>
+    <mods:dateIssued keyDate='yes'>2010-06-18</mods:dateIssued>
+    <mods:dateCaptured point='end'>2010-06-19</mods:dateCaptured>
+    <mods:dateValid qualifier='approximate'>2010-06-20</mods:dateValid>
+    <mods:dateModified encoding='w3cdtf'>2010-06-21</mods:dateModified>
+    <mods:copyrightDate point='start'>2010-06-22</mods:copyrightDate>
+    <mods:dateOther keyDate='yes' type='some_type'>2010-06-23</mods:dateOther>
     <mods:publisher>Little, Brown</mods:publisher>
   </mods:originInfo>
   <mods:identifier type='uri'>http://so.me/uri</mods:identifier>
@@ -86,6 +95,12 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.note, mods.Note))
         self.assert_(isinstance(self.mods.origin_info, mods.OriginInfo))
         self.assert_(isinstance(self.mods.origin_info.created[0], mods.DateCreated))
+        self.assert_(isinstance(self.mods.origin_info.issued[0], mods.DateIssued))
+        self.assert_(isinstance(self.mods.origin_info.captured[0], mods.DateCaptured))
+        self.assert_(isinstance(self.mods.origin_info.valid[0], mods.DateValid))
+        self.assert_(isinstance(self.mods.origin_info.modified[0], mods.DateModified))
+        self.assert_(isinstance(self.mods.origin_info.copyright[0], mods.CopyrightDate))
+        self.assert_(isinstance(self.mods.origin_info.other[0], mods.DateOther))
         self.assert_(isinstance(self.mods.identifiers[0], mods.Identifier))
         self.assert_(isinstance(self.mods.name, mods.Name))
         self.assert_(isinstance(self.mods.name.name_parts[0], mods.NamePart))
@@ -93,6 +108,7 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.access_conditions[0], mods.AccessCondition))
         self.assert_(isinstance(self.mods.related_items[0], mods.RelatedItem))
         self.assert_(isinstance(self.mods.title_info, mods.TitleInfo))
+        self.assert_(isinstance(self.mods.title_info_list[1], mods.TitleInfo))
         self.assert_(isinstance(self.mods.abstract, mods.Abstract))
         self.assert_(isinstance(self.mods.parts[0], mods.Part))
         self.assert_(isinstance(self.mods.parts[0].details[0], mods.PartDetail))
@@ -100,6 +116,7 @@ class TestMods(unittest.TestCase):
         self.assert_(isinstance(self.mods.locations[0], mods.Location))
 
     def test_fields(self):
+        self.assertEqual('id1', self.mods.id)
         self.assertEqual('A simple record', self.mods.title)
         self.assertEqual('text', self.mods.resource_type)
         self.assertEqual('a general note', self.mods.note.label)
@@ -108,6 +125,13 @@ class TestMods(unittest.TestCase):
         self.assertEqual('remember to...', self.mods.note.text)
         self.assertEqual(u'2010-06-17', unicode(self.mods.origin_info.created[0]))
         self.assertEqual('2010-06-17', self.mods.origin_info.created[0].date)
+        self.assertEqual('2010-06-18', self.mods.origin_info.issued[0].date)
+        self.assertEqual('2010-06-19', self.mods.origin_info.captured[0].date)
+        self.assertEqual('2010-06-20', self.mods.origin_info.valid[0].date)
+        self.assertEqual('2010-06-21', self.mods.origin_info.modified[0].date)
+        self.assertEqual('2010-06-22', self.mods.origin_info.copyright[0].date)
+        self.assertEqual('2010-06-23', self.mods.origin_info.other[0].date)
+        self.assertEqual('some_type', self.mods.origin_info.other[0].type)
         self.assertEqual(True, self.mods.origin_info.created[0].key_date)
         self.assertEqual('Little, Brown', self.mods.origin_info.publisher)
         self.assertEqual(u'http://so.me/uri', self.mods.identifiers[0].text)
@@ -136,6 +160,9 @@ class TestMods(unittest.TestCase):
         # titleInfo subfields
         self.assertEqual('A simple record', self.mods.title_info.title)
         self.assertEqual(' (for test purposes)', self.mods.title_info.subtitle)
+        self.assertEqual('alternative', self.mods.title_info_list[1].type)
+        self.assertEqual('First line', self.mods.title_info_list[1].label)
+        self.assertEqual('Alternative title', self.mods.title_info_list[1].title)
         # part
         self.assertEqual('volume', self.mods.parts[0].details[0].type)
         self.assertEqual('II', self.mods.parts[0].details[0].number)
@@ -157,6 +184,8 @@ class TestMods(unittest.TestCase):
         mymods.title_info.subtitle = ': for testing'
         mymods.title_info.part_number = '1'
         mymods.title_info.part_name = 'first installment'
+        mymods.title_info_list.append(mods.TitleInfo(non_sort='An ', title='Alternative Title', subtitle=': for testing', 
+                                            part_number = '1', part_name='first installment', label='First line'))
         mymods.resource_type = 'text'
         mymods.create_name()
         mymods.name.type = 'personal'

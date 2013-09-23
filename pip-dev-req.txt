@@ -1,0 +1,8 @@
+# NOTE: duplicated in setup.py, but required for readthedocs.org
+sphinx
+coverage
+Django
+rdflib>=3.0
+mock
+nose
+unittest2

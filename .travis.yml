@@ -7,7 +7,8 @@ python:
 install:
   - "pip install -e . --use-mirrors"
   - "pip install 'eulxml[dev]' --use-mirrors"
-  - "sudo apt-get install squid"
-  - "sudo squid3"
+#  - "sudo apt-get install squid"
+#  - "sudo /etc/init.d/squid restart"
 # command to run tests, e.g. python setup.py test
-script: env HTTP_PROXY=localhost:3128 nosetests
+#script: env HTTP_PROXY=localhost:3128 nosetests
+script: nosetests

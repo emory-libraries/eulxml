@@ -6,6 +6,22 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.20.0
+-------
+
+* Update :mod:`eulxml.xmlmap.mods` with support for id attribute on top-level MODS
+  element. Contributed by `bcail <https://github.com/bcail>`_.
+* Update :mod:`eulxml.xmlmap.eadmap` with support for digital archival object tags.
+* Add :class:`eulxml.xmlmap.fields.DateField` to support date fields
+  separately from :class:`eulxml.xmlmap.fields.DateTimeField`; also includes
+  minimal support for date fields in :class:`eulxml.forms.xmlobject.XmlObjectForm`.
+
+0.19.1
+-------
+
+* Pinned MODS version to 3.4 to guard against new versions of the schema breaking validation
+
+
 0.19.0
 -------
 

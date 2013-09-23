@@ -64,6 +64,8 @@ setup(
             'nose',
             'unittest2',  # for python 2.6
         ]
+        # NOTE: dev requirements should be duplicated in pip-dev-req.txt
+        # for generating documentation on readthedocs.org
     },
 
     description='XPath-based XML data binding, with Django form support',

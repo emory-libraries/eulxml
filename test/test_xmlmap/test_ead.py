@@ -22,12 +22,12 @@ from eulxml.xmlmap import load_xmlobject_from_file, load_xmlobject_from_string
 from eulxml.xmlmap import eadmap
 
 proxy_required = skipIf('HTTP_PROXY' not in os.environ,
-    'Schema validation test requires an HTTP_PROXY')
+                        'Schema validation test requires an HTTP_PROXY')
 
 
 class TestEad(unittest.TestCase):
     FIXTURE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                             'fixtures', 'heaney653.xml')
+                                'fixtures', 'heaney653.xml')
 
     def setUp(self):
         self.ead = load_xmlobject_from_file(self.FIXTURE_FILE, eadmap.EncodedArchivalDescription)
@@ -260,5 +260,14 @@ class TestEad(unittest.TestCase):
         # short title
         self.assertEqual(u'Seamus Heaney collection,', unicode(title.short))
         self.assertEqual(u'Writings by Seamus Heaney',
-            unicode(self.ead.dsc.c[0].did.unittitle.short))
+                         unicode(self.ead.dsc.c[0].did.unittitle.short))
+
+    def test_DigitalArchivalObject(self):
+        # test dao inserted in did of first container-level item, series 1
+        dao = self.ead.dsc.c[0].c[0].did.dao_list[0]
+        self.assert_(isinstance(dao, eadmap.DigitalArchivalObject))
+        self.assertEqual('internal', dao.audience)
+        self.assertEqual('id1234', dao.id)
+        self.assertEqual('Digitized Content', dao.title)
+        self.assertEqual('http://some.url/item/id1234', dao.href)
 

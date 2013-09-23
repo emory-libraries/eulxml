@@ -34,7 +34,9 @@ class Common(xmlmap.XmlObject):
     '''
     ROOT_NS = MODS_NAMESPACE
     ROOT_NAMESPACES = {'mods': MODS_NAMESPACE }
-    XSD_SCHEMA = MODS_SCHEMA
+    # This pins the schema to a particular version to guard against new versions of the schema breaking validation. 
+    #  This allows us to control when we upgrade to the next version 
+    XSD_SCHEMA = MODSv34_SCHEMA
     schema_validate = False
 
 class Date(Common):
@@ -61,6 +63,22 @@ class DateCreated(Date):
 class DateIssued(Date):
     ROOT_NAME = 'dateIssued'
 
+class DateCaptured(Date):
+    ROOT_NAME = 'dateCaptured'
+
+class DateValid(Date):
+    ROOT_NAME = 'dateValid'
+
+class DateModified(Date):
+    ROOT_NAME = 'dateModified'
+
+class CopyrightDate(Date):
+    ROOT_NAME = 'copyrightDate'
+
+class DateOther(Date):
+    ROOT_NAME = 'dateOther'
+    type = xmlmap.StringField('@type')
+
 class OriginInfo(Common):
     ":class:`~eulxml.xmlmap.XmlObject` for MODS originInfo element (incomplete)"
     ROOT_NAME = 'originInfo'
@@ -71,6 +89,21 @@ class OriginInfo(Common):
     issued = xmlmap.NodeListField('mods:dateIssued', DateIssued,
         verbose_name='Date Issued',
         help_text='Date the resource was published, released, or issued')
+    captured = xmlmap.NodeListField('mods:dateCaptured', DateCaptured,
+        verbose_name='Date Captured',
+        help_text='Date on which the resource was digitized or a subsequent snapshot was taken')
+    valid = xmlmap.NodeListField('mods:dateValid', DateValid,
+        verbose_name='Date Valid',
+        help_text='Date in which the content of a resource is valid')
+    modified = xmlmap.NodeListField('mods:dateModified', DateModified,
+        verbose_name='Date Modified',
+        help_text='Date in which a resource is modified or changed')
+    copyright = xmlmap.NodeListField('mods:copyrightDate', CopyrightDate,
+        verbose_name='Copyright Date',
+        help_text='Date in which a resource is copyrighted')
+    other = xmlmap.NodeListField('mods:dateOther', DateOther,
+        verbose_name='Other Date',
+        help_text='Date that does not fall into another category but is important to record')
     publisher = xmlmap.StringField('mods:publisher')
 
     def is_empty(self):
@@ -196,6 +229,7 @@ class TitleInfo(Common):
     part_name = xmlmap.StringField('mods:partName')
     non_sort = xmlmap.StringField('mods:nonSort')
     type  = xmlmap.SchemaField('@type', 'titleInfoTypeAttributeDefinition')
+    label  = xmlmap.StringField('@displayLabel')
 
 
     def is_empty(self):
@@ -263,8 +297,10 @@ class BaseMods(Common):
     top-level MODS elements; base class for :class:`MODS` and :class:`RelatedItem`.'''
     schema_validate = True
 
+    id = xmlmap.StringField("@ID")
     title = xmlmap.StringField("mods:titleInfo/mods:title")
     title_info = xmlmap.NodeField('mods:titleInfo', TitleInfo)
+    title_info_list = xmlmap.NodeListField('mods:titleInfo', TitleInfo)
     resource_type  = xmlmap.SchemaField("mods:typeOfResource", "resourceTypeDefinition")
     name = xmlmap.NodeField('mods:name', Name)  # DEPRECATED: use names instead
     names = xmlmap.NodeListField('mods:name', Name)

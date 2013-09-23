@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/eadmap.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,14 +22,16 @@ from eulxml import xmlmap
 # organized from smallest/lowest level to highest level
 
 EAD_NAMESPACE = 'urn:isbn:1-931666-22-9'
+XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink'
+
 
 class _EadBase(xmlmap.XmlObject):
     '''Common EAD namespace declarations, for use by all EAD XmlObject instances.'''
     ROOT_NS = EAD_NAMESPACE
     ROOT_NAME = 'ead'
     ROOT_NAMESPACES = {
-        'e' : ROOT_NS,
-        'xlink': 'http://www.w3.org/1999/xlink',
+        'e': ROOT_NS,
+        'xlink': XLINK_NAMESPACE,
         'exist': 'http://exist.sourceforge.net/NS/exist'
     }
     # TODO: if there are any universal EAD attributes, they should be added here
@@ -39,14 +41,16 @@ class _EadBase(xmlmap.XmlObject):
     match_count = xmlmap.IntegerField("count(.//exist:match)")
     'Count of exist matches under the current field - for use with EAD and eXist-db'
 
+
 class Note(_EadBase):
     """EAD note."""
     content = xmlmap.StringListField("e:p")
     "list of paragraphs - `p`"
 
+
 class Section(_EadBase):
     """Generic EAD section.  Currently only has mappings for head, paragraph, and note."""
-    head   = xmlmap.NodeField("e:head", xmlmap.XmlObject)
+    head = xmlmap.NodeField("e:head", xmlmap.XmlObject)
     "heading - `head`"
     content = xmlmap.NodeListField("e:p", xmlmap.XmlObject)       # ??
     "list of paragraphs - `p`"
@@ -58,7 +62,7 @@ class Heading(_EadBase):
     """Generic xml object for headings used under `controlaccess`"""
     source = xmlmap.StringField("@source")
     "source vocabulary for controlled term - `@source`"
-    value  = xmlmap.StringField(".", normalize=True)
+    value = xmlmap.StringField(".", normalize=True)
     "controlled term text value (content of the heading element)"
 
     def __unicode__(self):
@@ -112,6 +116,7 @@ class Container(_EadBase):
     def __unicode__(self):
         return self.value
 
+
 class DateField(_EadBase):
     """
     DateField - for access to date and unitdate elements value and attributes.
@@ -129,7 +134,8 @@ class DateField(_EadBase):
 
     def __unicode__(self):
         return self.value
-    
+
+
 class Unitid(_EadBase):
     '''Unitid element'''
     identifier = xmlmap.IntegerField('@identifier')
@@ -141,10 +147,11 @@ class Unitid(_EadBase):
     value = xmlmap.StringField('.')
     "human-readable unitid - (contents of the element)"
 
+
 class UnitTitle(_EadBase):
     unitdate = xmlmap.NodeField("e:unitdate", DateField)
     "unit date"
-    
+
     @property
     def short(self):
         '''Short-form of the unit title, excluding any unit date, as an instance
@@ -154,7 +161,7 @@ class UnitTitle(_EadBase):
         if not self.unitdate:
             return self
 
-        # preserve any child elements (e.g., title or emph) 
+        # preserve any child elements (e.g., title or emph)
         # initialize a unittitle with a *copy* of the current node
         ut = UnitTitle(node=deepcopy(self.node))
         # remove the unitdate node and return
@@ -162,6 +169,18 @@ class UnitTitle(_EadBase):
         return ut
         # not caching the modified node because the main node could be modified
         # and the short version should reflect any changes made
+
+
+class DigitalArchivalObject(_EadBase):
+    'Digital Archival Object (`dao` element)'
+    audience = xmlmap.StringField('@audience')
+    'audience (internal or external)'
+    id = xmlmap.StringField("@id")
+    'identifier'
+    title = xmlmap.StringField("@xlink:title")
+    'title'
+    href = xmlmap.StringField("@xlink:href")
+    'url where the digital archival object can be accessed'
 
 
 class DescriptiveIdentification(_EadBase):
@@ -183,7 +202,9 @@ class DescriptiveIdentification(_EadBase):
     location = xmlmap.StringField("e:physloc")
     "physical location - `physloc`"
     container = xmlmap.NodeListField("e:container", Container)
-    ":class:`Container` - `container`"    
+    ":class:`Container` - `container`"
+    dao_list = xmlmap.NodeListField("e:dao", DigitalArchivalObject)
+    "list of digital archival object references as :class:`DigitalArchivalObject`"
 
 
 class Component(_EadBase):
@@ -215,7 +236,7 @@ class Component(_EadBase):
     "biography or history :class:`Section` - `bioghist`"
     bibliography = xmlmap.NodeField("e:bibliography", Section)
     "bibliography :class:`Section` - `bibliograhy`"
-    scope_content  = xmlmap.NodeField("e:scopecontent", Section)
+    scope_content = xmlmap.NodeField("e:scopecontent", Section)
     "scope and content :class:`Section` - `scopecontent`"
     arrangement = xmlmap.NodeField("e:arrangement", Section)
     "arrangement :class:`Section` - `arrangement`"
@@ -225,10 +246,12 @@ class Component(_EadBase):
     "use restrictions :class:`Section` - `userestrict`"
     access_restriction = xmlmap.NodeField("e:accessrestrict", Section)
     "access restrictions :class:`Section` - `accessrestrict`"
+    dao_list = xmlmap.NodeListField("e:dao", DigitalArchivalObject)
+    "list of digital archival object references as :class:`DigitalArchivalObject`"
 
     c = xmlmap.NodeListField("e:c02|e:c03|e:c04|e:c05|e:c06|e:c07|e:c08|e:c09|e:c10|e:c11|e:c12", "self")
     "list of :class:`Component` - recursive mapping to any c-level 2-12; `c02|c03|c04|c05|c06|c07|c08|c09|c10|c11|c12`"
-    
+
     # using un-numbered mapping for c-series or container lists
     def hasSubseries(self):
         """Check if this component has subseries or not.
@@ -239,7 +262,7 @@ class Component(_EadBase):
             :rtype: boolean
         """
         if self.c and self.c[0] and ((self.c[0].level in ('series', 'subseries')) or
-            (self.c[0].c and self.c[0].c[0])):            
+                                     (self.c[0].c and self.c[0].c[0])):
             return True
         else:
             return False
@@ -247,7 +270,7 @@ class Component(_EadBase):
 
 class SubordinateComponents(Section):
     """Description of Subordinate Components (dsc element); container lists and series.
-    
+
        Expected node element passed to constructor: `ead/archdesc/dsc`.
     """
 
@@ -255,7 +278,7 @@ class SubordinateComponents(Section):
     "type of component - `@type`"
     c = xmlmap.NodeListField("e:c01", Component)
     "list of :class:`Component` - `c01`; list of c01 elements directly under this section"
-    
+
     def hasSeries(self):
         """Check if this finding aid has series/subseries.
 
@@ -268,6 +291,7 @@ class SubordinateComponents(Section):
             return True
         else:
             return False
+
 
 class Reference(_EadBase):
     """Internal linking element that may contain text.
@@ -288,7 +312,7 @@ class Reference(_EadBase):
 
 class PointerGroup(_EadBase):
     """Group of pointer or reference elements in an index entry
-    
+
     Expected node element passed to constructor: `ptrgrp`.
     """
     ref = xmlmap.NodeListField("e:ref", Reference)
@@ -353,7 +377,7 @@ class ArchivalDescription(_EadBase):
     "biography or history :class:`Section` - `bioghist`"
     bibliography = xmlmap.NodeField("e:bibliography", Section)
     "bibliography :class:`Section` - `bibliograhy`"
-    scope_content  = xmlmap.NodeField("e:scopecontent", Section)
+    scope_content = xmlmap.NodeField("e:scopecontent", Section)
     "scope and content :class:`Section` - `scopecontent`"
     arrangement = xmlmap.NodeField("e:arrangement", Section)
     "arrangement :class:`Section` - `arrangement`"
@@ -363,6 +387,9 @@ class ArchivalDescription(_EadBase):
     ":class:`ControlledAccessHeadings` - `controlaccess`; subject terms, names, etc."
     index = xmlmap.NodeListField("e:index", Index)
     "list of :class:`Index` - `index`; e.g., index of selected correspondents"
+    dao_list = xmlmap.NodeListField("e:dao", DigitalArchivalObject)
+    "list of digital archival object references as :class:`DigitalArchivalObject`"
+
 
 class Address(_EadBase):
     """Address information.
@@ -371,6 +398,7 @@ class Address(_EadBase):
     """
     lines = xmlmap.StringListField("e:addressline")
     "list of lines in an address - `line`"
+
 
 class PublicationStatement(_EadBase):
     """Publication information for an EAD document.
@@ -384,6 +412,7 @@ class PublicationStatement(_EadBase):
     address = xmlmap.NodeField("e:address", Address)
     "address of publication/publisher - `address`"
 
+
 class ProfileDescription(_EadBase):
     """Profile Descriptor for an EAD document.
        Expected node element passed to constructor: 'ead/eadheader/profiledesc'.
@@ -394,7 +423,8 @@ class ProfileDescription(_EadBase):
     "language information - `langusage/language`"
     language_codes = xmlmap.StringListField("e:langusage/e:language/@langcode")
     "language codes - `langusage/language/@langcode`"
-    
+
+
 class FileDescription(_EadBase):
     """Bibliographic information about this EAD document.
 
@@ -402,6 +432,7 @@ class FileDescription(_EadBase):
       """
     publication = xmlmap.NodeField("e:publicationstmt", PublicationStatement)
     "publication information - `publicationstmt`"
+
 
 class EadId(_EadBase):
     """EAD identifier for a single EAD finding aid document.
@@ -418,6 +449,7 @@ class EadId(_EadBase):
     "identifier - `@identifier`"
     value = xmlmap.StringField(".")
     "text content of the eadid node"
+
 
 class EncodedArchivalDescription(_EadBase):
     """:class:`~eulxml.xmlmap.XmlObject` for an Encoded Archival Description
@@ -444,8 +476,7 @@ class EncodedArchivalDescription(_EadBase):
     """collection level physical description - `archdesc[@level="collection"]/did/physdesc`"""
     abstract = xmlmap.NodeField('e:archdesc[@level="collection"]/e:did/e:abstract', xmlmap.XmlObject)
     """collection level abstract - `archdesc[@level="collection"]/did/abstract`"""
-    
-    archdesc  = xmlmap.NodeField("e:archdesc", ArchivalDescription)
+    archdesc = xmlmap.NodeField("e:archdesc", ArchivalDescription)
     ":class:`ArchivalDescription` - `archdesc`"
     # dsc is under archdesc, but is a major section - mapping at top-level for convenience
     dsc = xmlmap.NodeField("e:archdesc/e:dsc", SubordinateComponents)
@@ -454,4 +485,3 @@ class EncodedArchivalDescription(_EadBase):
     ":class:`FileDescription` - `filedesc`"
     profiledesc = xmlmap.NodeField("e:eadheader/e:profiledesc", ProfileDescription)
     ":class:`ProfileDescription` - `profiledesc`"
-

@@ -86,7 +86,7 @@ See also LOC documentation for `did element <http://www.loc.gov/ead/tglib/elemen
 
   .. autoclass:: eulxml.xmlmap.eadmap.Container(node[, context])
       :members:
-      
+
   .. autoclass:: eulxml.xmlmap.eadmap.Section(node[, context])
       :members:
 
@@ -102,6 +102,8 @@ See also LOC documentation for `did element <http://www.loc.gov/ead/tglib/elemen
   .. autoclass:: eulxml.xmlmap.eadmap.ProfileDescription(dom_node[, context])
       :members:
 
+  .. autoclass:: eulxml.xmlmap.eadmap.DigitalArchivalObject(dom_node[, context])
+      :members:
 
 
-  
+
