@@ -6,6 +6,12 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.20.1
+-------
+
+* Adjust :mod:`eulxml.xmlmap` fields for better results when inspected by
+  sphinx autodoc or other similar tools.
+
 0.20.0
 -------
 
