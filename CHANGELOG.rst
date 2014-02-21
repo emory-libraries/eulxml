@@ -6,6 +6,12 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.20.1
+-------
+
+* Adjust :mod:`eulxml.xmlmap` fields for better results when inspected by
+  sphinx autodoc or other similar tools.
+
 0.20.0
 -------
 
@@ -20,7 +26,6 @@ any necessary information about installation or upgrade notes.
 -------
 
 * Pinned MODS version to 3.4 to guard against new versions of the schema breaking validation
-
 
 0.19.0
 -------

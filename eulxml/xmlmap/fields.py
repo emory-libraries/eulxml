@@ -76,6 +76,11 @@ class Field(object):
     def delete_for_node(self, node, context):
         return self.manager.delete(self.xpath, self.parsed_xpath, node, context, self.mapper)
 
+    def __repr__(self):
+        """
+        Displays the module, class and name of the field.
+        """
+        return '<%s.%s>' % (self.__class__.__module__, self.__class__.__name__)
 
 # data mappers to translate between identified xml nodes and Python values
 
