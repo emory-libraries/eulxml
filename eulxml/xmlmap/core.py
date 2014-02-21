@@ -124,7 +124,9 @@ class _FieldDescriptor(object):
 
     def __get__(self, obj, objtype):
         if obj is None:
-            return self
+            # NOTE: return the *field* here rather than self;
+            # allows sphinx autodocumentation to inspect the type properly
+            return self.field
         return self.field.get_for_node(obj.node, obj.context)
 
     def __set__(self, obj, value):
