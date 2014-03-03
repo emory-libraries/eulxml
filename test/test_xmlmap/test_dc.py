@@ -112,6 +112,7 @@ class TestDc(unittest.TestCase):
 
     def testTemplateInit(self):
         dc = DublinCore()
+        dc.title = 'foo'  # if dc namespace is not used it will be cleaned/removed
         dc_xml = dc.serialize()
         self.assert_('<oai_dc:dc ' in dc_xml)
         self.assert_('xmlns:dc="http://purl.org/dc/elements/1.1/"' in dc_xml)
