@@ -44,6 +44,7 @@ class _EadBase(xmlmap.XmlObject):
 
 class Note(_EadBase):
     """EAD note."""
+    ROOT_NAME = 'note'
     content = xmlmap.StringListField("e:p")
     "list of paragraphs - `p`"
 
@@ -138,6 +139,7 @@ class DateField(_EadBase):
 
 class Unitid(_EadBase):
     '''Unitid element'''
+    ROOT_NAME = 'unitid'
     identifier = xmlmap.IntegerField('@identifier')
     'machine-readable identifier - `@identifier`'
     country_code = xmlmap.StringField('@countrycode')
@@ -149,8 +151,12 @@ class Unitid(_EadBase):
 
 
 class UnitTitle(_EadBase):
+    ROOT_NAME = 'unittitle'
     unitdate = xmlmap.NodeField("e:unitdate", DateField)
     "unit date"
+
+    text = xmlmap.StringField('text()')
+    'text in this field'
 
     @property
     def short(self):
@@ -173,6 +179,7 @@ class UnitTitle(_EadBase):
 
 class DigitalArchivalObject(_EadBase):
     'Digital Archival Object (`dao` element)'
+    ROOT_NAME = 'dao'
     audience = xmlmap.StringField('@audience')
     'audience (internal or external)'
     id = xmlmap.StringField("@id")
@@ -185,6 +192,7 @@ class DigitalArchivalObject(_EadBase):
 
 class DescriptiveIdentification(_EadBase):
     """Descriptive Information (`did` element) for materials in a component"""
+    ROOT_NAME = 'did'
     unitid = xmlmap.NodeField("e:unitid", Unitid)
     ":class:`Unitid` - `unitid`"
     unittitle = xmlmap.NodeField("e:unittitle", UnitTitle)
@@ -273,6 +281,7 @@ class SubordinateComponents(Section):
 
        Expected node element passed to constructor: `ead/archdesc/dsc`.
     """
+    ROOT_NAME = 'dsc'
 
     type = xmlmap.StringField("@type")
     "type of component - `@type`"
@@ -298,6 +307,7 @@ class Reference(_EadBase):
 
     Expected node element passed to constructor: `ref`.
     """
+    ROOT_NAME = 'ref'
     type = xmlmap.StringField("@xlink:type")
     "link type - `xlink:type`"
     target = xmlmap.StringField("@target")
@@ -315,12 +325,14 @@ class PointerGroup(_EadBase):
 
     Expected node element passed to constructor: `ptrgrp`.
     """
+    ROOT_NAME = 'ptrgrp'
     ref = xmlmap.NodeListField("e:ref", Reference)
     "list of :class:`Reference` - references"
 
 
 class IndexEntry(_EadBase):
     "Index entry in an archival description index."
+    ROOT_NAME = 'indexentry'
     name = xmlmap.NodeField("e:corpname|e:famname|e:function|e:genreform|e:geogname|e:name|e:namegrp|e:occupation|e:persname|e:title|e:subject",
                             xmlmap.XmlObject)
     "access element, e.g. name or subject"
@@ -333,6 +345,7 @@ class Index(Section):
 
        Expected node element passed to constructor: `ead/archdesc/index`.
     """
+    ROOT_NAME = 'index'
     entry = xmlmap.NodeListField("e:indexentry", IndexEntry)
     "list of :class:`IndexEntry` - `indexentry`; entry in the index"
     id = xmlmap.StringField("@id")
@@ -343,6 +356,7 @@ class ArchivalDescription(_EadBase):
 
       Expected node element passed to constructor: `ead/archdesc`.
       """
+    ROOT_NAME = 'archdesc'
     did = xmlmap.NodeField("e:did", DescriptiveIdentification)
     'descriptive identification :class:`DescriptiveIdentification` - `did`'
     origination = xmlmap.StringField("e:did/e:origination", normalize=True)
@@ -396,6 +410,7 @@ class Address(_EadBase):
 
       Expected node element passed to constructor: `address`.
     """
+    ROOT_NAME = 'address'
     lines = xmlmap.StringListField("e:addressline")
     "list of lines in an address - `line`"
 
@@ -405,6 +420,7 @@ class PublicationStatement(_EadBase):
 
     Expected node element passed to constructor: `ead/eadheader/filedesc/publicationstmt`.
     """
+    ROOT_NAME = 'publicationstmt'
     date = xmlmap.NodeField("e:date", DateField)
     ":class:`DateField` - `date`"
     publisher = xmlmap.StringField("e:publisher")
@@ -417,6 +433,7 @@ class ProfileDescription(_EadBase):
     """Profile Descriptor for an EAD document.
        Expected node element passed to constructor: 'ead/eadheader/profiledesc'.
     """
+    ROOT_NAME = 'profiledesc'
     date = xmlmap.NodeField("e:creation/e:date", DateField)
     ":class:`DateField` - `creation/date`"
     languages = xmlmap.StringListField("e:langusage/e:language")
@@ -429,7 +446,8 @@ class FileDescription(_EadBase):
     """Bibliographic information about this EAD document.
 
       Expected node element passed to constructor: `ead/eadheader/filedesc`.
-      """
+    """
+    ROOT_NAME = 'filedesc'
     publication = xmlmap.NodeField("e:publicationstmt", PublicationStatement)
     "publication information - `publicationstmt`"
 
@@ -439,6 +457,7 @@ class EadId(_EadBase):
 
     Expected element passed to constructor: `ead/eadheader/eadid`.
     """
+    ROOT_NAME = 'eadid'
     country = xmlmap.StringField('@countrycode')
     "country code - `@countrycode`"
     maintenance_agency = xmlmap.StringField('@mainagencycode')

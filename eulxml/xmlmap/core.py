@@ -442,6 +442,9 @@ class XmlObject(object):
         else:
             string_mode = False
 
+        # clean up unused namespace declarations before serializing
+        etree.cleanup_namespaces(node)
+
         # NOTE: etree c14n doesn't seem to like fedora info: URIs
         stream.write(etree.tostring(node, encoding='UTF-8', pretty_print=pretty,
                                     xml_declaration=xml_declaration))
