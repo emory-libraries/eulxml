@@ -6,6 +6,12 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.20.3
+------
+
+* Revert unused namespace cleanup change to serialization it generates
+  less optimal output in certain cases.
+
 0.20.2
 -------
 
