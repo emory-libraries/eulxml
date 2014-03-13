@@ -45,7 +45,7 @@ class _EadBase(xmlmap.XmlObject):
 class Note(_EadBase):
     """EAD note."""
     ROOT_NAME = 'note'
-    content = xmlmap.StringListField("e:p")
+    content = xmlmap.NodeListField("e:p", xmlmap.XmlObject)   # ?? (to allow formatting)
     "list of paragraphs - `p`"
 
 
@@ -53,7 +53,7 @@ class Section(_EadBase):
     """Generic EAD section.  Currently only has mappings for head, paragraph, and note."""
     head = xmlmap.NodeField("e:head", xmlmap.XmlObject)
     "heading - `head`"
-    content = xmlmap.NodeListField("e:p", xmlmap.XmlObject)       # ??
+    content = xmlmap.NodeListField("e:p", xmlmap.XmlObject)   # ?? (to allow formatting)
     "list of paragraphs - `p`"
     note = xmlmap.NodeField("e:note", Note)
     ":class:`Note`"
@@ -351,6 +351,8 @@ class Index(Section):
     entry = xmlmap.NodeListField("e:indexentry", IndexEntry)
     "list of :class:`IndexEntry` - `indexentry`; entry in the index"
     id = xmlmap.StringField("@id")
+    note = xmlmap.NodeField("e:note", Note)
+    ":class:`Note`"
 
 
 class ArchivalDescription(_EadBase):

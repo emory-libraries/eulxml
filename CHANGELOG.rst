@@ -11,8 +11,14 @@ any necessary information about installation or upgrade notes.
 
 * Revert unused namespace cleanup change to serialization it generates
   less optimal output in certain cases.
-* Added mapping for `xlink:show` attribute to
-  :class:`~eulxml.xmlmap.eadmap.DigitalArchivalObject`
+* Minor updates to :mod:`~eulxml.xmlmap.eadmap`:
+
+  * Added mapping for `xlink:show` attribute to
+    :class:`~eulxml.xmlmap.eadmap.DigitalArchivalObject`
+  * Added mapping for `note` field
+    :class:`~eulxml.xmlmap.eadmap.Index`
+  * Changed :class:`~eulxml.xmlmap.eadmap.Note` parargaph content from
+    string list to node list, to support formatting.
 
 0.20.2
 -------
