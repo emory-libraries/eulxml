@@ -11,6 +11,8 @@ any necessary information about installation or upgrade notes.
 
 * Revert unused namespace cleanup change to serialization it generates
   less optimal output in certain cases.
+* Added mapping for `xlink:show` attribute to
+  :class:`~eulxml.xmlmap.eadmap.DigitalArchivalObject`
 
 0.20.2
 -------

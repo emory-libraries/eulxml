@@ -188,6 +188,8 @@ class DigitalArchivalObject(_EadBase):
     'title'
     href = xmlmap.StringField("@xlink:href")
     'url where the digital archival object can be accessed'
+    show = xmlmap.StringField("@xlink:show")
+    'attribute to determine how the resource should be displayed'
 
 
 class DescriptiveIdentification(_EadBase):
