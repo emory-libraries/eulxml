@@ -131,7 +131,7 @@ class TestEad(unittest.TestCase):
         self.assert_(isinstance(index, eadmap.Index))
         self.assertEqual('Index of Selected Correspondents', unicode(index.head))
         self.assertEqual('index1', index.id)
-        self.assert_('relates to the correspondence in Series 1' in index.note.content[0])
+        self.assert_('relates to the correspondence in Series 1' in unicode(index.note.content[0]))
         self.assertEqual(2, len(index.entry))
         self.assert_(isinstance(index.entry[0], eadmap.IndexEntry))
         self.assertEqual(u'Batten, Guinn', unicode(index.entry[0].name))
