@@ -19,6 +19,9 @@ any necessary information about installation or upgrade notes.
     :class:`~eulxml.xmlmap.eadmap.Index`
   * Changed :class:`~eulxml.xmlmap.eadmap.Note` parargaph content from
     string list to node list, to support formatting.
+  * Added mapping for ``processinfo`` to
+   :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
+   :class:`~eulxml.xmlmap.eadmap.Component`
 
 0.20.2
 -------

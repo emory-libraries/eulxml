@@ -399,7 +399,7 @@ class ArchivalDescription(_EadBase):
     "bibliography :class:`Section` - `bibliograhy`"
     scope_content = xmlmap.NodeField("e:scopecontent", Section)
     "scope and content :class:`Section` - `scopecontent`"
-    process_info = xmlmap.NodeField("e:archdesc/e:processinfo", eadmap.Section)
+    process_info = xmlmap.NodeField("e:archdesc/e:processinfo", Section)
     "processing information :class:`Section` - `processinfo`"
     arrangement = xmlmap.NodeField("e:arrangement", Section)
     "arrangement :class:`Section` - `arrangement`"
