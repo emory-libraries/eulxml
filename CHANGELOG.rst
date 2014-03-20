@@ -17,7 +17,7 @@ any necessary information about installation or upgrade notes.
     :class:`~eulxml.xmlmap.eadmap.DigitalArchivalObject`
   * Added mapping for `note` field
     :class:`~eulxml.xmlmap.eadmap.Index`
-  * Changed :class:`~eulxml.xmlmap.eadmap.Note` parargaph content from
+  * Changed :class:`~eulxml.xmlmap.eadmap.Note` paragraph content from
     string list to node list, to support formatting.
   * Added mapping for ``processinfo`` to
    :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
