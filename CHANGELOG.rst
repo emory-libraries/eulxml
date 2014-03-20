@@ -6,6 +6,23 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.20.3
+------
+
+* Revert unused namespace cleanup change to serialization it generates
+  less optimal output in certain cases.
+* Minor updates to :mod:`~eulxml.xmlmap.eadmap`:
+
+  * Added mapping for `xlink:show` attribute to
+    :class:`~eulxml.xmlmap.eadmap.DigitalArchivalObject`
+  * Added mapping for `note` field
+    :class:`~eulxml.xmlmap.eadmap.Index`
+  * Changed :class:`~eulxml.xmlmap.eadmap.Note` paragraph content from
+    string list to node list, to support formatting.
+  * Added mapping for ``processinfo`` to
+   :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
+   :class:`~eulxml.xmlmap.eadmap.Component`
+
 0.20.2
 -------
 
