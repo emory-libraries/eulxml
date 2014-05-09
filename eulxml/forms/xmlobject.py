@@ -555,8 +555,24 @@ class XmlObjectForm(BaseForm):
         if hasattr(self, 'cleaned_data'):   # possible to have an empty object/no data
 
             opts = self._meta
-            # FIXME: _fields doesn't seem to preserver order; problematic for some xml
-            for name in self.instance._fields.iterkeys():
+
+            # NOTE: _fields doesn't seem to order, which is
+            # problematic for some xml (e.g., where order matters for validity)
+
+            # use field order as declared in the form for update order
+            # when possible.
+            # (NOTE: this could be problematic also, since display order may
+            # not always be the same as schema order)
+            fields_in_order = []
+            if hasattr(self.Meta, 'fields'):
+                fields_in_order.extend(self.Meta.fields)
+                fields_in_order.extend([name for name in self.instance._fields.iterkeys()
+                                        if name in self.Meta.fields])
+            else:
+                fields_in_order = self.instance._fields.keys()
+
+            for name in fields_in_order:
+            # for name in self.instance._fields.iterkeys():
             # for name in self.declared_fields.iterkeys():
                 if opts.fields and name not in opts.parsed_fields.fields:
                     continue
