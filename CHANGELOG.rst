@@ -6,6 +6,16 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 
+0.21
+----
+
+* Add default unicode output of date value for MODS date fields
+  (:class:`~eulxml.xmlmap.mods.Date` and all date variants)
+* Bug fix: :class:`~eulxml.forms.XmlObjectForm` now uses the
+  field order as defined on the form when updating the XML instance
+  (fix for XML where schema requires fields in a specific order)
+
+
 0.20.3
 ------
 

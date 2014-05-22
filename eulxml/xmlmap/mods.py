@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/mods.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,8 +34,8 @@ class Common(xmlmap.XmlObject):
     '''
     ROOT_NS = MODS_NAMESPACE
     ROOT_NAMESPACES = {'mods': MODS_NAMESPACE }
-    # This pins the schema to a particular version to guard against new versions of the schema breaking validation. 
-    #  This allows us to control when we upgrade to the next version 
+    # This pins the schema to a particular version to guard against new versions of the schema breaking validation.
+    #  This allows us to control when we upgrade to the next version
     XSD_SCHEMA = MODSv34_SCHEMA
     schema_validate = False
 
@@ -56,6 +56,9 @@ class Date(Common):
         date should be considered empty, as they are only meaningful in
         reference to a date value.'''
         return not self.node.text
+
+    def __unicode__(self):
+        return self.date
 
 class DateCreated(Date):
     ROOT_NAME = 'dateCreated'
@@ -130,7 +133,7 @@ class Note(Common):
 class TypedNote(Note):
     '''Extends :class:`Note` to modify :meth:`is_empty` behavior-- considered
     empty when a type attribute is set without any text.'''
-    
+
     def is_empty(self):
         """Returns True if the root node contains no child elements, no text,
         and no attributes other than **type**. Returns False if any are present."""
@@ -326,7 +329,7 @@ class RelatedItem(BaseMods):
     ROOT_NAME = 'relatedItem'
     type = xmlmap.SchemaField("@type", 'relatedItemTypeAttributeDefinition')
     label = xmlmap.StringField('@displayLabel')
-    
+
 class MODS(BaseMods):
     '''Top-level :class:`~eulxml.xmlmap.XmlObject` for a MODS metadata record.
     Inherits all standard top-level MODS fields from :class:`BaseMods` and adds
