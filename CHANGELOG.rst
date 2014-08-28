@@ -5,6 +5,11 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.21.1
+----
+
+* Bug fix: :meth:`eulxml.xmlmap.XmlObject.xsl_transform` now recognizes text
+  output as a valid, non-empty XSL result
 
 0.21
 ----

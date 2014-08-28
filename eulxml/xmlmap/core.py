@@ -363,7 +363,7 @@ class XmlObject(object):
         :param filename: xslt filename (optional, one of file and xsl is required)
         :param xsl: xslt as string (optional)
         :param return_type: type of object to return; optional, defaults to
-            :class:`XmlObject`
+            :class:`XmlObject`; specify unicode or string for text output
         :returns: an instance of :class:`XmlObject` or the return_type specified
         """
         parser = _get_xmlparser()
@@ -381,6 +381,15 @@ class XmlObject(object):
         # If XSLT returns nothing, transform returns an _XSLTResultTree
         # with no root node.  Log a warning, and don't generate an
         # empty xmlobject which will behave unexpectedly.
+
+        # text output does not include a root node, so check separately
+        if return_type in [str, unicode]:
+            if result is None:
+                logger.warning("XSL transform generated an empty result")
+                return
+            else:
+                return return_type(result)
+
         if result is None or result.getroot() is None:
             logger.warning("XSL transform generated an empty result")
         else:
