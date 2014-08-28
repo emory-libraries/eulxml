@@ -69,6 +69,16 @@ class TestXsl(unittest.TestCase):
     </xsl:stylesheet>
     '''
 
+    TEXT_OUTPUT_XSL = '''
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+        <xsl:output method="text"/>
+        <xsl:strip-space elements="foo bar"/>
+        <xsl:template match="baz">
+            <xsl:apply-templates/><xsl:text> </xsl:text>
+        </xsl:template>
+    </xsl:stylesheet>
+    '''
+
     def setUp(self):
         # parseString wants a url. let's give it a proper one.
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
@@ -100,6 +110,15 @@ class TestXsl(unittest.TestCase):
         self.assertEqual(None, obj.xsl_transform(xsl=self.EMPTY_RESULT_XSL,
             return_type=TestObject),
             'xsl transform should return None for an empty XSLT result')
+
+        # text output
+        obj = TestObject(self.fixture)
+        result = obj.xsl_transform(xsl=self.TEXT_OUTPUT_XSL, return_type=str)
+        self.assertEqual('42 13 ', result)
+        self.assert_(isinstance(result, str))
+
+        result = obj.xsl_transform(xsl=self.TEXT_OUTPUT_XSL, return_type=unicode)
+        self.assert_(isinstance(result, unicode))
 
         self.FILE.close()
         # not yet tested: xsl with parameters
