@@ -388,7 +388,7 @@ class XmlObject(object):
                 logger.warning("XSL transform generated an empty result")
                 return
             else:
-                return result
+                return return_type(result)
 
         if result is None or result.getroot() is None:
             logger.warning("XSL transform generated an empty result")
