@@ -29,7 +29,7 @@ __all__ = [
     'ItemField', 'SimpleBooleanField',
     'DateTimeField', 'DateTimeListField',
     'DateField', 'DateListField',
-    'SchemaField',
+    'SchemaField','FloatField','FloatListField',
 ]
 
 logger = logging.getLogger(__name__)
@@ -121,6 +121,19 @@ class IntegerMapper(Mapper):
             # anything that can't be converted to an Integer
             return None
 
+class FloatMapper(Mapper):
+    XPATH = etree.XPath('number()')
+    def to_python(self, node):
+        if node is None:
+            return None
+        try:
+            if isinstance(node, basestring):
+                return float(node)
+
+            return float(self.XPATH(node))
+        except ValueError:
+            # anything that can't be converted to an Float
+            return None
 
 class SimpleBooleanMapper(Mapper):
     XPATH = etree.XPath('string()')
@@ -872,6 +885,34 @@ class StringListField(Field):
                 manager = NodeListManager(),
                 mapper = StringMapper(normalize=normalize), *args, **kwargs)
 
+class FloatField(Field):
+
+    """Map an XPath expression to a single Python float. If the XPath
+    expression evaluates to an empty NodeList, an FloatField evaluates to
+    `None`.
+
+    Supports setting values for attributes, empty nodes, or text-only nodes.
+    """
+
+    def __init__(self, xpath, *args, **kwargs):
+        super(FloatField, self).__init__(xpath,
+                manager = SingleNodeManager(),
+                mapper = FloatMapper(), *args, **kwargs)
+
+class FloatListField(Field):
+
+    """Map an XPath expression to a list of Python floats. If the XPath
+    expression evaluates to an empty NodeList, an IntegerListField evaluates to
+    an empty list.
+
+    Actual return type is :class:`~eulxml.xmlmap.fields.NodeList`, which can be
+    treated like a regular Python list, and includes set and delete functionality.
+    """
+
+    def __init__(self, xpath, *args, **kwargs):
+        super(FloatListField, self).__init__(xpath,
+                manager = NodeListManager(),
+                mapper = FloatMapper(), *args, **kwargs)
 
 class IntegerField(Field):
 
@@ -902,6 +943,7 @@ class IntegerListField(Field):
         super(IntegerListField, self).__init__(xpath,
                 manager = NodeListManager(),
                 mapper = IntegerMapper(), *args, **kwargs)
+
 
 
 class SimpleBooleanField(Field):
