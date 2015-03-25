@@ -371,13 +371,18 @@ class XmlObject(object):
             xslt_doc = etree.parse(filename, parser=parser)
         if xsl is not None:
             xslt_doc = etree.fromstring(xsl, parser=parser)
-        transform = etree.XSLT(xslt_doc, **params)
+        transform = etree.XSLT(xslt_doc)
         # NOTE: converting _XSLTResultTree to XmlObject because of a bug in its unicode method
         # - to output xml result, use serialize instead of unicode
         if return_type is None:
             return_type = XmlObject
 
-        result = transform(self.node)
+        # automatically encode any strings as XSLT string parameters
+        for key, val in params.iteritems():
+            if isinstance(val, basestring):
+                params[key] = etree.XSLT.strparam(val)
+
+        result = transform(self.node, **params)
         # If XSLT returns nothing, transform returns an _XSLTResultTree
         # with no root node.  Log a warning, and don't generate an
         # empty xmlobject which will behave unexpectedly.
