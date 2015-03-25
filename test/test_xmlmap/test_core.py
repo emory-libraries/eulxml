@@ -79,6 +79,14 @@ class TestXsl(unittest.TestCase):
     </xsl:stylesheet>
     '''
 
+    PARAM_XSL = '''
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+        <xsl:param name="input"/>
+        <xsl:template match="/" ><xsl:value-of select="$input"/></xsl:template>
+    </xsl:stylesheet>
+    '''
+
+
     def setUp(self):
         # parseString wants a url. let's give it a proper one.
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
@@ -120,8 +128,14 @@ class TestXsl(unittest.TestCase):
         result = obj.xsl_transform(xsl=self.TEXT_OUTPUT_XSL, return_type=unicode)
         self.assert_(isinstance(result, unicode))
 
+        # transform with parameters
+        obj = TestObject(self.fixture)
+        input_text = "some text content"
+        result = obj.xsl_transform(xsl=self.PARAM_XSL, return_type=str,
+            input=input_text)
+        self.assert_(input_text in result)
+
         self.FILE.close()
-        # not yet tested: xsl with parameters
 
 
 # NOTE: using TestXsl fixture text for the init tests
