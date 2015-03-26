@@ -5,6 +5,15 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.22
+----
+
+* New method (:meth:`eulxml.xmlmap.load_xslt`) to load and precompile XSLT
+  that will be used more than once.
+* Re-worked :meth:`eulxml.xmlmap.XmlObject.xsl_transform` to avoid
+  malloc errors and segmentation faults and to allow using precompiled
+  XSLT documents.
+
 0.21.2
 ------
 
