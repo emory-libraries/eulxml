@@ -328,6 +328,42 @@ class TestFields(unittest.TestCase):
         # check required
         self.assertFalse(obj._fields['missing'].required)
 
+    def testFloatField(self):
+        class TestObject(xmlmap.XmlObject):
+            val = xmlmap.IntegerField('bar[2]/baz', required=True)
+            count = xmlmap.IntegerField('count(//bar)')
+            missing = xmlmap.IntegerField('missing')
+            nan = xmlmap.IntegerField('@id')
+
+        obj = TestObject(self.fixture)
+        self.assertEqual(obj.val, 13.0)
+        self.assertEqual(obj.count, 2.0)
+        self.assertEqual(obj.missing, None)
+        self.assertEqual(obj.nan, None)
+        # undefined if >1 matched nodes
+
+        # set an integer value
+        obj.val = 14.0
+        # check that new value is set in the node
+        self.assertEqual(obj.node.xpath('number(bar[2]/baz)'), 14.0)
+        # check that new value is accessible via descriptor
+        self.assertEqual(obj.val, 14.0)
+
+        # check required
+        self.assertTrue(obj._fields['val'].required)
+
+    def testFloatListField(self):
+        class TestObject(xmlmap.XmlObject):
+            vals = xmlmap.IntegerListField('bar/baz')
+            missing = xmlmap.IntegerListField('missing', required=False)
+
+        obj = TestObject(self.fixture)
+        self.assertEqual(obj.vals, [42.0, 13.0])
+        self.assertEqual(obj.missing, [])
+
+        # check required
+        self.assertFalse(obj._fields['missing'].required)
+
     def testItemField(self):
         class TestObject(xmlmap.XmlObject):
             letter = xmlmap.ItemField('substring(bar/baz, 1, 1)')
