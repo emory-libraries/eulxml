@@ -13,6 +13,8 @@ any necessary information about installation or upgrade notes.
 * Re-worked :meth:`eulxml.xmlmap.XmlObject.xsl_transform` to avoid
   malloc errors and segmentation faults and to allow using precompiled
   XSLT documents.
+* Support for float field types in eulxml.xmlmap.  Contributed by
+  `jilott <https://github.com/jilott>`_.
 
 0.21.2
 ------
