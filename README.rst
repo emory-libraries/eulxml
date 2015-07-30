@@ -33,6 +33,36 @@ determine the nodes that should be constructed).
 for the form, with the goal of making it easy to edit XML content
 via web forms.
 
+Local settings
+--------------
+
+EULxml provides the option to override the default namespaces and schemas
+for datastreams in the case of locally hosted schemas. Add your datastream setting
+to your local settings to override the defaults:
+
+**MODS**
+
+    ``MODS_NAMESPACE`` (defaults to 'http://www.loc.gov/mods/v3')
+
+    ``MODS_SCHEMA`` (defaults to 'http://www.loc.gov/standards/mods/mods.xsd')
+
+    ``MODSv34_SCHEMA`` (defaults to 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd')
+
+
+**PREMIS**
+
+    ``PREMIS_NAMESPACE`` (defaults to 'info:lc/xmlns/premis-v2')
+
+    ``PREMIS_SCHEMA`` (defaults to 'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd')
+
+**Dublin Core**
+    ``OAI_DC_NAMESPACE`` (defaults to 'http://www.openarchives.org/OAI/2.0/oai_dc/')
+
+    ``DC_NAMESPACES`` (defaults to 'http://purl.org/dc/elements/1.1/')
+
+    ``DC_SCHEMA`` (defaults to 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd')
+
+
 Dependencies
 ------------
 
@@ -95,4 +125,3 @@ To generate sphinx documentation::
 
     cd doc
     make html
-

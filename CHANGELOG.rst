@@ -5,6 +5,10 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.23
+----
+* Support for locally hosted datastream schemas
+
 0.22
 ----
 
