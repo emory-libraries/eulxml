@@ -18,8 +18,11 @@
 import unittest
 from unittest2 import skipIf
 import os
+from django.test import TestCase
+from django.conf import settings
 
 from eulxml.xmlmap import load_xmlobject_from_string, mods
+from override_settings import override_settings
 
 proxy_required = skipIf('HTTP_PROXY' not in os.environ,
     'Schema validation test requires an HTTP_PROXY')
@@ -184,7 +187,7 @@ class TestMods(unittest.TestCase):
         mymods.title_info.subtitle = ': for testing'
         mymods.title_info.part_number = '1'
         mymods.title_info.part_name = 'first installment'
-        mymods.title_info_list.append(mods.TitleInfo(non_sort='An ', title='Alternative Title', subtitle=': for testing', 
+        mymods.title_info_list.append(mods.TitleInfo(non_sort='An ', title='Alternative Title', subtitle=': for testing',
                                             part_number = '1', part_name='first installment', label='First line'))
         mymods.resource_type = 'text'
         mymods.create_name()
@@ -344,4 +347,3 @@ class TestTitleInfo(unittest.TestCase):
         # actual value - not empty
         self.titleinfo.title = 'This a Test'
         self.assertFalse(self.titleinfo.is_empty())
-

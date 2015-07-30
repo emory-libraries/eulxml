@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/premis.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,11 +23,16 @@ preservation metadata.
 '''
 
 from eulxml import xmlmap
+from django.conf import settings
 
-PREMIS_NAMESPACE = 'info:lc/xmlns/premis-v2'
+PREMIS_NAMESPACE = getattr(settings, 'PREMIS_NAMESPACE',
+                           'info:lc/xmlns/premis-v2')
 'authoritative namespace for PREMIS'
-PREMIS_SCHEMA = 'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd'
+PREMIS_SCHEMA = getattr(settings, 'PREMIS_SCHEMA',
+                        'http://www.loc.gov/standards/premis/v2/\
+                        premis-v2-1.xsd')
 'authoritative schema location for PREMIS'
+
 
 class BasePremis(xmlmap.XmlObject):
     '''Base PREMIS class with namespace declaration common to all PREMIS
@@ -46,19 +51,21 @@ class BasePremis(xmlmap.XmlObject):
         'xsi': 'http://www.w3.org/2001/XMLSchema-instance'
     }
 
+
 class PremisRoot(BasePremis):
     '''Base class with a schema declaration for any of the
     root/stand-alone PREMIS elements:
-    
+
      * ``<premis>`` - :class:`Premis`
      * ``<object>`` - :class:`Object`
      * ``<event>``  - :class:`Event`
      * ``<agent>``
      * ``<rights>``
-    
+
     '''
     XSD_SCHEMA = PREMIS_SCHEMA
-    
+
+
 class Object(PremisRoot):
     '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
     object.
@@ -66,7 +73,7 @@ class Object(PremisRoot):
     Curently only includes the minimal required fields.
     '''
     ROOT_NAME = 'object'
-    type = xmlmap.StringField('@xsi:type') # file, representation, bitstream
+    type = xmlmap.StringField('@xsi:type')  # file, representation, bitstream
     '''type of object (e.g., file, representation, bitstream).
 
     .. Note::
@@ -81,6 +88,7 @@ class Object(PremisRoot):
     id = xmlmap.StringField('p:objectIdentifier/p:objectIdentifierValue')
     'identifier value (`objectIdentifier/objectIdentifierValue`)'
 
+
 class Event(PremisRoot):
     '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
     event.
@@ -92,7 +100,7 @@ class Event(PremisRoot):
       As a work-around, when creating a new :class:`Event` from
       scratch, you should set the following required fields in this
       order: identifier (:attr:`id` and :attr:`ad_type`
-    
+
     '''
     ROOT_NAME = 'event'
     type = xmlmap.StringField('p:eventType')
@@ -105,9 +113,10 @@ class Event(PremisRoot):
     'date/time for the event (`eventDateTime`)'
     detail = xmlmap.StringField('p:eventDetail', required=False)
     'event detail (`eventDetail`)'
-    outcome = xmlmap.StringField('p:eventOutcomeInformation/p:eventOutcome', required=False)
+    outcome = xmlmap.StringField(
+            'p:eventOutcomeInformation/p:eventOutcome', required=False)
     '''outcome of the event (`eventOutcomeInformation/eventOutcome`).
-    
+
     .. Note::
       In this preliminary implementation, the outcome detail fields
       are not mapped.
@@ -115,12 +124,16 @@ class Event(PremisRoot):
     # leaving out outcome detail for now...
 
     # agent (optional, could be repeated)
-    agent_type = xmlmap.StringField('p:linkingAgentIdentifier/p:linkingAgentIdentifierType')
-    agent_id = xmlmap.StringField('p:linkingAgentIdentifier/p:linkingAgentIdentifierValue')
+    agent_type = xmlmap.StringField(
+            'p:linkingAgentIdentifier/p:linkingAgentIdentifierType')
+    agent_id = xmlmap.StringField(
+            'p:linkingAgentIdentifier/p:linkingAgentIdentifierValue')
 
     # object (optional, could be repeated)
-    object_type = xmlmap.StringField('p:linkingObjectIdentifier/p:linkingObjectIdentifierType')
-    object_id = xmlmap.StringField('p:linkingObjectIdentifier/p:linkingObjectIdentifierValue')
+    object_type = xmlmap.StringField(
+            'p:linkingObjectIdentifier/p:linkingObjectIdentifierType')
+    object_id = xmlmap.StringField(
+            'p:linkingObjectIdentifier/p:linkingObjectIdentifierValue')
 
 
 class Premis(PremisRoot):

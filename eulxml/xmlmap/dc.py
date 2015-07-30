@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/dc.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,17 +21,31 @@ except ImportError:
     rdflib = None
 
 from eulxml import xmlmap
+from django.conf import settings
+
+
+OAI_DC_NAMESPACE = getattr(settings, 'OAI_DC_NAMESPACE',
+                           'http://www.openarchives.org/OAI/2.0/oai_dc/')
+DC_NAMESPACES = {'oai_dc': OAI_DC_NAMESPACE,
+                 'dc': getattr(settings, 'DC_NAMESPACES',
+                               'http://purl.org/dc/elements/1.1/')}
+DC_SCHEMA = getattr(settings, 'DC_SCHEMA',
+                    'http://www.openarchives.org/OAI/2.0/oai_dc.xsd')
+
 
 class _BaseDublinCore(xmlmap.XmlObject):
     'Base Dublin Core class for common namespace declarations'
-    ROOT_NS = 'http://www.openarchives.org/OAI/2.0/oai_dc/'
-    ROOT_NAMESPACES = { 'oai_dc' : ROOT_NS,
-                        'dc': 'http://purl.org/dc/elements/1.1/'}
+
+    ROOT_NAME = 'dc'
+    ROOT_NS = OAI_DC_NAMESPACE
+    ROOT_NAMESPACES = DC_NAMESPACES
+    XSD_SCHEMA = DC_SCHEMA
 
 class DublinCoreElement(_BaseDublinCore):
     'Generic Dublin Core element with access to element name and value'
     name = xmlmap.StringField('local-name(.)')
     value = xmlmap.StringField('.')
+
 
 class DublinCore(_BaseDublinCore):
     """
@@ -39,11 +53,7 @@ class DublinCore(_BaseDublinCore):
 
     If no node is specified when initialized, a new, empty Dublin Core
     XmlObject will be created.
-    """    
-
-    ROOT_NAME = 'dc'
-
-    XSD_SCHEMA = "http://www.openarchives.org/OAI/2.0/oai_dc.xsd"
+    """
 
     contributor = xmlmap.StringField("dc:contributor", required=False)
     contributor_list = xmlmap.StringListField("dc:contributor",
@@ -51,7 +61,7 @@ class DublinCore(_BaseDublinCore):
 
     coverage = xmlmap.StringField("dc:coverage", required=False)
     coverage_list = xmlmap.StringListField("dc:coverage",
-                                           verbose_name='Coverage') #?
+                                           verbose_name='Coverage')  # ?
 
     creator = xmlmap.StringField("dc:creator", required=False)
     creator_list = xmlmap.StringListField("dc:creator",
@@ -115,6 +125,7 @@ class DublinCore(_BaseDublinCore):
         DCMI_TYPE_URI = rdflib.URIRef(DCMI_TYPE_URI)
 
         _dcmi_types_graph = None
+
         @property
         def dcmi_types_graph(self):
             'DCMI Types Vocabulary as an :class:`rdflib.Graph`'
@@ -125,20 +136,25 @@ class DublinCore(_BaseDublinCore):
             return self._dcmi_types_graph
 
         _dcmi_types = None
+
         @property
         def dcmi_types(self):
             '''DCMI Type Vocabulary (recommended), as documented at
             http://dublincore.org/documents/dcmi-type-vocabulary/'''
             if self._dcmi_types is None:
-                # generate a list of DCMI types based on the RDF dctype document
+                # generate a list of DCMI types based
+                # on the RDF dctype document
                 self._dcmi_types = []
-                # get all items with rdf:type of rdfs:Clas
-                items = self.dcmi_types_graph.subjects(rdflib.RDF.type, rdflib.RDFS.Class)
+                # get all items with rdf:type of rdfs:Class
+                items = self.dcmi_types_graph.subjects(
+                            rdflib.RDF.type, rdflib.RDFS.Class)
                 for item in items:
                     # check that this item is defined by dcmitype
-                    if (item, rdflib.RDFS.isDefinedBy, self.DCMI_TYPE_URI) in self.dcmi_types_graph:
+                    if (item, rdflib.RDFS.isDefinedBy,
+                            self.DCMI_TYPE_URI) in self.dcmi_types_graph:
                         # add the label to the list
-                        self._dcmi_types.append(str(self.dcmi_types_graph.label(subject=item)))
+                        self._dcmi_types.append(
+                            str(self.dcmi_types_graph.label(subject=item)))
             return self._dcmi_types
     else:
         # no rdflib
