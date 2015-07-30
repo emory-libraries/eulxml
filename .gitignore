@@ -5,3 +5,5 @@ dist
 test-results
 eulxml/xpath/lextab.py
 eulxml/xpath/parsetab.py
+ply-3.6-py2.7.egg/EGG-INFO
+ply-3.6-py2.7.egg/ply
