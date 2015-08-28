@@ -4,8 +4,8 @@ EULxml
 .. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
    :alt: current build status for namedropper-py
    :target: https://travis-ci.org/emory-libraries/eulxml
-   
-.. image:: https://pypip.in/version/eulxml/badge.png  
+
+.. image:: https://pypip.in/version/eulxml/badge.png
    :target: https://pypi.python.org/pypi/eulxml
 
 .. image:: https://pypip.in/license/eulxml/badge.png
