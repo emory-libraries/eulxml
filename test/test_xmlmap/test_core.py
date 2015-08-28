@@ -458,3 +458,22 @@ class TestLoadSchema(unittest.TestCase):
         except etree.XMLSchemaParseError as parse_err:
             self.assert_('Failed to parse' in str(parse_err),
                 'schema parse exception includes detail about what went wrong')
+
+
+class TestOrderedXmlObject(unittest.TestCase):
+
+    def test(self):
+        class Person(xmlmap.OrderedXmlObject):
+            ROOT_NAME = 'person'
+            ORDER = ('name', 'age', 'myers_briggs', 'gender')
+            name = xmlmap.StringField('name')
+            age = xmlmap.IntegerField('age')
+            myers_briggs = xmlmap.StringField('myersBriggs')
+            gender = xmlmap.StringField('gender')
+
+        person = Person(name='Cameron', age=46, myers_briggs='enfp', gender='nonconforming')
+        self.assertEqual(
+            person.serialize(),
+            "<person><name>Cameron</name><age>46</age>"
+            "<myersBriggs>enfp</myersBriggs><gender>nonconforming</gender>"
+            "</person>")

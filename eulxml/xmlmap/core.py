@@ -571,6 +571,14 @@ class XmlObject(object):
 
 
 class OrderedXmlObject(XmlObject):
+    """
+    Useful for specifying a default ordering, to be used in the constructor
+
+    To use, simply subclass OrderedXmlObject instead of XmlObject,
+    set ORDER to be a list or tuple of the attribute names
+    in the order you want them to be added in the constructor.
+
+    """
     ORDER = ()
 
     def __init__(self, *args, **kwargs):
