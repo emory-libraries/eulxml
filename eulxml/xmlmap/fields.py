@@ -142,9 +142,11 @@ class SimpleBooleanMapper(Mapper):
         self.false = false
 
     def to_python(self, node):
-        if node is None and \
-                self.false is None:
-            return False
+        if node is None:
+            if self.false is None:
+                return False
+            else:
+                return None
 
         if isinstance(node, basestring):
             value = node
