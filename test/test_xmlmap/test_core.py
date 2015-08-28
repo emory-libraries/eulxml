@@ -79,15 +79,38 @@ class TestXsl(unittest.TestCase):
     </xsl:stylesheet>
     '''
 
+    PARAM_XSL = '''
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+        <xsl:param name="input"/>
+        <xsl:template match="/" ><xsl:value-of select="$input"/></xsl:template>
+    </xsl:stylesheet>
+    '''
+
+    # identity transform
+    IDENTITY_XSL = '''
+    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+        <xsl:template match="@*|node()">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+        </xsl:template>
+    </xsl:stylesheet>'''
+
     def setUp(self):
         # parseString wants a url. let's give it a proper one.
         url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
         self.fixture = xmlmap.parseString(self.FIXTURE_TEXT, url)
+        self.FILE = None
+
+    def tearDown(self):
+        if self.FILE is not None:
+            self.FILE.close()
 
     def test_xsl_transform(self):
         class TestObject(xmlmap.XmlObject):
             bar_baz = xmlmap.StringField('bar[1]/baz')
             nobar_baz = xmlmap.StringField('baz[1]')
+            bar_node = xmlmap.NodeField('bar[1]', xmlmap.XmlObject)
 
         # xsl in string
         obj = TestObject(self.fixture)
@@ -120,8 +143,28 @@ class TestXsl(unittest.TestCase):
         result = obj.xsl_transform(xsl=self.TEXT_OUTPUT_XSL, return_type=unicode)
         self.assert_(isinstance(result, unicode))
 
-        self.FILE.close()
-        # not yet tested: xsl with parameters
+        # transform with parameters
+        obj = TestObject(self.fixture)
+        input_text = "some text content"
+        result = obj.xsl_transform(xsl=self.PARAM_XSL, return_type=str,
+            input=input_text)
+        self.assert_(input_text in result)
+
+        # pre-compiled xslt
+        identity_transform = xmlmap.load_xslt(xsl=self.IDENTITY_XSL)
+        result = obj.xsl_transform(xsl=identity_transform)
+        # after the identity transform, result should be xml-equivalent
+        self.assertEqual(obj, result)
+
+        # transform just a node, not the entire document
+        node_result = obj.bar_node.xsl_transform(xsl=identity_transform)
+        self.assertEqual(obj.bar_node, node_result)
+
+        # partial document without pre-compiled xsl
+        node_result = obj.bar_node.xsl_transform(xsl=self.IDENTITY_XSL)
+        self.assertEqual(obj.bar_node, node_result)
+
+
 
 
 # NOTE: using TestXsl fixture text for the init tests

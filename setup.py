@@ -58,7 +58,7 @@ setup(
         'dev': [
             'sphinx',
             'coverage',
-            'Django',
+            'Django<1.7',
             'rdflib>=3.0',
             'mock',
             'nose',

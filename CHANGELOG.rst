@@ -5,11 +5,31 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
-0.21.1
+0.22
 ----
 
-* Bug fix: :meth:`eulxml.xmlmap.XmlObject.xsl_transform` now recognizes text
-  output as a valid, non-empty XSL result
+* New method (:meth:`eulxml.xmlmap.load_xslt`) to load and precompile XSLT
+  that will be used more than once.
+* Re-worked :meth:`eulxml.xmlmap.XmlObject.xsl_transform` to avoid
+  malloc errors and segmentation faults and to allow using precompiled
+  XSLT documents.
+* Support for float field types in eulxml.xmlmap.  Contributed by
+  `jilott <https://github.com/jilott>`_.
+
+0.21.2
+------
+
+* Bug fix: correctly support parameters in
+  :meth:`eulxml.xmlmap.XmlObject.xsl_transform`
+* Automatically encode string parameter values passed to
+  :meth:`~eulxml.xmlmap.XmlObject.xsl_transform` as
+  lxml string parameters (:class:`lxml.etree.XSLT.strparam`)
+
+0.21.1
+------
+
+* Bug fix: :meth:`eulxml.xmlmap.XmlObject.xsl_transform` now recognizes
+  text output as a valid, non-empty XSL result
 
 0.21
 ----
