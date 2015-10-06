@@ -384,6 +384,9 @@ class TestFields(unittest.TestCase):
             num_bool2 = xmlmap.SimpleBooleanField('boolean/num2', 1, 0)
             opt_elem_bool = xmlmap.SimpleBooleanField('boolean/opt', 'yes', None)
             opt_attr_bool = xmlmap.SimpleBooleanField('boolean/@opt', 'yes', None)
+            # xml not present at all should not result in errors
+            missing_bool = xmlmap.SimpleBooleanField('boolean/missing', 'yes', None)
+            missing_bool2 = xmlmap.SimpleBooleanField('boolean/missing', 'yes', 'no')
 
         #obj = TestObject(self.fixture.documentElement)
         obj = TestObject(self.fixture)
@@ -393,6 +396,8 @@ class TestFields(unittest.TestCase):
         self.assertEqual(obj.num_bool2, False)
         self.assertEqual(obj.opt_elem_bool, False)
         self.assertEqual(obj.opt_attr_bool, False)
+        self.assertEqual(obj.missing_bool, False)
+        self.assertEqual(obj.missing_bool2, None)
 
         # set text boolean
         obj.txt_bool1 = False
