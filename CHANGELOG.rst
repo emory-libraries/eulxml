@@ -10,7 +10,7 @@ any necessary information about installation or upgrade notes.
 
 * bugfix: BooleanField will now return `None` instead of generating an
   error when xml is not present and False is not configured as `None`.
-  Contributed by 'roman-voropaev <https://github.com/roman-voropaev>'_.
+  Contributed by `roman-voropaev <https://github.com/roman-voropaev>`_.
 
 0.22
 ----
