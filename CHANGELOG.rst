@@ -5,6 +5,13 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.23
+----
+
+* bugfix: BooleanField will now return `None` instead of generating an
+  error when xml is not present and False is not configured as `None`.
+  Contributed by 'roman-voropaev <https://github.com/roman-voropaev>'_.
+
 0.22
 ----
 
