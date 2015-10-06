@@ -142,9 +142,14 @@ class SimpleBooleanMapper(Mapper):
         self.false = false
 
     def to_python(self, node):
-        if node is None and \
-                self.false is None:
-            return False
+        # handle node not present in xml first
+        if node is None:
+            # if false is configured as None, then missing node is False
+            if self.false is None:
+                return False
+            # otherwise, return None to signify boolean is unset
+            else:
+                return None
 
         if isinstance(node, basestring):
             value = node
