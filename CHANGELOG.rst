@@ -11,6 +11,8 @@ any necessary information about installation or upgrade notes.
 * bugfix: BooleanField will now return `None` instead of generating an
   error when xml is not present and False is not configured as `None`.
   Contributed by `roman-voropaev <https://github.com/roman-voropaev>`_.
+* Include xml namespace to base TEI class in eulxml.xmlmap.teimap,
+  for xml:id attributes referenced throughout.
 
 0.22
 ----

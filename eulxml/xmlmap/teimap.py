@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/teimap.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,7 @@ class _TeiBase(xmlmap.XmlObject):
     ROOT_NAME = 'tei'
     ROOT_NAMESPACES = {
         'tei' : ROOT_NS,
+        'xml': 'http://www.w3.org/XML/1998/namespace',
     }
 
 class TeiLine(_TeiBase):
@@ -45,11 +46,11 @@ class TeiLineGroup(_TeiBase):
     linegroup   = xmlmap.NodeListField('tei:lg', 'self')
     line        = xmlmap.NodeListField('tei:l', TeiLine)
 
-            
+
 class TeiQuote(_TeiBase):
     line    = xmlmap.NodeListField('tei:l', TeiLine)
     linegroup = xmlmap.NodeListField('tei:lg', TeiLineGroup)
-    
+
 class TeiEpigraph(_TeiBase):
     quote = xmlmap.NodeListField('tei:q|tei:quote|tei:cit/tei:q|tei:cit/tei:quote', TeiQuote)
     bibl  = xmlmap.StringField('tei:bibl')
