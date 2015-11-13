@@ -578,7 +578,10 @@ class Urllib2Resolver(etree.Resolver):
         logger.debug('Resolving url %s' % url)
         f = urllib2.urlopen(url, None, 10)
         # set a timeout in case connection fails or is unreasonably slow
-        return self.resolve_file(f, context, base_url=url)
+        if f:
+            return self.resolve_file(f, context, base_url=url)
+        else:
+            return self.resolve_filename(url, context)
 _defaultResolver = Urllib2Resolver()
 
 
