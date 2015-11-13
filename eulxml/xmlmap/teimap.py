@@ -91,6 +91,7 @@ class TeiFigure(_TeiBase):
 
 # currently not mapped... should it be mapped by default? at what level?
 class TeiInterp(_TeiBase):
+    ROOT_NAME = 'interp'
     id          = xmlmap.StringField("@xml:id")
     value       = xmlmap.StringField("@value")
 
@@ -100,6 +101,7 @@ class TeiSection(_TeiBase):
     all_figures = xmlmap.NodeListField('.//tei:figure', TeiFigure)
 
 class TeiInterpGroup(_TeiBase):
+    ROOT_NAME = 'interpGrp'
     type        = xmlmap.StringField("@type")
     interp      = xmlmap.NodeListField("tei:interp", TeiInterp)
 
