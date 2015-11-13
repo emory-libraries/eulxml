@@ -14,6 +14,12 @@ any necessary information about installation or upgrade notes.
 * Include xml namespace to base TEI class in eulxml.xmlmap.teimap,
   for xml:id attributes referenced throughout.
 
+0.22.1
+------
+
+* bugfix: workaround for resolver error failing to load schemas in some
+  cases
+
 0.22
 ----
 
