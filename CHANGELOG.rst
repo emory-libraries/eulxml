@@ -5,6 +5,12 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+0.22.1
+------
+
+* bugfix: workaround for resolver error failing to load schemas in some
+  cases
+
 0.22
 ----
 
