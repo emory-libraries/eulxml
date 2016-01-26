@@ -20,6 +20,8 @@
 (Metadata Object Description Schema).
 '''
 
+from six import python_2_unicode_compatible
+
 from eulxml import xmlmap
 
 MODS_NAMESPACE = 'http://www.loc.gov/mods/v3'
@@ -39,6 +41,7 @@ class Common(xmlmap.XmlObject):
     XSD_SCHEMA = MODSv34_SCHEMA
     schema_validate = False
 
+@python_2_unicode_compatible
 class Date(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` for MODS date element (common fields
     for the dates under mods:originInfo).'''
@@ -57,7 +60,7 @@ class Date(Common):
         reference to a date value.'''
         return not self.node.text
 
-    def __unicode__(self):
+    def __str__(self):
         return self.date
 
 class DateCreated(Date):
@@ -113,7 +116,7 @@ class OriginInfo(Common):
         """Returns True if all child date elements present are empty
         and other nodes are not set.  Returns False if any child date
         elements are not empty or other nodes are set."""
-        return all(date.is_empty() for date in set.union(set(self.created), set(self.issued))) \
+        return all(date.is_empty() for date in [self.created, self.issued]) \
                and not self.publisher
 
 class RecordInfo(Common):

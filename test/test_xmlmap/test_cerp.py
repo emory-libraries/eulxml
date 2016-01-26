@@ -16,6 +16,7 @@
 
 #!/usr/bin/env python
 
+from __future__ import unicode_literals
 import email
 import unittest
 import os
@@ -86,5 +87,3 @@ Content-Type: text/plain; charset=us-ascii
         self.assertEqual(self.simple_email_content, cerp_msg.body.content.content)
 
         # TODO: multiple recipients, attachments, etc.
-
-

@@ -17,10 +17,14 @@
 from copy import deepcopy
 from datetime import datetime, date
 import logging
+
 from lxml import etree
 from lxml.builder import ElementMaker
+from six import integer_types
+from six import string_types
+from six.moves.builtins import str as text
+
 from eulxml.xpath import ast, parse, serialize
-from types import ListType, FloatType
 
 __all__ = [
     'StringField', 'StringListField',
@@ -90,7 +94,7 @@ class Mapper(object):
         if value is None:
             return value
         else:
-            return unicode(value)
+            return text(value)
 
 
 class StringMapper(Mapper):
@@ -102,7 +106,7 @@ class StringMapper(Mapper):
     def to_python(self, node):
         if node is None:
             return None
-        if isinstance(node, basestring):
+        if isinstance(node, string_types):
             return node
         return self.XPATH(node)
 
@@ -113,7 +117,7 @@ class IntegerMapper(Mapper):
             return None
         try:
             # xpath functions such as count return a float and must be converted to int
-            if isinstance(node, basestring) or isinstance(node, FloatType):
+            if isinstance(node, string_types) or isinstance(node, float):
                 return int(node)
 
             return int(self.XPATH(node))
@@ -127,7 +131,7 @@ class FloatMapper(Mapper):
         if node is None:
             return None
         try:
-            if isinstance(node, basestring):
+            if isinstance(node, string_types):
                 return float(node)
 
             return float(self.XPATH(node))
@@ -146,7 +150,7 @@ class SimpleBooleanMapper(Mapper):
                 self.false is None:
             return False
 
-        if isinstance(node, basestring):
+        if isinstance(node, string_types):
             value = node
         else:
             value = self.XPATH(node)
@@ -178,7 +182,7 @@ class DateTimeMapper(object):
     def to_python(self, node):
         if node is None:
             return None
-        if isinstance(node, basestring):
+        if isinstance(node, string_types):
             rep = node
         else:
             rep = self.XPATH(node)
@@ -200,9 +204,9 @@ class DateTimeMapper(object):
     def to_xml(self, dt):
         val = None
         if self.format is not None:
-            val = unicode(dt.strftime(self.format))
+            val = text(dt.strftime(self.format))
         else:
-            val = unicode(dt.isoformat())
+            val = text(dt.isoformat())
         return val
 
 
@@ -216,7 +220,7 @@ class DateMapper(DateTimeMapper):
     def to_python(self, node):
         if node is None:
             return None
-        if isinstance(node, basestring):
+        if isinstance(node, string_types):
             rep = node
         elif hasattr(node, 'text'):
             rep = node.text
@@ -258,7 +262,7 @@ def _find_terminal_step(xast):
 def _find_xml_node(xpath, node, context):
     #In some cases the this will return a value not a node
     matches = node.xpath(xpath, **context)
-    if matches and isinstance(matches, ListType):
+    if matches and isinstance(matches, list):
         return matches[0]
     elif matches:
         return matches
@@ -356,7 +360,7 @@ def _predicate_is_constructible(pred):
             if not _predicate_is_constructible(pred.left):
                 return False
             if not isinstance(pred.right,
-                    (int, long, basestring, ast.VariableReference)):
+                    (integer_types, string_types, ast.VariableReference)):
                 return False
 
     # otherwise, i guess we're ok
@@ -721,7 +725,7 @@ class NodeList(object):
 
     def _check_key_type(self, key):
         # check argument type for getitem, setitem, delitem
-        if not isinstance(key, (slice, int, long)):
+        if not isinstance(key, (slice, integer_types)):
             raise TypeError
         assert not isinstance(key, slice), "Slice indexing is not supported"
 
@@ -1210,4 +1214,3 @@ class SchemaField(Field):
             return newfield
         else:
             raise Exception("basetype %s is not yet supported by SchemaField" % basetype)
-

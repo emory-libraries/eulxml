@@ -51,6 +51,7 @@ setup(
     install_requires=[
         'ply',
         'lxml',
+        'six',
     ],
     extras_require={
         'django': ['Django'],
@@ -63,6 +64,7 @@ setup(
             'mock',
             'nose',
             'unittest2',  # for python 2.6
+            'tox',
         ]
         # NOTE: dev requirements should be duplicated in pip-dev-req.txt
         # for generating documentation on readthedocs.org

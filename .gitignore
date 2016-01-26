@@ -5,3 +5,4 @@ dist
 test-results
 eulxml/xpath/lextab.py
 eulxml/xpath/parsetab.py
+.tox
