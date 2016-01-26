@@ -16,7 +16,6 @@
 
 #!/usr/bin/env python
 
-from __future__ import unicode_literals
 import email
 import unittest
 import os
