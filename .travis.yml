@@ -1,13 +1,34 @@
 language: python
+
 python:
-  - "2.7"
   - "2.6"
+  - "2.7"
   - "3.3"
   - "3.4"
   - "3.5"
+env:
+  - DJANGO_ENV="Django>=1.5,<1.6"
+  - DJANGO_ENV="Django>=1.6,<1.7"
+  - DJANGO_ENV="Django>=1.7,<1.8"
+  - DJANGO_ENV="Django>=1.8,<1.9"
+
+matrix:
+  exclude:
+  - python: "2.6"
+    env: DJANGO_ENV="Django>=1.7,<1.8"
+  - python: "2.6"
+    env: DJANGO_ENV="Django>=1.8,<1.9"
+  - python: "3.5"
+    env: DJANGO_ENV="Django>=1.5,<1.6"
+  - python: "3.5"
+    env: DJANGO_ENV="Django>=1.6,<1.7"
+  - python: "3.5"
+    env: DJANGO_ENV="Django>=1.7,<1.8"
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 # install a local squid proxy to allow testing schemas
 install:
+  - "pip install $DJANGO_ENV"
   - "pip install -e . --use-mirrors"
   - "pip install 'eulxml[dev]' --use-mirrors"
 #  - "sudo apt-get install squid"
