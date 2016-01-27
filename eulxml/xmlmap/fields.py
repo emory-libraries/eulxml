@@ -14,6 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 from copy import deepcopy
 from datetime import datetime, date
 import logging
@@ -22,8 +23,8 @@ from lxml import etree
 from lxml.builder import ElementMaker
 from six import integer_types
 from six import string_types
-from six.moves.builtins import str as text
 
+from eulxml.utils.compat import u
 from eulxml.xpath import ast, parse, serialize
 
 __all__ = [
@@ -94,7 +95,7 @@ class Mapper(object):
         if value is None:
             return value
         else:
-            return text(value)
+            return u(value)
 
 
 class StringMapper(Mapper):
@@ -204,9 +205,9 @@ class DateTimeMapper(object):
     def to_xml(self, dt):
         val = None
         if self.format is not None:
-            val = text(dt.strftime(self.format))
+            val = u(dt.strftime(self.format))
         else:
-            val = text(dt.isoformat())
+            val = u(dt.isoformat())
         return val
 
 
