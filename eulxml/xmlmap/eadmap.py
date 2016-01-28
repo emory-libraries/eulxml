@@ -14,9 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 from copy import deepcopy
 
-from six import python_2_unicode_compatible
+import six
 
 from eulxml import xmlmap
 
@@ -61,7 +62,7 @@ class Section(_EadBase):
     ":class:`Note`"
 
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class Heading(_EadBase):
     """Generic xml object for headings used under `controlaccess`"""
     source = xmlmap.StringField("@source")
@@ -106,7 +107,7 @@ class ControlledAccessHeadings(Section):
     "list of :class:`ControlledAccessHeadings` - recursive mapping to `controlaccess`"
 
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class Container(_EadBase):
     """
     Container - :class:`DescriptiveIdentification` subelement for locating materials.
@@ -122,7 +123,7 @@ class Container(_EadBase):
         return self.value
 
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class DateField(_EadBase):
     """
     DateField - for access to date and unitdate elements value and attributes.
@@ -311,7 +312,7 @@ class SubordinateComponents(Section):
             return False
 
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class Reference(_EadBase):
     """Internal linking element that may contain text.
 

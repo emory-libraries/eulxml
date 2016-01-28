@@ -21,7 +21,7 @@ import email
 import logging
 import os
 
-from six import binary_type
+import six
 
 from eulxml import xmlmap
 from eulxml.utils.compat import u
@@ -284,7 +284,7 @@ class Message(_BaseMessage, _BaseExternal):
             payload = message.get_payload(decode=False)
 
             # if not unicode, attempt to convert
-            if isinstance(payload, binary_type):
+            if isinstance(payload, six.binary_type):
                 charset = message.get_charset()
                 # decode according to the specified character set, if any
                 if charset is not None:

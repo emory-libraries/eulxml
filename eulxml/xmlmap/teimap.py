@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/teimap.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 from eulxml import xmlmap
 
 # TODO: generic/base tei xml object with common attributes?
@@ -45,11 +46,11 @@ class TeiLineGroup(_TeiBase):
     linegroup   = xmlmap.NodeListField('tei:lg', 'self')
     line        = xmlmap.NodeListField('tei:l', TeiLine)
 
-            
+
 class TeiQuote(_TeiBase):
     line    = xmlmap.NodeListField('tei:l', TeiLine)
     linegroup = xmlmap.NodeListField('tei:lg', TeiLineGroup)
-    
+
 class TeiEpigraph(_TeiBase):
     quote = xmlmap.NodeListField('tei:q|tei:quote|tei:cit/tei:q|tei:cit/tei:quote', TeiQuote)
     bibl  = xmlmap.StringField('tei:bibl')
@@ -134,4 +135,3 @@ class Tei(_TeiBase):
     front  = xmlmap.NodeField('tei:text/tei:front', TeiSection)
     body   = xmlmap.NodeField('tei:text/tei:body', TeiSection)
     back   = xmlmap.NodeField('tei:text/tei:back', TeiSection)
-

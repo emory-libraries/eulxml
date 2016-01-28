@@ -23,7 +23,9 @@ this module directly, unless they need to produce XPath ASTs from scratch or
 perhaps introspect ASTs returned by the parser.
 '''
 
-from six import string_types
+from __future__ import unicode_literals
+
+import six
 
 __all__ = [
     'serialize',
@@ -50,7 +52,7 @@ def _serialize(xp_ast):
     if hasattr(xp_ast, '_serialize'):
         for tok in xp_ast._serialize():
             yield tok
-    elif isinstance(xp_ast, string_types):
+    elif isinstance(xp_ast, six.string_types):
         # FIXME: There are several interesting cases where this is wrong.
         yield repr(xp_ast)
     else:

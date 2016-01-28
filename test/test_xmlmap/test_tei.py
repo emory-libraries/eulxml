@@ -16,6 +16,7 @@
 
 #!/usr/bin/env python
 
+from __future__ import unicode_literals
 import unittest
 from os import path
 
@@ -107,5 +108,3 @@ class TestTei(unittest.TestCase):
         self.assert_(isinstance(epigraph, teimap.TeiEpigraph))
         self.assert_(isinstance(epigraph.quote[0], teimap.TeiQuote))
         self.assert_(isinstance(epigraph.quote[0].line[0], teimap.TeiLine))
-
-

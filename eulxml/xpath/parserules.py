@@ -1,5 +1,5 @@
 # file eulxml/xpath/parserules.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@ To understand how this module works, it is valuable to have a strong
 understanding of the `ply <http://www.dabeaz.com/ply/>` module.
 """
 
+from __future__ import unicode_literals
 from eulxml.xpath import ast
 from eulxml.xpath.lexrules import tokens
 
@@ -181,7 +182,7 @@ def p_node_test_type_simple(p):
     """
     # NOTE: Strictly speaking p[1] must come from a list of recognized
     # NodeTypes. Since we don't actually do anything with them, we don't
-    # need to recognize them. 
+    # need to recognize them.
     p[0] = ast.NodeType(p[1])
 
 def p_node_test_type_literal(p):
@@ -248,7 +249,7 @@ def p_funcqname_unprefixed(p):
 #
 # filter expressions
 #
-    
+
 def p_filter_expr_simple(p):
     """
     FilterExpr : VariableReference

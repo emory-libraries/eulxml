@@ -21,8 +21,7 @@ import logging
 
 from lxml import etree
 from lxml.builder import ElementMaker
-from six import integer_types
-from six import string_types
+import six
 
 from eulxml.utils.compat import u
 from eulxml.xpath import ast, parse, serialize
@@ -107,7 +106,7 @@ class StringMapper(Mapper):
     def to_python(self, node):
         if node is None:
             return None
-        if isinstance(node, string_types):
+        if isinstance(node, six.string_types):
             return node
         return self.XPATH(node)
 
@@ -118,7 +117,7 @@ class IntegerMapper(Mapper):
             return None
         try:
             # xpath functions such as count return a float and must be converted to int
-            if isinstance(node, string_types) or isinstance(node, float):
+            if isinstance(node, six.string_types) or isinstance(node, float):
                 return int(node)
 
             return int(self.XPATH(node))
@@ -132,7 +131,7 @@ class FloatMapper(Mapper):
         if node is None:
             return None
         try:
-            if isinstance(node, string_types):
+            if isinstance(node, six.string_types):
                 return float(node)
 
             return float(self.XPATH(node))
@@ -151,7 +150,7 @@ class SimpleBooleanMapper(Mapper):
                 self.false is None:
             return False
 
-        if isinstance(node, string_types):
+        if isinstance(node, six.string_types):
             value = node
         else:
             value = self.XPATH(node)
@@ -183,7 +182,7 @@ class DateTimeMapper(object):
     def to_python(self, node):
         if node is None:
             return None
-        if isinstance(node, string_types):
+        if isinstance(node, six.string_types):
             rep = node
         else:
             rep = self.XPATH(node)
@@ -221,7 +220,7 @@ class DateMapper(DateTimeMapper):
     def to_python(self, node):
         if node is None:
             return None
-        if isinstance(node, string_types):
+        if isinstance(node, six.string_types):
             rep = node
         elif hasattr(node, 'text'):
             rep = node.text
@@ -361,7 +360,7 @@ def _predicate_is_constructible(pred):
             if not _predicate_is_constructible(pred.left):
                 return False
             if not isinstance(pred.right,
-                    (integer_types, string_types, ast.VariableReference)):
+                    (six.integer_types, six.string_types, ast.VariableReference)):
                 return False
 
     # otherwise, i guess we're ok
@@ -726,7 +725,7 @@ class NodeList(object):
 
     def _check_key_type(self, key):
         # check argument type for getitem, setitem, delitem
-        if not isinstance(key, (slice, integer_types)):
+        if not isinstance(key, (slice, six.integer_types)):
             raise TypeError
         assert not isinstance(key, slice), "Slice indexing is not supported"
 

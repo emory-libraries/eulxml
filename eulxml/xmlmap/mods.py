@@ -20,7 +20,8 @@
 (Metadata Object Description Schema).
 '''
 
-from six import python_2_unicode_compatible
+from __future__ import unicode_literals
+import six
 
 from eulxml import xmlmap
 
@@ -41,7 +42,7 @@ class Common(xmlmap.XmlObject):
     XSD_SCHEMA = MODSv34_SCHEMA
     schema_validate = False
 
-@python_2_unicode_compatible
+@six.python_2_unicode_compatible
 class Date(Common):
     ''':class:`~eulxml.xmlmap.XmlObject` for MODS date element (common fields
     for the dates under mods:originInfo).'''

@@ -24,6 +24,7 @@ works.
 Note that most client applications will import htese objects from
 eulxml.xpath, not directly from here."""
 
+from __future__ import unicode_literals
 import os
 import re
 from ply import lex, yacc
