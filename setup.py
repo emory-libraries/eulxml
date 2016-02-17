@@ -58,7 +58,7 @@ setup(
     install_requires=[
         'ply',
         'lxml',
-        'six',
+        'six<=1.10',
     ],
     extras_require={
         'django': ['Django'],
