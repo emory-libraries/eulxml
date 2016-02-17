@@ -14,7 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 from copy import deepcopy
+
+import six
 
 from eulxml import xmlmap
 
@@ -59,6 +62,7 @@ class Section(_EadBase):
     ":class:`Note`"
 
 
+@six.python_2_unicode_compatible
 class Heading(_EadBase):
     """Generic xml object for headings used under `controlaccess`"""
     source = xmlmap.StringField("@source")
@@ -66,7 +70,7 @@ class Heading(_EadBase):
     value = xmlmap.StringField(".", normalize=True)
     "controlled term text value (content of the heading element)"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.value
 
 
@@ -103,6 +107,7 @@ class ControlledAccessHeadings(Section):
     "list of :class:`ControlledAccessHeadings` - recursive mapping to `controlaccess`"
 
 
+@six.python_2_unicode_compatible
 class Container(_EadBase):
     """
     Container - :class:`DescriptiveIdentification` subelement for locating materials.
@@ -114,10 +119,11 @@ class Container(_EadBase):
     value = xmlmap.StringField(".")
     "text value - (contents of the container element)"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.value
 
 
+@six.python_2_unicode_compatible
 class DateField(_EadBase):
     """
     DateField - for access to date and unitdate elements value and attributes.
@@ -133,7 +139,7 @@ class DateField(_EadBase):
     value = xmlmap.StringField(".")
     "human-readable date - (contents of the date element)"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.value
 
 
@@ -306,6 +312,7 @@ class SubordinateComponents(Section):
             return False
 
 
+@six.python_2_unicode_compatible
 class Reference(_EadBase):
     """Internal linking element that may contain text.
 
@@ -320,7 +327,7 @@ class Reference(_EadBase):
     "text content of the reference"
     # TODO: add mappings for other relevant reference and link attributes
 
-    def __unicode__(self):
+    def __str__(self):
         return self.value
 
 

@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/cerp.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +14,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 import codecs
 import datetime
 import email
 import logging
 import os
 
+import six
+
 from eulxml import xmlmap
+from eulxml.utils.compat import u
 
 logger = logging.getLogger(__name__)
 
@@ -204,11 +208,11 @@ class _BaseMessage(_BaseCerp):
 
 class Message(_BaseMessage, _BaseExternal):
     """A single email message in a :class:`Folder`."""
-    
+
     ROOT_NAME = 'Message'
     STATUS_FLAG_CHOICES = [ 'Seen', 'Answered', 'Flagged', 'Deleted',
                             'Draft', 'Recent']
-    status_flags = xmlmap.StringListField('xm:StatusFlag', 
+    status_flags = xmlmap.StringListField('xm:StatusFlag',
             choices=STATUS_FLAG_CHOICES)
 
     @classmethod
@@ -219,11 +223,11 @@ class Message(_BaseMessage, _BaseExternal):
         id is specified, it will be stored in the Message <LocalId>.
 
         :param message: `email.message.Message` object
-        :param id: optional message id to be set as `local_id` 
-    
+        :param id: optional message id to be set as `local_id`
+
         :returns: :class:`eulxml.xmlmap.cerp.Message` instance populated
     	    with message information
-          
+
         '''
         result = cls()
         if local_id is not None:
@@ -244,7 +248,7 @@ class Message(_BaseMessage, _BaseExternal):
         try:
             result.to_list.extend(message.get_all('To', []))
         except UnicodeError:
-            print repr(message['To'])
+            print(repr(message['To']))
             raise
         result.cc_list.extend(message.get_all('Cc', []))
         result.bcc_list.extend(message.get_all('Bcc', []))
@@ -277,10 +281,10 @@ class Message(_BaseMessage, _BaseExternal):
             # content types. we'll eventually need a better solution for
             # non-text messages
             result.single_body.create_body_content()
-            payload = message.get_payload(decode=True)
+            payload = message.get_payload(decode=False)
 
             # if not unicode, attempt to convert
-            if isinstance(payload, str):
+            if isinstance(payload, six.binary_type):
                 charset = message.get_charset()
                 # decode according to the specified character set, if any
                 if charset is not None:
@@ -289,20 +293,21 @@ class Message(_BaseMessage, _BaseExternal):
 
                 # otherwise, just try to convert
                 else:
-                    payload = unicode(payload)
+                    payload = u(payload)
 
             # remove any control characters not allowed in XML
             control_char_map = dict.fromkeys(range(32))
             for i in [9, 10, 13]: # preserve horizontal tab, line feed, carriage return
                 del control_char_map[i]
-            payload = payload.translate(control_char_map)
-                
+
+            payload = u(payload).translate(control_char_map)
+
             result.single_body.body_content.content = payload
-            
+
         else:
             # TODO: handle multipart
             logger.warn('CERP conversion does not yet handle multipart')
-    
+
         # assume we've normalized newlines:
         result.eol = EOLMAP[os.linesep]
 
@@ -382,10 +387,10 @@ def parse_mail_date(datestr):
 
     time_tuple = email.utils.parsedate_tz(datestr)
     if time_tuple is None:
-        return datestr 
+        return datestr
     dt = datetime.datetime.fromtimestamp(email.utils.mktime_tz(time_tuple))
     return dt.isoformat()
-    
+
 EOLMAP = {
     '\r': 'CR',
     '\n': 'LF',

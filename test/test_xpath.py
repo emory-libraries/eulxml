@@ -16,7 +16,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-
+from __future__ import unicode_literals
 import unittest
 
 from eulxml import xpath
@@ -200,4 +200,3 @@ class TestSerializeRoundTrip(unittest.TestCase):
 
     def test_function_multi_args(self):
         self.round_trip('''substring-after(.,':')''')
-

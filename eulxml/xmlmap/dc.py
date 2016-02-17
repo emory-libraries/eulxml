@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/dc.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,8 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+
+from __future__ import unicode_literals
 
 try:
     import rdflib
@@ -39,7 +41,7 @@ class DublinCore(_BaseDublinCore):
 
     If no node is specified when initialized, a new, empty Dublin Core
     XmlObject will be created.
-    """    
+    """
 
     ROOT_NAME = 'dc'
 

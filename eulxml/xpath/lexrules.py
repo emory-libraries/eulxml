@@ -1,5 +1,5 @@
 # file eulxml/xpath/lexrules.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@ To understand how this module works, it is valuable to have a strong
 understanding of the `ply <http://www.dabeaz.com/ply/>` module.
 """
 
-from ply.lex import TOKEN
+from __future__ import unicode_literals
 
 operator_names = {
     'or': 'OR_OP',
@@ -97,18 +97,18 @@ t_ignore = ' \t\r\n'
 # simply removing ':' from our regexes.
 
 # NameStartChar regex without characters about U+FFFF
-NameStartChar = ur'[A-Z]|_|[a-z]|\xc0-\xd6]|[\xd8-\xf6]|[\xf8-\u02ff]|' + \
-    ur'[\u0370-\u037d]|[\u037f-\u1fff]|[\u200c-\u200d]|[\u2070-\u218f]|' + \
-    ur'[\u2c00-\u2fef]|[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD]'
+NameStartChar = r'[A-Z]|_|[a-z]|\xc0-\xd6]|[\xd8-\xf6]|[\xf8-\u02ff]|' + \
+    r'[\u0370-\u037d]|[\u037f-\u1fff]|[\u200c-\u200d]|[\u2070-\u218f]|' + \
+    r'[\u2c00-\u2fef]|[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD]'
 # complete NameStartChar regex
-Full_NameStartChar = ur'(' + NameStartChar + ur'|[\U00010000-\U000EFFFF]' + r')'
+Full_NameStartChar = r'(' + NameStartChar + r'|[\U00010000-\U000EFFFF]' + r')'
 # additional characters allowed in NCNames after the first character
-NameChar_extras = ur'[-.0-9\xb7\u0300-\u036f\u203f-\u2040]'
+NameChar_extras = r'[-.0-9\xb7\u0300-\u036f\u203f-\u2040]'
 
 try:
     import re
     # test whether or not re can compile unicode characters above U+FFFF
-    re.compile(ur'[\U00010000-\U00010001]')
+    re.compile(r'[\U00010000-\U00010001]')
     # if that worked, then use the full ncname regex
     NameStartChar = Full_NameStartChar
 except:
@@ -118,7 +118,7 @@ except:
 
 NCNAME_REGEX = r'(' + NameStartChar + r')(' + \
                       NameStartChar + r'|' + NameChar_extras + r')*'
-                      
+
 NODE_TYPES = set(['comment', 'text', 'processing-instruction', 'node'])
 
 t_NCNAME = NCNAME_REGEX
@@ -132,7 +132,7 @@ def t_FLOAT(t):
     r'\d+\.\d*|\.\d+'
     t.value = float(t.value)
     return t
-    
+
 def t_INTEGER(t):
     r'\d+'
     t.value = int(t.value)
