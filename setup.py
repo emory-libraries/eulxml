@@ -61,12 +61,12 @@ setup(
         'six<=1.10',
     ],
     extras_require={
-        'django': ['Django'],
+        'django': ['Django<1.9'],
         'rdf': ['rdflib>=3.0'],
         'dev': [
             'sphinx',
             'coverage',
-            'Django',
+            'Django<1.9',
             'rdflib>=3.0',
             'mock',
             'nose',
