@@ -1,5 +1,5 @@
 # file eulxml/xpath/ast.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,10 @@ from the classes defined in this module. Library callers will mostly not use
 this module directly, unless they need to produce XPath ASTs from scratch or
 perhaps introspect ASTs returned by the parser.
 '''
+
+from __future__ import unicode_literals
+
+import six
 
 __all__ = [
     'serialize',
@@ -48,7 +52,7 @@ def _serialize(xp_ast):
     if hasattr(xp_ast, '_serialize'):
         for tok in xp_ast._serialize():
             yield tok
-    elif isinstance(xp_ast, basestring):
+    elif isinstance(xp_ast, six.string_types):
         # FIXME: There are several interesting cases where this is wrong.
         yield repr(xp_ast)
     else:
@@ -102,7 +106,7 @@ class BinaryExpression(object):
             yield ' '
         else:
             yield self.op
-            
+
         for tok in _serialize(self.right):
             yield tok
 

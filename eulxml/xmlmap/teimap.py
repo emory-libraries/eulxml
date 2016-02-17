@@ -14,6 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 from eulxml import xmlmap
 
 # TODO: generic/base tei xml object with common attributes?
@@ -137,4 +138,3 @@ class Tei(_TeiBase):
     front  = xmlmap.NodeField('tei:text/tei:front', TeiSection)
     body   = xmlmap.NodeField('tei:text/tei:body', TeiSection)
     back   = xmlmap.NodeField('tei:text/tei:back', TeiSection)
-
