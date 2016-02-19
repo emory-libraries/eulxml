@@ -12,6 +12,9 @@ EULxml
 
 .. image:: https://img.shields.io/pypi/dm/eulfedora.svg
 
+.. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
+   :target: https://coveralls.io/github/emory-libraries/eulxml?branch=develop
+
 .. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
    :target: https://codeclimate.com/github/emory-libraries/eulxml
    :alt: Code Climate
