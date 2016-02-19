@@ -29,8 +29,8 @@ matrix:
 # install a local squid proxy to allow testing schemas
 install:
   - "pip install $DJANGO_ENV"
-  - "pip install -e . --use-mirrors"
-  - "pip install 'eulxml[dev]' --use-mirrors"
+  - "pip install -e .
+  - "pip install 'eulxml[dev]'
   - "pip install python-coveralls"
 
 script:
