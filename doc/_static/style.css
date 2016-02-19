@@ -1,0 +1,11 @@
+@import "alabaster.css";
+
+.lits {
+    margin-top: 3em;
+    border-top: 1px solid #efefef;
+    width: 85%;
+    color: #000;
+    opacity: 0.6;
+    max-width: 200px;
+    padding-bottom: 24px;
+}

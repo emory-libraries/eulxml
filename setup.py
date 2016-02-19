@@ -43,7 +43,7 @@ except:
     pass
 
 dev_requirements = [
-    'sphinx',
+    'sphinx>=1.3.5',
     'coverage',
     'Django<1.9',
     'rdflib>=3.0',
