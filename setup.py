@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from distutils.command.build_py import build_py
 import os
+import sys
 
 from setuptools import setup, find_packages
 
@@ -15,7 +16,7 @@ class build_py_with_ply(build_py):
         build_py.run(self, *args, **kwargs)
 
 CLASSIFIERS = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Framework :: Django',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: Apache Software License',
@@ -41,6 +42,23 @@ try:
 except:
     pass
 
+dev_requirements = [
+    'sphinx',
+    'coverage',
+    'Django<1.9',
+    'rdflib>=3.0',
+    'mock',
+    'nose',
+    'tox',
+]
+# NOTE: dev requirements should be duplicated in pip-dev-req.txt
+# for generating documentation on readthedocs.org
+
+# unittest2 should only be included for py2.6
+if sys.version_info == (2, 6):
+    dev_requirements.append('unittest2')
+
+
 setup(
     cmdclass={'build_py': build_py_with_ply},
 
@@ -63,18 +81,7 @@ setup(
     extras_require={
         'django': ['Django<1.9'],
         'rdf': ['rdflib>=3.0'],
-        'dev': [
-            'sphinx',
-            'coverage',
-            'Django<1.9',
-            'rdflib>=3.0',
-            'mock',
-            'nose',
-            'unittest2',  # for python 2.6
-            'tox',
-        ]
-        # NOTE: dev requirements should be duplicated in pip-dev-req.txt
-        # for generating documentation on readthedocs.org
+        'dev': dev_requirements
     },
 
     description='XPath-based XML data binding, with Django form support',

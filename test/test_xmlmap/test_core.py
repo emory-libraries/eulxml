@@ -20,7 +20,10 @@ from __future__ import unicode_literals
 from lxml import etree
 import os
 import unittest
-from unittest2 import skipIf
+try:
+    from unittest import skipIf
+except ImportError:
+    from unittest2 import skipIf
 import tempfile
 
 from six import string_types
