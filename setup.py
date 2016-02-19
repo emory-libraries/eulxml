@@ -55,7 +55,7 @@ dev_requirements = [
 # for generating documentation on readthedocs.org
 
 # unittest2 should only be included for py2.6
-if sys.version_info == (2, 6):
+if sys.version_info < (2, 7):
     dev_requirements.append('unittest2')
 
 
