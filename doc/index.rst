@@ -1,7 +1,7 @@
-EULxml
+eulxml
 ======
 
-EULxml is an extensible library for reading and writing XML documents in
+eulxml is an extensible library for reading and writing XML documents in
 idiomatic Python. It allows developers to `map predictable XML node
 structures <xmlmap.html#general-usage>`_ to
 :class:`~eulxml.xmlmap.XmlObject` subclasses, using field definitions to map
@@ -18,11 +18,11 @@ Contents
 
 .. toctree::
    :maxdepth: 3
-   
-   changelog
+
    xmlmap
    forms
    xpath
+   Change Log <changelog>
 
 Indices and tables
 ------------------
