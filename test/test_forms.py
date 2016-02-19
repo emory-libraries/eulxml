@@ -14,6 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 import re
 import unittest
 from mock import patch
@@ -22,6 +23,7 @@ from mock import patch
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'testsettings'
 
+from django import VERSION as DJANGO_VERSION
 from django import forms
 from django.conf import settings
 from django.forms import ValidationError
@@ -33,6 +35,10 @@ from eulxml.forms import XmlObjectForm, xmlobjectform_factory, SubformField
 from eulxml.forms.xmlobject import XmlObjectFormType, BaseXmlObjectListFieldFormSet, \
      ListFieldForm, IntegerListFieldForm
 
+
+if DJANGO_VERSION >= (1, 7, ):
+    from django import setup
+    setup()
 
 # test xmlobject and xml content to generate test form
 
@@ -266,13 +272,13 @@ class XmlObjectFormTest(unittest.TestCase):
             'id2 field is not present in child subform fields when not specified in nested field list')
 
         # form field order should match order in fields list
-        self.assertEqual(form.base_fields.keys(), ['int', 'bool'])
+        self.assertEqual(list(form.base_fields.keys()), ['int', 'bool'])
 
         # second variant to confirm field order
         myfields = ['longtext', 'int', 'bool']
         myform = xmlobjectform_factory(TestObject, fields=myfields)
         form = myform()
-        self.assertEqual(myfields, form.base_fields.keys())
+        self.assertEqual(myfields, list(form.base_fields.keys()))
 
     def test_exclude(self):
         # if exclude is specified, those fields should not be listed
@@ -317,7 +323,7 @@ class XmlObjectFormTest(unittest.TestCase):
     def test_default_field_order(self):
         # form field order should correspond to field order in xmlobject, which is:
         # id, int, bool, longtext, [child]
-        field_names = self.update_form.base_fields.keys()
+        field_names = list(self.update_form.base_fields.keys())
         self.assertEqual('id', field_names[0],
             "first field in xmlobject ('id') is first in form fields")
         self.assertEqual('int', field_names[1],
@@ -336,7 +342,7 @@ class XmlObjectFormTest(unittest.TestCase):
 
         myform = xmlobjectform_factory(MyTestObject)
         form = myform()
-        field_names = form.base_fields.keys()
+        field_names = list(form.base_fields.keys())
         self.assertEqual('a', field_names[0],
             "first field in xmlobject ('a') is first in form fields")
         self.assertEqual('z', field_names[1],
@@ -364,8 +370,8 @@ class XmlObjectFormTest(unittest.TestCase):
 
         # spot check that values were set properly in the xml
         xml = instance.serialize()
-        self.assert_('id="b"' in xml)
-        self.assert_('<boolean>no</boolean>' in xml)
+        self.assert_(b'id="b"' in xml)
+        self.assert_(b'<boolean>no</boolean>' in xml)
 
         # test save on form with no pre-existing xmlobject instance
         class SimpleForm(XmlObjectForm):
@@ -385,8 +391,8 @@ class XmlObjectFormTest(unittest.TestCase):
         self.assertEqual('la-di-dah', instance.longtext)
         # spot check values in created-from-scratch xml
         xml = instance.serialize()
-        self.assert_('id="A1"' in xml)
-        self.assert_('<boolean>yes</boolean>' in xml)
+        self.assert_(b'id="A1"' in xml)
+        self.assert_(b'<boolean>yes</boolean>' in xml)
 
         # formset deletion
         data = self.post_data.copy()
@@ -741,6 +747,3 @@ class XmlObjectFormTest(unittest.TestCase):
         form = MyForm()
         subformset = form.subforms['child'].formsets['parts'].forms[0]
         self.assert_(isinstance(subformset, MySubFormset))
-
-
-

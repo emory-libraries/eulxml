@@ -5,6 +5,19 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+1.0
+---
+
+* Now Python 3 compatible, thanks to Morgan Aubert
+  (`@ellmetha <https://github.com/ellmetha>`_).
+* bugfix: BooleanField will now return `None` instead of generating an
+  error when xml is not present and False is not configured as `None`.
+  Contributed by Roman Voropaev
+  (`@roman-voropaev <https://github.com/roman-voropaev>`_).
+* Include xml namespace in base TEI class in eulxml.xmlmap.teimap
+  for xml:id attributes referenced throughout.
+
+
 0.22.1
 ------
 
@@ -61,15 +74,15 @@ any necessary information about installation or upgrade notes.
   * Changed :class:`~eulxml.xmlmap.eadmap.Note` paragraph content from
     string list to node list, to support formatting.
   * Added mapping for ``processinfo`` to
-   :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
-   :class:`~eulxml.xmlmap.eadmap.Component`
+    :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
+    :class:`~eulxml.xmlmap.eadmap.Component`
 
 0.20.2
 -------
 
 * Unused namespaces will now be cleaned up before serialization in
-  :meth:`eulxml.xmlmap.XmlObject.serialize' and
-  :meth:`eulxml.xmlmap.XmlObject.serializeDocument'
+  :meth:`eulxml.xmlmap.XmlObject.serialize` and
+  :meth:`eulxml.xmlmap.XmlObject.serializeDocument`
 * :mod:`eulxml.xmlmap.eadmap` have been updated with root element names
   where possible, to better support using :mod:`~eulxml.xmlmap.eadmap` to
   update or modify EAD documents.

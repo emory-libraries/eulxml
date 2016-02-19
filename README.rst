@@ -1,17 +1,27 @@
 EULxml
 ======
 
+.. image:: https://img.shields.io/pypi/v/eulxml.svg
+   :target: https://pypi.python.org/pypi/eulxml
+
+.. image:: https://img.shields.io/github/license/emory-libraries/eulxml.svg
+
+.. image:: https://img.shields.io/pypi/dm/eulfedora.svg
+
+.. image:: https://readthedocs.org/projects/eulxml/badge/?version=latest
+  :target: http://eulxml.readthedocs.org/en/latest/?badge=latest
+  :alt: Documentation Status
+
 .. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
    :alt: current build status for namedropper-py
    :target: https://travis-ci.org/emory-libraries/eulxml
 
-.. image:: https://pypip.in/version/eulxml/badge.png
-   :target: https://pypi.python.org/pypi/eulxml
+.. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=master
+   :target: https://coveralls.io/github/emory-libraries/eulxml?branch=master
 
-.. image:: https://pypip.in/license/eulxml/badge.png
-
-.. image:: https://pypip.in/download/eulxml/badge.png
-
+.. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
+   :target: https://codeclimate.com/github/emory-libraries/eulxml
+   :alt: Code Climate
 
 EULxml is a `Python <http://www.python.org/>`_ module that provides
 utilities and classes for interacting with XML that allow the

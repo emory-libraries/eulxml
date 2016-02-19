@@ -20,6 +20,8 @@ from datetime import datetime, date
 import tempfile
 import unittest
 
+from six.moves.builtins import str as text
+
 import eulxml.xmlmap.core as xmlmap
 
 
@@ -384,6 +386,9 @@ class TestFields(unittest.TestCase):
             num_bool2 = xmlmap.SimpleBooleanField('boolean/num2', 1, 0)
             opt_elem_bool = xmlmap.SimpleBooleanField('boolean/opt', 'yes', None)
             opt_attr_bool = xmlmap.SimpleBooleanField('boolean/@opt', 'yes', None)
+            # xml not present at all should not result in errors
+            missing_bool = xmlmap.SimpleBooleanField('boolean/missing', 'yes', None)
+            missing_bool2 = xmlmap.SimpleBooleanField('boolean/missing', 'yes', 'no')
 
         #obj = TestObject(self.fixture.documentElement)
         obj = TestObject(self.fixture)
@@ -393,6 +398,8 @@ class TestFields(unittest.TestCase):
         self.assertEqual(obj.num_bool2, False)
         self.assertEqual(obj.opt_elem_bool, False)
         self.assertEqual(obj.opt_attr_bool, False)
+        self.assertEqual(obj.missing_bool, False)
+        self.assertEqual(obj.missing_bool2, None)
 
         # set text boolean
         obj.txt_bool1 = False
@@ -499,7 +506,7 @@ class TestFields(unittest.TestCase):
         self.assertEqual(obj.node.xpath('string(date)'), today.isoformat())
         # alternate format
         obj.dates[1] = today
-        self.assertEqual(obj.node.xpath('string(date[1])'), unicode(today))
+        self.assertEqual(obj.node.xpath('string(date[1])'), text(today))
 
 
     def testSchemaField(self):
@@ -1014,5 +1021,3 @@ class TestNodeList(unittest.TestCase):
             % len(self.obj.nodes))
         self.assertEqual(node.id, self.obj.nodes[0].id)
         self.assertEqual(node.parts, self.obj.nodes[0].parts)
-
-

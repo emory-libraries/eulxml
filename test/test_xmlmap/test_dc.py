@@ -14,8 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import unicode_literals
 import unittest
-from unittest2 import skipIf
+try:
+  from unittest import skipIf
+except ImportError:
+  from unittest2 import skipIf
 import os
 
 from eulxml.xmlmap import load_xmlobject_from_string
@@ -114,9 +118,9 @@ class TestDc(unittest.TestCase):
         dc = DublinCore()
         dc.title = 'foo'  # if dc namespace is not used it will be cleaned/removed
         dc_xml = dc.serialize()
-        self.assert_('<oai_dc:dc ' in dc_xml)
-        self.assert_('xmlns:dc="http://purl.org/dc/elements/1.1/"' in dc_xml)
-        self.assert_('xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"' in dc_xml)
+        self.assert_(b'<oai_dc:dc ' in dc_xml)
+        self.assert_(b'xmlns:dc="http://purl.org/dc/elements/1.1/"' in dc_xml)
+        self.assert_(b'xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"' in dc_xml)
 
     @proxy_required
     def test_isvalid(self):

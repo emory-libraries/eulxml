@@ -14,15 +14,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import cStringIO
+from __future__ import unicode_literals
 import logging
 import os
-import urllib2
 import warnings
 
 from lxml import etree
 from lxml.builder import ElementMaker
+import six
+from six.moves.urllib.request import urlopen
 
+from eulxml.utils.compat import u
 from eulxml.xmlmap.fields import Field
 
 logger = logging.getLogger(__name__)
@@ -212,7 +214,7 @@ class XmlObjectType(type):
                 # collect self-referential NodeFields so that we can resolve
                 # them once we've created the new class
                 node_class = getattr(field, 'node_class', None)
-                if isinstance(node_class, basestring):
+                if isinstance(node_class, six.string_types):
                     if node_class in ('self', name):
                         recursive_fields.append(field)
                     else:
@@ -250,11 +252,12 @@ class XmlObjectType(type):
     def _make_create_field(field_name, field):
         def create_field(xmlobject):
             field.create_for_node(xmlobject.node, xmlobject.context)
-        create_field.__name__ = field_name
+        create_field.__name__ = str(field_name)
         return create_field
 
 
-class XmlObject(object):
+@six.python_2_unicode_compatible
+class XmlObject(six.with_metaclass(XmlObjectType, object)):
 
     """
     A Python object wrapped around an XML node.
@@ -278,8 +281,6 @@ class XmlObject(object):
     Custom equality/non-equality tests: two instances of :class:`XmlObject` are
     considered equal if they point to the same lxml element node.
     """
-
-    __metaclass__ = XmlObjectType
 
     node = None
     """The top-level xml node wrapped by the object"""
@@ -344,7 +345,7 @@ class XmlObject(object):
 
         # xpath has no notion of a default namespace - omit any namespace with no prefix
         self.context = {'namespaces': dict([(prefix, ns) for prefix, ns
-                                            in nsmap.iteritems() if prefix])}
+                                            in six.iteritems(nsmap) if prefix])}
 
         if context is not None:
             self.context.update(context)
@@ -352,7 +353,7 @@ class XmlObject(object):
             # also include any root namespaces to guarantee that expected prefixes are available
             self.context['namespaces'].update(self.ROOT_NAMESPACES)
 
-        for field, value in kwargs.iteritems():
+        for field, value in six.iteritems(kwargs):
             # TODO (maybe): handle setting/creating list fields
             setattr(self, field, value)
 
@@ -393,8 +394,8 @@ class XmlObject(object):
             return_type = XmlObject
 
         # automatically encode any string params as XSLT string parameters
-        for key, val in params.iteritems():
-            if isinstance(val, basestring):
+        for key, val in six.iteritems(params):
+            if isinstance(val, six.string_types):
                 params[key] = etree.XSLT.strparam(val)
 
         parser = _get_xmlparser()
@@ -427,7 +428,7 @@ class XmlObject(object):
         # empty xmlobject which will behave unexpectedly.
 
         # text output does not include a root node, so check separately
-        if return_type in [str, unicode]:
+        if issubclass(return_type, six.string_types):
             if result is None:
                 logger.warning("XSL transform generated an empty result")
                 return
@@ -440,15 +441,15 @@ class XmlObject(object):
             # pass in root node, rather than the result tree object
             return return_type(result.getroot())
 
-    def __unicode__(self):
-        if isinstance(self.node, basestring):
+    def __str__(self):
+        if isinstance(self.node, six.string_types):
             return self.node
         return self.node.xpath("normalize-space(.)")
 
     def __string__(self):
-        if isinstance(self.node, basestring):
+        if isinstance(self.node, six.string_types):
             return self.node
-        return unicode(self).encode('ascii', 'xmlcharrefreplace')
+        return u(self).encode('ascii', 'xmlcharrefreplace')
 
     def __eq__(self, other):
         # consider two xmlobjects equal if they are pointing to the same xml node
@@ -491,7 +492,7 @@ class XmlObject(object):
         # actual logic of xml serialization
         if stream is None:
             string_mode = True
-            stream = cStringIO.StringIO()
+            stream = six.BytesIO()
         else:
             string_mode = False
 
@@ -576,7 +577,7 @@ class Urllib2Resolver(etree.Resolver):
             url = 'file:' + url
 
         logger.debug('Resolving url %s' % url)
-        f = urllib2.urlopen(url, None, 10)
+        f = urlopen(url, None, 10)
         # set a timeout in case connection fails or is unreasonably slow
         if f:
             return self.resolve_file(f, context, base_url=url)

@@ -24,6 +24,7 @@ works.
 Note that most client applications will import htese objects from
 eulxml.xpath, not directly from here."""
 
+from __future__ import unicode_literals
 import os
 import re
 from ply import lex, yacc
@@ -122,7 +123,7 @@ lexer = None
 try:
     lexer = lex.lex(module=lexrules, optimize=1, outputdir=lexdir,
         reflags=re.UNICODE)
-except IOError, e:
+except IOError as e:
     import errno
     if e.errno != errno.EACCES:
         raise
@@ -160,4 +161,4 @@ def ptokens(s):
 
     lexer.input(s)
     for tok in lexer:
-            print tok
+            print(tok)

@@ -14,11 +14,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-
+from __future__ import unicode_literals
 import unittest
-from unittest2 import skipIf
+try:
+    from unittest import skipIf
+except ImportError:
+    from unittest2 import skipIf
 import os
 
+from eulxml.utils.compat import u
 from eulxml.xmlmap import load_xmlobject_from_string, mods
 
 proxy_required = skipIf('HTTP_PROXY' not in os.environ,
@@ -121,9 +125,9 @@ class TestMods(unittest.TestCase):
         self.assertEqual('text', self.mods.resource_type)
         self.assertEqual('a general note', self.mods.note.label)
         self.assertEqual('general', self.mods.note.type)
-        self.assertEqual(u'remember to...', unicode(self.mods.note))
+        self.assertEqual(u'remember to...', u(self.mods.note))
         self.assertEqual('remember to...', self.mods.note.text)
-        self.assertEqual(u'2010-06-17', unicode(self.mods.origin_info.created[0]))
+        self.assertEqual(u'2010-06-17', u(self.mods.origin_info.created[0]))
         self.assertEqual('2010-06-17', self.mods.origin_info.created[0].date)
         self.assertEqual('2010-06-18', self.mods.origin_info.issued[0].date)
         self.assertEqual('2010-06-19', self.mods.origin_info.captured[0].date)
@@ -184,7 +188,7 @@ class TestMods(unittest.TestCase):
         mymods.title_info.subtitle = ': for testing'
         mymods.title_info.part_number = '1'
         mymods.title_info.part_name = 'first installment'
-        mymods.title_info_list.append(mods.TitleInfo(non_sort='An ', title='Alternative Title', subtitle=': for testing', 
+        mymods.title_info_list.append(mods.TitleInfo(non_sort='An ', title='Alternative Title', subtitle=': for testing',
                                             part_number = '1', part_name='first installment', label='First line'))
         mymods.resource_type = 'text'
         mymods.create_name()
@@ -220,8 +224,8 @@ class TestMods(unittest.TestCase):
         mymods.parts[0].extent.start = '339'
         mymods.parts[0].extent.end = '361'
         xml = mymods.serialize(pretty=True)
-        self.assert_('<mods:mods ' in xml)
-        self.assert_('xmlns:mods="http://www.loc.gov/mods/v3"' in xml)
+        self.assert_(b'<mods:mods ' in xml)
+        self.assert_(b'xmlns:mods="http://www.loc.gov/mods/v3"' in xml)
 
         self.assertTrue(mymods.is_valid(), "MODS created from scratch should be schema-valid")
 
@@ -344,4 +348,3 @@ class TestTitleInfo(unittest.TestCase):
         # actual value - not empty
         self.titleinfo.title = 'This a Test'
         self.assertFalse(self.titleinfo.is_empty())
-

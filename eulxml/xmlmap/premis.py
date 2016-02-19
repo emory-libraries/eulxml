@@ -1,5 +1,5 @@
 # file eulxml/xmlmap/premis.py
-# 
+#
 #   Copyright 2010,2011 Emory University Libraries
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ preservation metadata.
 -----
 '''
 
+from __future__ import unicode_literals
 from eulxml import xmlmap
 
 PREMIS_NAMESPACE = 'info:lc/xmlns/premis-v2'
@@ -49,16 +50,16 @@ class BasePremis(xmlmap.XmlObject):
 class PremisRoot(BasePremis):
     '''Base class with a schema declaration for any of the
     root/stand-alone PREMIS elements:
-    
+
      * ``<premis>`` - :class:`Premis`
      * ``<object>`` - :class:`Object`
      * ``<event>``  - :class:`Event`
      * ``<agent>``
      * ``<rights>``
-    
+
     '''
     XSD_SCHEMA = PREMIS_SCHEMA
-    
+
 class Object(PremisRoot):
     '''Preliminary :class:`~eulxml.xmlmap.XmlObject` for a PREMIS
     object.
@@ -92,7 +93,7 @@ class Event(PremisRoot):
       As a work-around, when creating a new :class:`Event` from
       scratch, you should set the following required fields in this
       order: identifier (:attr:`id` and :attr:`ad_type`
-    
+
     '''
     ROOT_NAME = 'event'
     type = xmlmap.StringField('p:eventType')
@@ -107,7 +108,7 @@ class Event(PremisRoot):
     'event detail (`eventDetail`)'
     outcome = xmlmap.StringField('p:eventOutcomeInformation/p:eventOutcome', required=False)
     '''outcome of the event (`eventOutcomeInformation/eventOutcome`).
-    
+
     .. Note::
       In this preliminary implementation, the outcome detail fields
       are not mapped.

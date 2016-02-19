@@ -17,6 +17,7 @@
 # xmlobject-backed django form (analogous to django db model forms)
 # this code borrows heavily from django.forms.models
 
+from __future__ import unicode_literals
 from collections import defaultdict
 from string import capwords
 
@@ -28,8 +29,10 @@ from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.models import ModelFormOptions
 from django.utils.datastructures  import SortedDict
 from django.utils.safestring  import mark_safe
+import six
 
 from eulxml import xmlmap
+from eulxml.utils.compat import u
 
 def fieldname_to_label(name):
     """Default conversion from xmlmap Field variable name to Form field label:
@@ -68,7 +71,7 @@ def _collect_fields(field_parts_list, include_parents):
             fields.append(field)
 
     subfields = dict((field, _collect_fields(subparts, include_parents))
-                     for field, subparts in subpart_lists.iteritems())
+                     for field, subparts in six.iteritems(subpart_lists))
 
     return ParsedFieldList(fields, subfields)
 
@@ -168,7 +171,7 @@ def formfields_for_xmlobject(model, fields=None, exclude=None, widgets=None, opt
     field_order = {}
     subform_labels = {}
 
-    for name, field in model._fields.iteritems():
+    for name, field in six.iteritems(model._fields):
         if fieldlist and not name in fieldlist.fields:
             # if specific fields have been requested and this is not one of them, skip it
             continue
@@ -328,7 +331,7 @@ def xmlobject_to_dict(instance, fields=None, exclude=None, prefix=''):
     else:
         prefix = ''
 
-    for name, field in instance._fields.iteritems():
+    for name, field in six.iteritems(instance._fields):
         # not editable?
         if fields and not name in fields:
             continue
@@ -368,7 +371,7 @@ class XmlObjectFormType(type):
         declared_subforms = {}
         declared_subform_labels = {}
         # sort declared fields into sub-form overrides and regular fields
-        for fname, f in tmp_fields.iteritems():
+        for fname, f in six.iteritems(tmp_fields):
             if isinstance(f, SubformField):
                 # FIXME: pass can_delete, can_delete from subformfield to formset?
                 declared_subforms[fname] = f.formclass
@@ -417,7 +420,7 @@ class XmlObjectFormType(type):
         return new_class
 
 
-class XmlObjectForm(BaseForm):
+class XmlObjectForm(six.with_metaclass(XmlObjectFormType, BaseForm)):
     """Django Form based on an :class:`~eulxml.xmlmap.XmlObject` model,
     analogous to Django's ModelForm.
 
@@ -445,10 +448,6 @@ class XmlObjectForm(BaseForm):
     be added to the :class:`eulxml.xmlmap.XmlObject` instance returned by
     :meth:`update_instance`.
     """
-
-    # django has a basemodelform with all the logic
-    # and then a modelform with the metaclass declaration; do we need that?
-    __metaclass__ = XmlObjectFormType
 
     _html_section = None    # formatting for outputting object with subform
 
@@ -502,7 +501,7 @@ class XmlObjectForm(BaseForm):
     def _init_subforms(self, data=None, prefix=None):
         # initialize each subform class with the appropriate model instance and data
         self.subforms = SortedDict()    # create as sorted dictionary to preserve order
-        for name, subform in self.__class__.subforms.iteritems():
+        for name, subform in six.iteritems(self.__class__.subforms):
             # instantiate the new form with the current field as instance, if available
             if self.instance is not None:
                 # get the relevant instance for the current NodeField variable
@@ -531,7 +530,7 @@ class XmlObjectForm(BaseForm):
 
     def _init_formsets(self, data=None, prefix=None):
         self.formsets = {}
-        for name, formset in self.__class__.formsets.iteritems():
+        for name, formset in six.iteritems(self.__class__.formsets):
             if self.instance is not None:
                 subinstances = getattr(self.instance, name, None)
             else:
@@ -566,7 +565,7 @@ class XmlObjectForm(BaseForm):
             fields_in_order = []
             if hasattr(self.Meta, 'fields'):
                 fields_in_order.extend(self.Meta.fields)
-                fields_in_order.extend([name for name in self.instance._fields.iterkeys()
+                fields_in_order.extend([name for name in six.iterkeys(self.instance._fields)
                                         if name in self.Meta.fields])
             else:
                 fields_in_order = self.instance._fields.keys()
@@ -587,9 +586,9 @@ class XmlObjectForm(BaseForm):
                     setattr(self.instance, name, self.cleaned_data[name])
 
             # update sub-model portions via any subforms
-            for name, subform in self.subforms.iteritems():
+            for name, subform in six.iteritems(self.subforms):
                 self._update_subinstance(name, subform)
-            for formset in self.formsets.itervalues():
+            for formset in six.itervalues(self.formsets):
                 formset.update_instance()
         return self.instance
 
@@ -625,8 +624,8 @@ class XmlObjectForm(BaseForm):
         :rtype: boolean
         """
         valid = super(XmlObjectForm, self).is_valid() and \
-                all(s.is_valid() for s in self.subforms.itervalues()) and \
-                all(s.is_valid() for s in self.formsets.itervalues())
+                all(s.is_valid() for s in six.itervalues(self.subforms)) and \
+                all(s.is_valid() for s in six.itervalues(self.formsets))
         # schema validation can only be done after regular validation passes,
         # because xmlobject must be updated with cleaned_data
         if valid and self.instance is not None:
@@ -664,14 +663,14 @@ class XmlObjectForm(BaseForm):
             return subform._html_output(normal_row, error_row, row_ender,
                                         help_text_html, errors_on_separate_row)
 
-        for name, subform in self.subforms.iteritems():
+        for name, subform in six.iteritems(self.subforms):
             # use form label if one was set
             if hasattr(subform, 'form_label'):
                 name = subform.form_label
             parts.append(self._html_subform_output(subform, name, _subform_output))
 
-        for name, formset in self.formsets.iteritems():
-            parts.append(unicode(formset.management_form))
+        for name, formset in six.iteritems(self.formsets):
+            parts.append(u(formset.management_form))
             # use form label if one was set
             # - use declared subform label if any
             if hasattr(formset.forms[0], 'form_label') and \
@@ -775,10 +774,10 @@ def xmlobjectform_factory(model, form=XmlObjectForm, fields=None, exclude=None,
     parent = (object,)
     if hasattr(form, 'Meta'):
         parent = (form.Meta, object)
-    Meta = type('Meta', parent, attrs)
+    Meta = type(str('Meta'), parent, attrs)
 
     # Give this new form class a reasonable name.
-    class_name = model.__name__ + 'XmlObjectForm'
+    class_name = model.__name__ + str('XmlObjectForm')
 
     # Class attributes for the new form class.
     form_class_attrs = {
@@ -925,4 +924,3 @@ class BaseXmlObjectListFieldFormSet(BaseFormSet):
         while len(self.instance):
             self.instance.pop()
         self.instance.extend(values)
-

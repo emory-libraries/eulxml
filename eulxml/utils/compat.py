@@ -14,9 +14,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-__version_info__ = (1, 0, 0, None)
+import sys
 
-# Dot-connect all but the last. Last is dash-connected if not None.
-__version__ = '.'.join([str(i) for i in __version_info__[:-1]])
-if __version_info__[-1] is not None:
-    __version__ += ('-%s' % (__version_info__[-1],))
+if sys.version_info < (3, ):
+    def u(x):
+        return unicode(x)
+else:
+    def u(x):
+        return str(x)
