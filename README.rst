@@ -16,8 +16,8 @@ EULxml
    :alt: current build status for namedropper-py
    :target: https://travis-ci.org/emory-libraries/eulxml
 
-.. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=master
-   :target: https://coveralls.io/github/emory-libraries/eulxml?branch=master
+.. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
+   :target: https://coveralls.io/github/emory-libraries/eulxml?branch=develop
 
 .. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
    :target: https://codeclimate.com/github/emory-libraries/eulxml
