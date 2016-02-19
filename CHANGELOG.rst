@@ -74,15 +74,15 @@ any necessary information about installation or upgrade notes.
   * Changed :class:`~eulxml.xmlmap.eadmap.Note` paragraph content from
     string list to node list, to support formatting.
   * Added mapping for ``processinfo`` to
-   :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
-   :class:`~eulxml.xmlmap.eadmap.Component`
+    :class:`~eulxml.xmlmap.eadmap.ArchivalDescription` and
+    :class:`~eulxml.xmlmap.eadmap.Component`
 
 0.20.2
 -------
 
 * Unused namespaces will now be cleaned up before serialization in
-  :meth:`eulxml.xmlmap.XmlObject.serialize' and
-  :meth:`eulxml.xmlmap.XmlObject.serializeDocument'
+  :meth:`eulxml.xmlmap.XmlObject.serialize` and
+  :meth:`eulxml.xmlmap.XmlObject.serializeDocument`
 * :mod:`eulxml.xmlmap.eadmap` have been updated with root element names
   where possible, to better support using :mod:`~eulxml.xmlmap.eadmap` to
   update or modify EAD documents.
