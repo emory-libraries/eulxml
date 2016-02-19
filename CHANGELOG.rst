@@ -5,8 +5,8 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
-0.23
-----
+1.0
+---
 
 * Now Python 3 compatible, thanks to Morgan Aubert
   (`@ellmetha <https://github.com/ellmetha>`_).
