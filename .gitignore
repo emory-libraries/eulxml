@@ -8,6 +8,7 @@ eulxml/xpath/parsetab.py
 .tox
 .eggs
 .coverage
+.cache
 coverage.xml
 nosetests.xml
 

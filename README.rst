@@ -19,7 +19,7 @@ eulxml
 
 **code**
   .. image:: https://travis-ci.org/emory-libraries/eulxml.svg?branch=develop
-    :alt: current build status for namedropper-py
+    :alt: travis-ci build
     :target: https://travis-ci.org/emory-libraries/eulxml
 
   .. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
