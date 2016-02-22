@@ -18,7 +18,7 @@ eulxml
     :alt: Documentation Status
 
 **code**
-  .. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
+  .. image:: https://travis-ci.org/emory-libraries/eulxml.svg?branch=develop
     :alt: current build status for namedropper-py
     :target: https://travis-ci.org/emory-libraries/eulxml
 
