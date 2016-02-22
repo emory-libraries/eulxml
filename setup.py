@@ -76,7 +76,7 @@ setup(
     install_requires=[
         'ply',
         'lxml',
-        'six<=1.10',
+        'six>=1.10',
     ],
     extras_require={
         'django': ['Django<1.9'],
