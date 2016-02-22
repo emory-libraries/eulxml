@@ -24,8 +24,20 @@ perhaps introspect ASTs returned by the parser.
 '''
 
 from __future__ import unicode_literals
+import sys
 
-import six
+
+# python2/3 string type logic borrowed from six
+# NOTE: not importing six here because setup.py needs to generate
+# the parser at install time, when six installation is not yet available
+PY2 = sys.version_info[0] == 2
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    string_types = str
+else:
+    string_types = basestring
+
 
 __all__ = [
     'serialize',
@@ -52,7 +64,7 @@ def _serialize(xp_ast):
     if hasattr(xp_ast, '_serialize'):
         for tok in xp_ast._serialize():
             yield tok
-    elif isinstance(xp_ast, six.string_types):
+    elif isinstance(xp_ast, string_types):
         # FIXME: There are several interesting cases where this is wrong.
         yield repr(xp_ast)
     else:
