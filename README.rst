@@ -1,29 +1,40 @@
-EULxml
+eulxml
 ======
 
-.. image:: https://img.shields.io/pypi/v/eulxml.svg
-   :target: https://pypi.python.org/pypi/eulxml
+**package**
+  .. image:: https://img.shields.io/pypi/v/eulxml.svg
+    :target: https://pypi.python.org/pypi/eulxml
+    :alt: PyPI
 
-.. image:: https://img.shields.io/github/license/emory-libraries/eulxml.svg
+  .. image:: https://img.shields.io/github/license/emory-libraries/eulxml.svg
+    :alt: License
 
-.. image:: https://img.shields.io/pypi/dm/eulfedora.svg
+  .. image:: https://img.shields.io/pypi/dm/eulfedora.svg
+    :alt: PyPI downloads
 
-.. image:: https://readthedocs.org/projects/eulxml/badge/?version=latest
-  :target: http://eulxml.readthedocs.org/en/latest/?badge=latest
-  :alt: Documentation Status
+**documentation**
+  .. image:: https://readthedocs.org/projects/eulxml/badge/?version=latest
+    :target: http://eulxml.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
 
-.. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
-   :alt: current build status for namedropper-py
-   :target: https://travis-ci.org/emory-libraries/eulxml
+**code**
+  .. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
+    :alt: current build status for namedropper-py
+    :target: https://travis-ci.org/emory-libraries/eulxml
 
-.. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
-   :target: https://coveralls.io/github/emory-libraries/eulxml?branch=develop
+  .. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
+    :target: https://coveralls.io/github/emory-libraries/eulxml?branch=develop
+    :alt: Code Coverage
 
-.. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
-   :target: https://codeclimate.com/github/emory-libraries/eulxml
-   :alt: Code Climate
+  .. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
+    :target: https://codeclimate.com/github/emory-libraries/eulxml
+    :alt: Code Climate
 
-EULxml is a `Python <http://www.python.org/>`_ module that provides
+  .. image:: https://requires.io/github/emory-libraries/eulxml/requirements.svg?branch=develop
+    :target: https://requires.io/github/emory-libraries/eulxml/requirements/?branch=develop
+    :alt: Requirements Status
+
+eulxml is a `Python <http://www.python.org/>`_ module that provides
 utilities and classes for interacting with XML that allow the
 definition of re-usable XML objects that can be accessed, updated and
 created as standard Python types, and a form component for editing XML
@@ -49,7 +60,7 @@ Dependencies
 **eulxml** depends on `PLY <http://www.dabeaz.com/ply/>`_ and `lxml
 <http://lxml.de/>`_.
 
-**eulxml.forms** requires and was designed       to be used with
+**eulxml.forms** requires and was designed to be used with
 `Django <https://www.djangoproject.com/>`_, although Django is not
 required for installation and use of the non-form components of
 **eulxml**.
