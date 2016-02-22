@@ -5,6 +5,14 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+1.0.1
+-----
+
+* Correct six dependency required version
+* Fix six dependency in eulxml.xpath so installation can complete
+  and generate parsetab and lextab when six installation is not yet
+  processed.  [`#20 <https://github.com/emory-libraries/eulxml/issues/20>`]
+
 1.0
 ---
 
