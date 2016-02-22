@@ -71,7 +71,7 @@ setup(
     packages=find_packages(),
 
     setup_requires=[
-        'ply',
+        'ply>=3.8',
     ],
     install_requires=[
         'ply',
