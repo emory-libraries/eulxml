@@ -65,14 +65,9 @@ def parseString(string, uri=None):
 _loaded_schemas = {}
 
 
-def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
+def loadSchema(uri, base_uri=None):
     """Load an XSD XML document (specified by filename or URL), and return a
     :class:`lxml.etree.XMLSchema`.
-
-    Note that frequently loading a schema without using a web proxy may
-    introduce significant network resource usage as well as instability if
-    the schema becomes unavailable. Thus this function will fail if the
-    ``HTTP_PROXY`` environment variable is not set.
     """
 
     # uri to use for reporting errors - include base uri if any
@@ -83,25 +78,6 @@ def loadSchema(uri, base_uri=None, override_proxy_requirement=False):
     if base_uri is not None:
         error_uri += ' (base URI %s)' % base_uri
 
-    # typical reliable use should include a proxy. warn if they're not using
-    # one.
-    if 'HTTP_PROXY' not in os.environ and _http_uri(uri):
-        message = ('Loading schema %s without a web proxy may introduce ' +
-                   'significant network resource usage as well as ' +
-                   'instability if that server becomes inaccessible. ' +
-                   'The HTTP_PROXY environment variable is required ' +
-                   'for loading schemas.  Schema validation will be disabled.') \
-                  % (error_uri,)
-        if override_proxy_requirement:
-            message += (' (overridden: Requesting without proxy. Please ' +
-                        'set HTTP_PROXY as soon as possible.)')
-            logger.warning(message)
-        else:
-            warnings.warn(message, UserWarning)
-            # bail out and return None instead of a schema, so methods
-            # that rely on a loaded schema can detect its absence and
-            # proceed accordingly.
-            return None
 
     try:
         logger.debug('Loading schema %s' % uri)
@@ -571,26 +547,16 @@ class XmlObject(six.with_metaclass(XmlObjectType, object)):
             and not self.node.text and not self.node.tail  # regular text or text after a node
 
 
-class Urllib2Resolver(etree.Resolver):
-    def resolve(self, url, public_id, context):
-        if url.startswith('/'):
-            url = 'file:' + url
 
-        logger.debug('Resolving url %s' % url)
-        f = urlopen(url, None, 10)
-        # set a timeout in case connection fails or is unreasonably slow
-        if f:
-            return self.resolve_file(f, context, base_url=url)
-        else:
-            return self.resolve_filename(url, context)
-_defaultResolver = Urllib2Resolver()
+""" April 2016. Removing Urllib2Resolver so we can support
+  loading local copies of schema and skip validation in get_xml_parser """ 
 
 
-def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=_defaultResolver):
+def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=None):
     """Initialize an instance of :class:`lxml.etree.XMLParser` with appropriate
     settings for validation.  If validation is requested and the specified
     instance of :class:`XmlObject` has an XSD_SCHEMA defined, that will be used.
-    Otherwise, uses DTD validation.
+    Otherwise, uses DTD validation. Switched resolver to None to skip validation.
     """
     if validate:
         if hasattr(xmlclass, 'XSD_SCHEMA') and xmlclass.XSD_SCHEMA is not None:

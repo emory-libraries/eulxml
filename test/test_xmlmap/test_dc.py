@@ -25,8 +25,6 @@ import os
 from eulxml.xmlmap import load_xmlobject_from_string
 from eulxml.xmlmap.dc import DublinCore
 
-proxy_required = skipIf('HTTP_PROXY' not in os.environ,
-    'Schema validation test requires an HTTP_PROXY')
 
 
 class TestDc(unittest.TestCase):
@@ -122,7 +120,6 @@ class TestDc(unittest.TestCase):
         self.assert_(b'xmlns:dc="http://purl.org/dc/elements/1.1/"' in dc_xml)
         self.assert_(b'xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"' in dc_xml)
 
-    @proxy_required
     def test_isvalid(self):
         self.assertTrue(self.dc.is_valid())
 
