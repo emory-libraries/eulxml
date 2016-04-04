@@ -28,10 +28,10 @@ matrix:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 # install a local squid proxy to allow testing schemas
 install:
-  - "pip install $DJANGO_ENV"
-  - "pip install -e ."
-  - "pip install 'eulxml[dev]'"
-  - "pip install python-coveralls"
+  - pip install $DJANGO_ENV
+  - pip install -e .
+  - pip install 'eulxml[dev]'
+  - pip install coveralls
 
 script:
   - nosetests --with-coverage

@@ -13,25 +13,24 @@ eulxml
     :alt: PyPI downloads
 
 **documentation**
-  .. image:: https://readthedocs.org/projects/eulxml/badge/?version=master
-    :target: http://eulxml.readthedocs.org/en/master/?badge=master
-    :alt: Documentation Status
+
 
 **code**
-  .. image:: https://api.travis-ci.org/emory-libraries/eulxml.png
-    :alt: current build status for namedropper-py
+  .. image:: https://travis-ci.org/emory-libraries/eulxml.svg?branch=develop
+    :alt: travis-ci build
     :target: https://travis-ci.org/emory-libraries/eulxml
 
-  .. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=master
-    :target: https://coveralls.io/github/emory-libraries/eulxml?branch=master
+  .. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
+    :target: https://coveralls.io/github/emory-libraries/eulxml?branch=develop
     :alt: Code Coverage
 
   .. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
     :target: https://codeclimate.com/github/emory-libraries/eulxml
     :alt: Code Climate
 
-  .. image:: https://requires.io/github/emory-libraries/eulxml/requirements.svg?branch=master
-    :target: https://requires.io/github/emory-libraries/eulxml/requirements/?branch=master
+
+  .. image:: https://requires.io/github/emory-libraries/eulxml/requirements.svg?branch=develop
+    :target: https://requires.io/github/emory-libraries/eulxml/requirements/?branch=develop
     :alt: Requirements Status
 
 eulxml is a `Python <http://www.python.org/>`_ module that provides
