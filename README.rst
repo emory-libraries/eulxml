@@ -9,7 +9,7 @@ eulxml
   .. image:: https://img.shields.io/github/license/emory-libraries/eulxml.svg
     :alt: License
 
-  .. image:: https://img.shields.io/pypi/dm/eulfedora.svg
+  .. image:: https://img.shields.io/pypi/dm/eulxml.svg
     :alt: PyPI downloads
 
 **documentation**
