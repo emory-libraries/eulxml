@@ -48,6 +48,14 @@ __all__ = ['XmlObject', 'parseUri', 'parseString', 'loadSchema',
 #   This lxml behavior has been logged as a bug:
 #   https://bugs.launchpad.net/lxml/+bug/673205
 
+def generateXML(string,uri=None):
+    # create XML 
+    root = etree.Element('root')
+    root.append(etree.Element('child'))
+    # another child with text
+    child = etree.Element('child')
+    child.text = 'some text'
+    root.append(child)
 
 def parseUri(stream, uri=None):
     """Read an XML document from a URI, and return a :mod:`lxml.etree`
