@@ -6,6 +6,7 @@ from StringIO import StringIO
 from setuptools import setup, find_packages
 from lxml import etree
 import eulxml
+import eulxml.catalog
 import urllib
 
 
@@ -37,7 +38,7 @@ def generate_catalog():
 
     NS_A = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
     # create XML catalog
-    root = etree.parse(StringIO('''<?xml version="1.0"?><!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd"> <catalog>test</catalog>'''))
+    root = etree.parse(StringIO('''<?xml version="1.0"?><!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd"> <catalog></catalog>'''))
 
     catalog = root.Element('{%s}catalog' % (NS_A), nsmap={None: NS_A})
     
