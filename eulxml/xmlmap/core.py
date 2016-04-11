@@ -35,10 +35,6 @@ __all__ = ['XmlObject', 'parseUri', 'parseString', 'loadSchema',
     'load_xmlobject_from_string', 'load_xmlobject_from_file',
     'load_xslt']
 
-XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-               'http://www.loc.gov/standards/xlink/xlink.xsd', 'http://www.loc.gov/standards/premis/premis.xsd',
-               'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd', 'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd', 'http://www.archives.ncdcr.gov/mail-account.xsd']
-
 # NB: When parsing XML in this module, we explicitly create a new parser
 #   each time. Without this, lxml 2.2.7 uses a global default parser. When
 #   parsing strings, lxml appears to set that parser into no-network mode,
@@ -55,46 +51,7 @@ XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.
 #   https://bugs.launchpad.net/lxml/+bug/673205
 
 
-# downloading all known schemas to the tmp directory
-def downloadSchemas(self):
-    for schema in XSD_SCHEMAS:
-        try:
-            urllib.URLopener().retrieve(schema, "/tmp/" + schema.split('/')[-1] + ".xml")
-        except urllib.error.HTTPError as err:
-            print(err.code)
-
-def generateXML(self):
-    NS_A = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
-    downloadSchemas()
-
-    # create XML catalog
-    root = etree.XML('''<?xml version="1.0"?>
-                     <!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML 
-                     Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
-                     <catalog></catalog>''')
-
-    catalog = etree.Element('{%s}catalog' % (NS_A), nsmap={None: NS_A})
     
-    # adding uris to catalog
-    for schema in XSD_SCHEMAS:
-        child = etree.Element('uri')
-        catalog.append(etree.Element(child))
-        child.attrib['name']= schema
-        child.attrib['uri']= "/tmp/" + schema.split('/')[-1] + ".xml"
-
-    etree.wrtie("/tmp/catalog.xml")
-    # adding comments to all schemas and generated catalog
-    path = '/tmp'
-    for filename in os.listdir(path):
-        if not filename.endswith('.xml'): continue
-        fullname = os.path.join(path, filename)
-        tree = etree.parse(fullname)
-        tree.getroot().append(etree.Comment('dowloaded by eulxml on ' + time.strftime("%d/%m/%Y")))
-        etree.write(sys.stdout, pretty_print=True)
-        
-
-    os.environ['XML_CATALOG_FILES'] = 'file:///tmp/catalog.xml'
-
 def parseUri(stream, uri=None):
     """Read an XML document from a URI, and return a :mod:`lxml.etree`
     document."""

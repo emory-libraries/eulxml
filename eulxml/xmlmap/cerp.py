@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 # CERP is described at http://siarchives.si.edu/cerp/ . XML spec available at
 # http://www.records.ncdcr.gov/emailpreservation/mail-account/mail-account_docs.html
-
+# schema is empty as of April 2016
 #
 # internally-reused and general-utility objects
 #
