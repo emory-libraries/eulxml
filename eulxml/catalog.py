@@ -3,10 +3,25 @@ import sys
 from StringIO import StringIO
 from lxml import etree
 import urllib
+from eulxml import xmlmap
 
 XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
                'http://www.loc.gov/standards/xlink/xlink.xsd', 'http://www.loc.gov/standards/premis/premis.xsd',
                'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd', 'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd', 'http://www.archives.ncdcr.gov/mail-account.xsd']
+
+
+class Uri(xmlmap.XmlObject):
+    ROOT_NAME = 'uri'
+    ROOT_NS = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
+    name = xmlmap.StringField('@name')
+    uri = xmlmap.StringField('@uri')
+
+class Catalog(xmlmap.XmlObject):
+    ROOT_NAME = 'catalog'
+    ROOT_NS = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
+    ROOT_NAMESPACES = {'c' : ROOT_NS}
+    uri_list = xmlmap.NodeListField('c:uri', Uri)
+    
 
 
 def grab_xsd_xml():
