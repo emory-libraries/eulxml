@@ -7,4 +7,4 @@
   <c:uri uri="eulxml/schema_data/premis.xsd" name="http://www.loc.gov/standards/premis/premis.xsd"/>
   <c:uri uri="eulxml/schema_data/premis-v2-1.xsd" name="http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd"/>
   <c:uri uri="eulxml/schema_data/tei_all.xsd" name="http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd"/>
-<!--dowloaded by eulxml on 12/04/2016--></c:catalog>
+</c:catalog>

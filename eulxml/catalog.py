@@ -49,34 +49,34 @@ def download_schemas():
     print "Downloading schemas..."
     for schema in XSD_SCHEMAS:
         try:
-            urllib.FancyURLopener().retrieve(schema, "eulxml/schema_data/" + schema.split('/')[-1])
-            print "Downloaded schema: %s" % schema.split('/')[-1]
-        except urllib.FancyURLopener.http_error as err:
-            print "We couldn't download this schema: %s" % schema.split('/')[-1]
-            print(err.code)
+            schema_path = "eulxml/schema_data/" + os.path.basename(schema)
+            urllib.FancyURLopener().retrieve(schema, schema_path)
+            # adding comments to all schemas and generated catalog
+            tree = etree.parse(schema_path)
+            tree.getroot().append(etree.Comment('dowloaded by eulxml on ' + time.strftime("%d/%m/%Y")))
+            with open(schema_path, 'w') as xml_catalog:
+                xml_catalog.write(etree.tostring(tree, pretty_print=True, xml_declaration=True, encoding="UTF-8", doctype="<!DOCTYPE TEST_FILE>"))
+                xml_catalog.close()
+
+            print "Downloaded schema: %s" % os.path.basename(schema)
+        
+        except IOError, err:
+            print "We couldn't download this schema: %s" % os.path.basename(schema)
+            if hasattr(err, 'code'):
+                print 'We failed with error code - %s.' % err.code
+            
 
 def generate_catalog():
     """Generating catalog from dowloaded schemas"""
+    print "Downloading..."
+    download_schemas()
     print "Generating a new catalog"
     catalog = Catalog()
     # adding uris to catalog
     for schema in XSD_SCHEMAS:
-        catalog.uri_list.append(Uri(name=schema, uri="eulxml/schema_data/" + schema.split('/')[-1]))
+        catalog.uri_list.append(Uri(name=schema, uri="eulxml/schema_data/" + os.path.basename(schema)))
 
     root = etree.fromstring(catalog.serialize())
     with open('eulxml/schema_data/catalog.xml', 'w') as xml_catalog:
         xml_catalog.write(etree.tostring(root, pretty_print=True, xml_declaration=True, encoding="UTF-8", doctype="<!DOCTYPE TEST_FILE>"))
         xml_catalog.close()
-
-    # adding comments to all schemas and generated catalog
-    path = 'eulxml/schema_data'
-    for filename in os.listdir(path):
-        if not filename.endswith(tuple(['.xml', '.xsd'])):
-            continue
-        fullname = os.path.join(path, filename)
-        print fullname
-        tree = etree.parse(fullname)
-        tree.getroot().append(etree.Comment('dowloaded by eulxml on ' + time.strftime("%d/%m/%Y")))
-        with open(fullname, 'w') as xml_catalog:
-            xml_catalog.write(etree.tostring(tree, pretty_print=True, xml_declaration=True, encoding="UTF-8", doctype="<!DOCTYPE TEST_FILE>"))
-
