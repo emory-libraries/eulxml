@@ -19,7 +19,7 @@ import glob
 import urllib
 import time
 from lxml import etree
-from eulxml import xmlmap
+from eulxml import xmlmap, XMLCATALOG_DIR, XMLCATALOG_FILE
 
 
 XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
@@ -30,26 +30,32 @@ XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
                'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd']
 # , 'http://www.archives.ncdcr.gov/mail-account.xsd'
 
+
 class Uri(xmlmap.XmlObject):
-    """This class is to generate Uris for the catalog"""
+    """:class:`xmlmap.XmlObject` class for Catalog uris"""
     ROOT_NAME = 'uri'
     ROOT_NS = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
+    #: name attribute
     name = xmlmap.StringField('@name')
+    #: uri attribute
     uri = xmlmap.StringField('@uri')
 
+
 class Catalog(xmlmap.XmlObject):
-    """Catalog is xmlobject to create a catalog for all xml schemas"""
+    """:class:`xmlmap.XmlObject` class to for generating XML Catalogs"""
     ROOT_NAME = 'catalog'
     ROOT_NS = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
-    ROOT_NAMESPACES = {'c' : ROOT_NS}
+    ROOT_NAMESPACES = {'c': ROOT_NS}
+    #: list of uris, as instance of :class:`Uri`
     uri_list = xmlmap.NodeListField('c:uri', Uri)
+
 
 def download_schemas():
     """Downloading schemas from corresponding urls."""
     print "Downloading schemas..."
     for schema in XSD_SCHEMAS:
         try:
-            schema_path = "eulxml/schema_data/" + os.path.basename(schema)
+            schema_path = XMLCATALOG_DIR + "/" + os.path.basename(schema)
             urllib.FancyURLopener().retrieve(schema, schema_path)
             # adding comments to all schemas and generated catalog
             tree = etree.parse(schema_path)
@@ -59,24 +65,42 @@ def download_schemas():
                 xml_catalog.close()
 
             print "Downloaded schema: %s" % os.path.basename(schema)
-        
+
         except IOError, err:
             print "We couldn't download this schema: %s" % os.path.basename(schema)
             if hasattr(err, 'code'):
                 print 'We failed with error code - %s.' % err.code
-            
+
 
 def generate_catalog():
     """Generating catalog from dowloaded schemas"""
     print "Downloading..."
     download_schemas()
     print "Generating a new catalog"
+
+    # if the catalog dir doesn't exist, create it
+    if not os.path.isdir(XMLCATALOG_DIR):
+        os.mkdir(XMLCATALOG_DIR)
+
     catalog = Catalog()
     # adding uris to catalog
     for schema in XSD_SCHEMAS:
-        catalog.uri_list.append(Uri(name=schema, uri="eulxml/schema_data/" + os.path.basename(schema)))
+        catalog.uri_list.append(Uri(name=schema, uri=XMLCATALOG_DIR + '/'
+            + os.path.basename(schema)))
 
-    root = etree.fromstring(catalog.serialize())
-    with open('eulxml/schema_data/catalog.xml', 'w') as xml_catalog:
-        xml_catalog.write(etree.tostring(root, pretty_print=True, xml_declaration=True, encoding="UTF-8", doctype="<!DOCTYPE TEST_FILE>"))
-        xml_catalog.close()
+    with open(XMLCATALOG_FILE, 'w') as xml_catalog:
+        catalog.serializeDocument(xml_catalog, pretty=True)
+
+
+    # adding comments to all schemas and generated catalog
+    path = XMLCATALOG_DIR
+    for filename in os.listdir(path):
+        if not filename.endswith(tuple(['.xml', '.xsd'])):
+            continue
+        fullname = os.path.join(path, filename)
+        print fullname
+        tree = etree.parse(fullname)
+        tree.getroot().append(etree.Comment('dowloaded by eulxml on ' + time.strftime("%d/%m/%Y")))
+        with open(fullname, 'w') as xml_catalog:
+            xml_catalog.write(etree.tostring(tree, pretty_print=True, xml_declaration=True, encoding="UTF-8", doctype="<!DOCTYPE TEST_FILE>"))
+

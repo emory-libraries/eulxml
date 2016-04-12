@@ -16,6 +16,7 @@
 #   limitations under the License.
 
 import os
+import pkg_resources
 
 __version_info__ = (1, 1, 0, 'dev')
 
@@ -24,4 +25,21 @@ __version__ = '.'.join([str(i) for i in __version_info__[:-1]])
 if __version_info__[-1] is not None:
     __version__ += ('-%s' % (__version_info__[-1],))
 
-os.environ['XML_CATALOG_FILES'] = 'eulxml/schema_data/catalog.xml'
+# paths to xml schema catalog file & directory
+# use package resources if possible, so this will work from an egg
+# http://peak.telecommunity.com/DevCenter/PythonEggs#accessing-package-resources
+if pkg_resources.resource_isdir(__name__, "schema_data"):
+    XMLCATALOG_DIR = pkg_resources.resource_filename(__name__,
+                                                     'schema_data')
+    XMLCATALOG_FILE = pkg_resources.resource_filename(__name__,
+                                                      'schema_data/catalog.xml')
+else:
+    XMLCATALOG_DIR = os.path.join(os.path.dirname(__file__), 'schema_data')
+    XMLCATALOG_FILE = os.path.join(XMLCATALOG_DIR, 'catalog.xml')
+
+
+print XMLCATALOG_DIR
+print XMLCATALOG_FILE
+
+# FIXME: should add to any existing xml catalog files
+os.environ['XML_CATALOG_FILES'] = XMLCATALOG_FILE

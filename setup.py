@@ -10,8 +10,19 @@ from setuptools import setup, find_packages
 import shutil
 import eulxml
 
+
 class GenerateXmlCatalog(Command):
     '''Setup command to generate fresh catalog and schemas'''
+    user_options = []
+
+    def initialize_options(self):
+        """init options"""
+        pass
+
+    def finalize_options(self):
+        """finalize options"""
+        pass
+
     def run(self):
         # importing this forces ply to generate parsetab/lextab
         from eulxml.catalog import download_schemas, generate_catalog
@@ -21,12 +32,12 @@ class GenerateXmlCatalog(Command):
 
 class CleanSchemaData(clean):
     """Custom cleanup command to delete build and schema files"""
-    description = "Extended clean command to remove schema files and XML catalog"
+    description = "Custom clean command; remove schema files and XML catalog"
 
     def run(self):
         # remove schema data and then do any other normal cleaning
         try:
-            shutil.rmtree('eulxml/schema_data')  # FIXME: should be a variable
+            shutil.rmtree(eulxml.XMLCATALOG_DIR)
         except OSError:
             pass
         clean.run(self)
