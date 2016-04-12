@@ -25,8 +25,7 @@ class GenerateXmlCatalog(Command):
 
     def run(self):
         # importing this forces ply to generate parsetab/lextab
-        from eulxml.catalog import download_schemas, generate_catalog
-        download_schemas()
+        from eulxml.catalog import generate_catalog
         generate_catalog()
 
 
@@ -42,17 +41,6 @@ class CleanSchemaData(clean):
             pass
         clean.run(self)
 
-
-def grab_xsd_xml():
-    """Grab all xml and xsd file in schema_data directory """
-    types = ('*.xml', '*.xsd')
-    grab_files = []
-    for schema_file in types:
-        grab_files.extend(glob.glob(schema_file))
-
-    return grab_files
-
-
 # getting catalog files
 def get_catalog_files():
     """Check if the catalog exists and import xml files into data files """
@@ -64,7 +52,6 @@ def get_catalog_files():
         print "Found one!"
     return grab_xsd_xml()
 
-schema_files = get_catalog_files()
 
 class build_py_with_ply(build_py):
     '''Use ply to generate parsetab and lextab modules.'''
@@ -146,7 +133,10 @@ setup(
         'rdf': ['rdflib>=3.0'],
         'dev': dev_requirements
     },
-    data_files=schema_files,
+    package_data={'eulxml': [
+        # include schema catalog and all downloaded schemas in the package
+        '%s/*' % eulxml.SCHEMA_DATA_DIR
+    ]},
     description='XPath-based XML data binding, with Django form support',
     long_description=LONG_DESCRIPTION,
     classifiers=CLASSIFIERS,
