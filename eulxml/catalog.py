@@ -1,7 +1,7 @@
 import os, glob, fnmatch
 import sys
 from StringIO import StringIO
-from lxml import etree
+from xml import etree
 import urllib
 from eulxml import xmlmap
 import time
