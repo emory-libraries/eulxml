@@ -7,7 +7,6 @@ import sys
 import glob
 from setuptools import setup, find_packages
 import eulxml
-from eulxml.catalog import download_schemas, generate_catalog
 
 
 XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
@@ -44,6 +43,7 @@ def grab_xsd_xml():
 def get_catalog_files():
     """Check if the catalog exists and import xml files into data files """
     if not os.path.exists('eulxml/schema_data/catalog.xml'):
+        from eulxml.catalog import download_schemas, generate_catalog
         print "There is no catalog. :("
         counter = 0
         for fname in XSD_SCHEMAS:
