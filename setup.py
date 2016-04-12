@@ -10,14 +10,6 @@ from setuptools import setup, find_packages
 import shutil
 import eulxml
 
-
-XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
-               'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-               'http://www.loc.gov/standards/xlink/xlink.xsd',
-               'http://www.loc.gov/standards/premis/premis.xsd',
-               'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
-               'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd']
-
 class GenerateXmlCatalog(Command):
     '''Setup command to generate fresh catalog and schemas'''
     def run(self):
@@ -54,7 +46,7 @@ def grab_xsd_xml():
 def get_catalog_files():
     """Check if the catalog exists and import xml files into data files """
     if not os.path.exists('eulxml/schema_data/catalog.xml'):
-        from eulxml.catalog import download_schemas, generate_catalog
+        from eulxml.catalog import download_schemas, generate_catalog, XSD_SCHEMAS
         print "There is no catalog. :("
         counter = 0
         for fname in XSD_SCHEMAS:
