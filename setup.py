@@ -1,18 +1,19 @@
-"""Setup.py for eulxml package"""
 #!/usr/bin/env python
+"""Setup.py for eulxml package"""
 from distutils.command.build_py import build_py
-from distutils.core import Command
 from distutils.command.clean import clean
+from distutils.command.sdist import sdist
+from distutils.core import Command
 import os
 import sys
-import glob
 from setuptools import setup, find_packages
 import shutil
+
 import eulxml
 
 
 class GenerateXmlCatalog(Command):
-    '''Setup command to generate fresh catalog and schemas'''
+    '''Custom setup command to generate fresh catalog and schemas'''
     user_options = []
 
     def initialize_options(self):
@@ -24,9 +25,17 @@ class GenerateXmlCatalog(Command):
         pass
 
     def run(self):
-        # importing this forces ply to generate parsetab/lextab
         from eulxml.catalog import generate_catalog
         generate_catalog()
+
+
+def generate_catalog_if_needed():
+    # helper method to check if catalog is present, and generate if not
+    if not os.path.exists(eulxml.XMLCATALOG_FILE):
+        from eulxml.catalog import generate_catalog
+        print "Cenerating XML catalog..."
+        generate_catalog()
+
 
 
 class CleanSchemaData(clean):
@@ -41,25 +50,26 @@ class CleanSchemaData(clean):
             pass
         clean.run(self)
 
-# getting catalog files
-def get_catalog_files():
-    """Check if the catalog exists and import xml files into data files """
-    if not os.path.exists('eulxml/schema_data/catalog.xml'):
-        from eulxml.catalog import generate_catalog
-        print "Generating catalog..."
-        generate_catalog()
-    else:
-        print "Found one!"
-    return grab_xsd_xml()
 
+class BuildPyWithPly(build_py):
+    """Use ply to generate parsetab and lextab modules."""
 
-class build_py_with_ply(build_py):
-    '''Use ply to generate parsetab and lextab modules.'''
-
-    def run(self, *args, **kwargs):
+    def run(self):
         # importing this forces ply to generate parsetab/lextab
         import eulxml.xpath.core
-        build_py.run(self, *args, **kwargs)
+
+        generate_catalog_if_needed()
+
+        build_py.run(self)
+
+
+class SdistWithCatalog(sdist):
+    """Extend sdist command to ensure schema catalog is included."""
+
+    def run(self):
+        generate_catalog_if_needed()
+        sdist.run(self)
+
 
 CLASSIFIERS = [
     'Development Status :: 5 - Production/Stable',
@@ -107,8 +117,9 @@ if sys.version_info < (2, 7):
 
 setup(
     cmdclass={
-        'build_py': build_py_with_ply,
+        'build_py': BuildPyWithPly,
         'clean': CleanSchemaData,
+        'sdist': SdistWithCatalog,
         'xmlcatalog': GenerateXmlCatalog
     },
 
