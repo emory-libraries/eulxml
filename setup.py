@@ -16,6 +16,14 @@ XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
                'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
                'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd']
 
+class GenerateSchema(Command):
+    '''Setup command to generate fresh catalog and schemas'''
+    def run(self):
+        # importing this forces ply to generate parsetab/lextab
+        from eulxml.catalog import download_schemas, generate_catalog
+        download_schemas()
+        generate_catalog()
+
 
 class CleanCommand(Command):
     """Custom cleanup command to delete build and schema files"""
@@ -63,7 +71,7 @@ def get_catalog_files():
 
 schema_files = get_catalog_files()
 
-class build_py_with_ply(build_py, CleanCommand):
+class build_py_with_ply(build_py):
     '''Use ply to generate parsetab and lextab modules.'''
 
     def run(self, *args, **kwargs):
@@ -116,7 +124,7 @@ if sys.version_info < (2, 7):
 
 
 setup(
-    cmdclass={'build_py': build_py_with_ply, 'clean': CleanCommand},
+    cmdclass={'build_py': build_py_with_ply, 'clean': CleanCommand, 'generate_schema': GenerateSchema},
 
     name='eulxml',
     version=eulxml.__version__,
