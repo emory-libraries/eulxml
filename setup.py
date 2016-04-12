@@ -2,12 +2,10 @@
 from distutils.command.build_py import build_py
 import os, glob, fnmatch
 import sys
-from StringIO import StringIO
 from setuptools import setup, find_packages
-from lxml import etree
 import eulxml
 from eulxml.catalog import download_schemas, generate_catalog, grab_xsd_xml
-import urllib
+
 
 XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
                'http://www.loc.gov/standards/xlink/xlink.xsd', 'http://www.loc.gov/standards/premis/premis.xsd',
