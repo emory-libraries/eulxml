@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from distutils.command.build_py import build_py
+from distutils.core import Command
 import os, glob, fnmatch
 import sys
 from setuptools import setup, find_packages
@@ -10,6 +11,18 @@ from eulxml.catalog import download_schemas, generate_catalog, grab_xsd_xml
 XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
                'http://www.loc.gov/standards/xlink/xlink.xsd', 'http://www.loc.gov/standards/premis/premis.xsd',
                'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd', 'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd', 'http://www.archives.ncdcr.gov/mail-account.xsd']
+
+
+class CleanCommand(Command):
+    description = "custom clean command to remove xml files from schema_data"
+    user_options = []
+    def initialize_options(self):
+        self.cwd = None
+    def finalize_options(self):
+        self.cwd = os.getcwd()
+    def run(self):
+        assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
+        os.system('rm -rf eulxml/schema_data/* build')
 
 # getting catalog files 
 def get_catalog_files():
@@ -37,7 +50,7 @@ def get_catalog_files():
 
 files = get_catalog_files()
 
-class build_py_with_ply(build_py):
+class build_py_with_ply(build_py, CleanCommand):
     '''Use ply to generate parsetab and lextab modules.'''
 
     def run(self, *args, **kwargs):
@@ -90,7 +103,7 @@ if sys.version_info < (2, 7):
 
 
 setup(
-    cmdclass={'build_py': build_py_with_ply},
+    cmdclass={'build_py': build_py_with_ply, 'clean': CleanCommand},
 
     name='eulxml',
     version=eulxml.__version__,

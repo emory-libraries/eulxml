@@ -627,9 +627,10 @@ def load_xmlobject_from_file(filename, xmlclass=XmlObject, validate=False,
     tree = etree.parse(filename, parser)
     return xmlclass(tree.getroot())
 
+from eulxml.xmlmap.fields import *
 # Import these for backward compatibility. Should consider deprecating these
 # and asking new code to pull them from descriptor
-from eulxml.xmlmap.fields import *
+
 
 # XSD schema xmlobjects - used in XmlObjectType to process SchemaFields
 # FIXME: where should these actually go? depends on both XmlObject and fields
