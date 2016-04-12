@@ -57,6 +57,9 @@ def download_schemas():
         try:
             schema_path = XMLCATALOG_DIR + "/" + os.path.basename(schema)
             urllib.FancyURLopener().retrieve(schema, schema_path)
+            conn = urllib.urlopen(schema)
+            print conn.headers['last-modified']
+            print 'HEADERS'
             # adding comments to all schemas and generated catalog
             tree = etree.parse(schema_path)
             tree.getroot().append(etree.Comment('dowloaded by eulxml on ' + time.strftime("%d/%m/%Y")))

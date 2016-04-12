@@ -19069,4 +19069,4 @@ Suggested values include: 1] schematron(Schematron) ; 2] isoschematron(ISO Schem
       <xs:attributeGroup ref="tei:att.global.attributes"/>
     </xs:complexType>
   </xs:element>
-<!--dowloaded by eulxml on 12/04/2016--></xs:schema>
+<!--dowloaded by eulxml on 12/04/2016--><!--dowloaded by eulxml on 12/04/2016--></xs:schema>
