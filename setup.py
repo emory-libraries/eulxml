@@ -2,10 +2,12 @@
 #!/usr/bin/env python
 from distutils.command.build_py import build_py
 from distutils.core import Command
+from distutils.command.clean import clean
 import os
 import sys
 import glob
 from setuptools import setup, find_packages
+import shutil
 import eulxml
 
 
@@ -16,7 +18,7 @@ XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
                'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
                'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd']
 
-class GenerateSchema(Command):
+class GenerateXmlCatalog(Command):
     '''Setup command to generate fresh catalog and schemas'''
     def run(self):
         # importing this forces ply to generate parsetab/lextab
@@ -25,17 +27,18 @@ class GenerateSchema(Command):
         generate_catalog()
 
 
-class CleanCommand(Command):
+class CleanSchemaData(clean):
     """Custom cleanup command to delete build and schema files"""
-    description = "custom clean command to remove xml files from schema_data"
-    user_options = []
-    def initialize_options(self):
-        self.cwd = None
-    def finalize_options(self):
-        self.cwd = os.getcwd()
+    description = "Extended clean command to remove schema files and XML catalog"
+
     def run(self):
-        assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
-        os.system('rm -rf eulxml/schema_data/* build')
+        # remove schema data and then do any other normal cleaning
+        try:
+            shutil.rmtree('eulxml/schema_data')  # FIXME: should be a variable
+        except OSError:
+            pass
+        clean.run(self)
+
 
 def grab_xsd_xml():
     """Grab all xml and xsd file in schema_data directory """
@@ -124,7 +127,11 @@ if sys.version_info < (2, 7):
 
 
 setup(
-    cmdclass={'build_py': build_py_with_ply, 'clean': CleanCommand, 'generate_schema': GenerateSchema},
+    cmdclass={
+        'build_py': build_py_with_ply,
+        'clean': CleanSchemaData,
+        'xmlcatalog': GenerateXmlCatalog
+    },
 
     name='eulxml',
     version=eulxml.__version__,
