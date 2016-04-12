@@ -1,19 +1,25 @@
+"""Setup.py for eulxml package"""
 #!/usr/bin/env python
 from distutils.command.build_py import build_py
 from distutils.core import Command
-import os, glob, fnmatch
+import os
 import sys
+import glob
 from setuptools import setup, find_packages
 import eulxml
-from eulxml.catalog import download_schemas, generate_catalog, grab_xsd_xml
+from eulxml.catalog import download_schemas, generate_catalog
 
 
-XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-               'http://www.loc.gov/standards/xlink/xlink.xsd', 'http://www.loc.gov/standards/premis/premis.xsd',
-               'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd', 'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd', 'http://www.archives.ncdcr.gov/mail-account.xsd']
+XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
+               'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
+               'http://www.loc.gov/standards/xlink/xlink.xsd',
+               'http://www.loc.gov/standards/premis/premis.xsd',
+               'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
+               'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd']
 
 
 class CleanCommand(Command):
+    """Custom cleanup command to delete build and schema files"""
     description = "custom clean command to remove xml files from schema_data"
     user_options = []
     def initialize_options(self):
@@ -24,12 +30,22 @@ class CleanCommand(Command):
         assert os.getcwd() == self.cwd, 'Must be in package root: %s' % self.cwd
         os.system('rm -rf eulxml/schema_data/* build')
 
-# getting catalog files 
-def get_catalog_files():
+def grab_xsd_xml():
+    """Grab all xml and xsd file in schema_data directory """
+    types = ('*.xml', '*.xsd')
+    grab_files = []
+    for schema_file in types:
+        grab_files.extend(glob.glob(schema_file))
 
+    return grab_files
+
+
+# getting catalog files
+def get_catalog_files():
+    """Check if the catalog exists and import xml files into data files """
     if not os.path.exists('eulxml/schema_data/catalog.xml'):
         print "There is no catalog. :("
-        counter = 0 
+        counter = 0
         for fname in XSD_SCHEMAS:
             if os.path.isfile("eulxml/schema_data/" + fname.split('/')[-1]):
                 counter += 1
@@ -41,14 +57,11 @@ def get_catalog_files():
 
         print "Generating catalog..."
         generate_catalog()
-        
     else:
         print "Found one!"
-    
-    #grab 
     return grab_xsd_xml()
 
-files = get_catalog_files()
+schema_files = get_catalog_files()
 
 class build_py_with_ply(build_py, CleanCommand):
     '''Use ply to generate parsetab and lextab modules.'''
@@ -126,7 +139,7 @@ setup(
         'rdf': ['rdflib>=3.0'],
         'dev': dev_requirements
     },
-    data_files = files,
+    data_files=schema_files,
     description='XPath-based XML data binding, with Django form support',
     long_description=LONG_DESCRIPTION,
     classifiers=CLASSIFIERS,

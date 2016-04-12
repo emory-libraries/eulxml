@@ -48,11 +48,6 @@ class TestGenerateSchema(unittest.TestCase):
         if os.path.exists('/tmp2'):
             os.rmdir('/tmp2')
 
-    def test_download_xmlschemas(self):
-
-
-    def test_generate_xml_catalog(self):
-
 
 
 class TestXsl(unittest.TestCase):

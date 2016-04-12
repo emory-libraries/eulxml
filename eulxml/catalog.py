@@ -44,17 +44,6 @@ class Catalog(xmlmap.XmlObject):
     ROOT_NAMESPACES = {'c' : ROOT_NS}
     uri_list = xmlmap.NodeListField('c:uri', Uri)
 
-
-
-def grab_xsd_xml():
-    """This method grabs all schemas and catalog from the path"""
-    types = ('*.xml', '*.xsd')
-    grab_files = []
-    for schema_file in types:
-        grab_files.extend(glob.glob(schema_file))
-
-    return grab_files
-
 def download_schemas():
     """Downloading schemas from corresponding urls."""
     print "Downloading schemas..."
@@ -89,5 +78,5 @@ def generate_catalog():
         tree = etree.parse(fullname)
         tree.getroot().append(etree.Comment('dowloaded by eulxml on ' + time.strftime("%d/%m/%Y")))
         with open(fullname, 'w') as xml_catalog:
-            xml_catalog.write(etree.tostring(tree, pretty_print=True, xml_declaration=True, encoding="UTF-8",doctype="<!DOCTYPE TEST_FILE>"))
+            xml_catalog.write(etree.tostring(tree, pretty_print=True, xml_declaration=True, encoding="UTF-8", doctype="<!DOCTYPE TEST_FILE>"))
 
