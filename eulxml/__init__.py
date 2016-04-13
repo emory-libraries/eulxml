@@ -43,6 +43,6 @@ else:
                                   SCHEMA_DATA_DIR)
     XMLCATALOG_FILE = os.path.join(XMLCATALOG_DIR, 'catalog.xml')
 
+os.environ['XML_CATALOG_FILES'] = ":".join((filter(None, (os.environ.get('XML_CATALOG_FILES'), XMLCATALOG_FILE))))
 
-# FIXME: should add to any existing xml catalog files
-os.environ['XML_CATALOG_FILES'] = XMLCATALOG_FILE
+

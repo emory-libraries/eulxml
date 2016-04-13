@@ -77,7 +77,7 @@ def download_schema(uri, path, comment=None):
     except IOError as err:
         msg = 'Failed to download schema %s' % schema
         if hasattr(err, 'code'):
-            msg += '(error code %s)' % err.code
+            msg += '(error codes %s)' % err.code
         logger.warn(msg)
 
         return False
@@ -99,7 +99,7 @@ def generate_catalog():
         (__version__, date.today().isoformat())
 
     for schema_uri in XSD_SCHEMAS:
-        filename = os.path.basename(schema_uri)
+    
         schema_path = os.path.join(XMLCATALOG_DIR, filename)
         saved = download_schema(schema_uri, schema_path, comment)
         if saved:

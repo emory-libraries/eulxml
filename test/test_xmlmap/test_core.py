@@ -33,23 +33,6 @@ from eulxml.utils.compat import u
 import eulxml.xmlmap.core as xmlmap
 
 
-
-class TestGenerateSchema(unittest.TestCase):
-    
-    def setUp(self):
-        # parseString wants a url. let's give it a proper one.
-        XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd', 'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-                       'http://www.loc.gov/standards/xlink/xlink.xsd', 'http://www.loc.gov/standards/premis/premis.xsd',
-                       'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd', 'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd', 'http://www.archives.ncdcr.gov/mail-account.xsd']
-        if not os.path.exists('/tmp2'):
-            os.makedirs('/tmp2')
-
-    def tearDown(self):
-        if os.path.exists('/tmp2'):
-            os.rmdir('/tmp2')
-
-
-
 class TestXsl(unittest.TestCase):
     FIXTURE_TEXT = '''
         <foo>
