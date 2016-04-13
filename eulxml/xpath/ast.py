@@ -71,7 +71,7 @@ def _serialize(xp_ast):
         # u (u'') needs to be removed.
         yield repr(xp_ast).lstrip('u')
     else:
-        yield unicode(xp_ast)
+        yield str(xp_ast)
 
 
 class UnaryExpression(object):
