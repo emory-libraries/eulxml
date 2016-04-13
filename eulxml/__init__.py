@@ -26,20 +26,23 @@ if __version_info__[-1] is not None:
     __version__ += ('-%s' % (__version_info__[-1],))
 
 # paths to xml schema catalog file & directory
+
+#: relative path for schema data directory
+SCHEMA_DATA_DIR = 'schema_data'
+
 # use package resources if possible, so this will work from an egg
 # http://peak.telecommunity.com/DevCenter/PythonEggs#accessing-package-resources
-if pkg_resources.resource_isdir(__name__, "schema_data"):
+if pkg_resources.resource_isdir(__name__, SCHEMA_DATA_DIR):
     XMLCATALOG_DIR = pkg_resources.resource_filename(__name__,
-                                                     'schema_data')
-    XMLCATALOG_FILE = pkg_resources.resource_filename(__name__,
-                                                      'schema_data/catalog.xml')
+                                                     SCHEMA_DATA_DIR)
+    XMLCATALOG_FILE = pkg_resources.\
+        resource_filename(__name__,
+                          '%s/catalog.xml' % SCHEMA_DATA_DIR)
 else:
-    XMLCATALOG_DIR = os.path.join(os.path.dirname(__file__), 'schema_data')
+    XMLCATALOG_DIR = os.path.join(os.path.dirname(__file__),
+                                  SCHEMA_DATA_DIR)
     XMLCATALOG_FILE = os.path.join(XMLCATALOG_DIR, 'catalog.xml')
 
-
-print XMLCATALOG_DIR
-print XMLCATALOG_FILE
 
 # FIXME: should add to any existing xml catalog files
 os.environ['XML_CATALOG_FILES'] = XMLCATALOG_FILE
