@@ -99,7 +99,7 @@ def generate_catalog():
         (__version__, date.today().isoformat())
 
     for schema_uri in XSD_SCHEMAS:
-    
+        filename = os.path.basename(schema_uri)
         schema_path = os.path.join(XMLCATALOG_DIR, filename)
         saved = download_schema(schema_uri, schema_path, comment)
         if saved:
