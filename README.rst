@@ -89,7 +89,10 @@ history of **eulxml**, see
 Developer notes
 ---------------
 
-As of version 1.1 eulxml provides an xml catalog for resolving schemas referenced by eulxml xmlobject instances.
+As of version 1.1 eulxml provides an xml catalog for resolving schemas referenced by eulxml xmlobject instances. If you want to use the package directly from github then do the normal pip install through github and then run: 
+python -c 'from eulxml.catalog import generate_catalog; generate_catalog()'
+to generate catalog.xml
+
 
 To install dependencies for your local check out of the code, run ``pip install``
 in the ``eulxml`` directory (the use of `virtualenv`_ is recommended)::
