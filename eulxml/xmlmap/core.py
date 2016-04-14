@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 __all__ = ['XmlObject', 'parseUri', 'parseString', 'loadSchema',
     'load_xmlobject_from_string', 'load_xmlobject_from_file',
-    'load_xslt']
+    'load_xslt', 'OrderedXmlObject']
 
 # NB: When parsing XML in this module, we explicitly create a new parser
 #   each time. Without this, lxml 2.2.7 uses a global default parser. When
@@ -569,6 +569,28 @@ class XmlObject(six.with_metaclass(XmlObjectType, object)):
         """
         return len(self.node) == 0 and len(self.node.attrib) == 0 \
             and not self.node.text and not self.node.tail  # regular text or text after a node
+
+
+class OrderedXmlObject(XmlObject):
+    """
+    Useful for specifying a default ordering, to be used in the constructor
+
+    To use, simply subclass OrderedXmlObject instead of XmlObject,
+    set ORDER to be a list or tuple of the attribute names
+    in the order you want them to be added in the constructor.
+
+    """
+    ORDER = ()
+
+    def __init__(self, *args, **kwargs):
+        ordered_pairs = []
+        for attr in self.ORDER:
+            value = kwargs.pop(attr, None)
+            if value is not None:
+                ordered_pairs.append((attr, value))
+        super(OrderedXmlObject, self).__init__(*args, **kwargs)
+        for attr, value in ordered_pairs:
+            setattr(self, attr, value)
 
 
 class Urllib2Resolver(etree.Resolver):
