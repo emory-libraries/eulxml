@@ -75,7 +75,15 @@ class Catalog(xmlmap.XmlObject):
 
 
 def download_schema(uri, path, comment=None):
-    """Download a schema from a specified URI and save it locally."""
+    """Download a schema from a specified URI and save it locally.
+
+    :param uri: url where the schema should be downloaded
+    :param path: local file path where the schema should be saved
+    :param comment: optional comment; if specified, will be added to
+        the downloaded schema
+    :returns: true on success, false if there was an error and the
+        schema failed to download
+    """
     # short-hand name of the schema, based on uri
     schema = os.path.basename(uri)
     try:
@@ -102,7 +110,23 @@ def download_schema(uri, path, comment=None):
 
 
 def generate_catalog():
-    """Generating an XML catalog for schemas used by eulxml"""
+    """Generating an XML catalog for use in resolving schemas
+
+    Creates the XML Catalog directory if it doesn't already exist.
+    Uses :meth:`download_schema` to save local copies of schemas,
+    adding a comment indicating the date downloaded by eulxml.
+
+    Generates a new catalog.xml file, with entries for all schemas
+    that downloaded successfully.  If no schemas downloaded, the catalog
+    is not generated.
+
+    .. Note::
+
+        Currently this method overwites any existing schema and catalog
+        files, without checking if they are present or need to be
+        updated.
+
+    """
     logger.debug("Generating a new XML catalog")
 
     # if the catalog dir doesn't exist, create it
