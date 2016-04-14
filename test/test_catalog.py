@@ -25,7 +25,12 @@ try:
 except ImportError:
     from unittest2 import skipIf
 import glob
-import urllib
+try:
+    from urllib.request import urlretrieve
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import urlretrieve
+    from urllib import urlopen
 import shutil
 from datetime import date
 from eulxml import xmlmap, __version__
@@ -58,17 +63,17 @@ class TestGenerateSchema(unittest.TestCase):
         self.assertEqual(0, check_xsds)
 
         #downloading the wrong schema
-        response_404 = urllib.urlopen(self.wrong_schema)
+        response_404 = urlopen(self.wrong_schema)
         expected, got = 404, response_404.getcode()
         self.assertEqual(expected, got)
         #downloading the right schemas
 
-        response_200 = urllib.urlopen(self.correct_schema)
+        response_200 = urlopen(self.correct_schema)
         expected, got = 200, response_200.getcode()
         self.assertEqual(expected, got)
         filename = os.path.basename(self.correct_schema)
         schema_path = os.path.join(self.path, filename)
-        urllib.FancyURLopener().retrieve(self.correct_schema, schema_path)
+        urlretrieve(self.correct_schema, schema_path)
         tree = etree.parse(schema_path)
 
         # Does comment exist?
@@ -123,19 +128,4 @@ class TestGenerateSchema(unittest.TestCase):
         #check if catalog was generated
         check_catalog = len(glob.glob(''.join([self.path, '/catalog.xml'])))
         self.assertEqual(1, check_catalog)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

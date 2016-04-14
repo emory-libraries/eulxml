@@ -16,12 +16,15 @@
 #   limitations under the License.
 import os
 import urllib
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
+import logging
 from datetime import date
 from lxml import etree
-import logging
+
 from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -59,13 +62,13 @@ def download_schema(uri, path, comment=None):
     # short-hand name of the schema, based on uri
     schema = os.path.basename(uri)
     try:
-        urllib.FancyURLopener().retrieve(uri, path)
+        urlretrieve(uri, path)
 
         # if a comment is specified, add it to the locally saved schema
         if comment is not None:
             tree = etree.parse(path)
             tree.getroot().append(etree.Comment(comment))
-            with open(path, 'w') as xml_catalog:
+            with open(path, 'wb') as xml_catalog:
                 xml_catalog.write(etree.tostring(tree, pretty_print=True,
                     xml_declaration=True, encoding="UTF-8"))
             logger.debug('Downloaded schema %s', schema)
@@ -109,5 +112,5 @@ def generate_catalog():
 
     # if we have any uris in our catalog, write it out
     if catalog.uri_list:
-        with open(XMLCATALOG_FILE, 'w') as xml_catalog:
+        with open(XMLCATALOG_FILE, 'wb') as xml_catalog:
             catalog.serializeDocument(xml_catalog, pretty=True)
