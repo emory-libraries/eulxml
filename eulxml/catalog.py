@@ -1,4 +1,3 @@
-"""Catalog.py is run upon the the build of eulxml to generate catalog.xml and schemas"""
 # file eulxml/catalog.py
 #
 #   Copyright 2010,2011 Emory University Libraries
@@ -14,8 +13,22 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+
+'''
+Logic for downloading local copies of schemas and generating an
+`XML catalog <http://lxml.de/resolvers.html#xml-catalogs`_ for use in
+resolving schemas locally instead of downloading them every time validation
+is required.
+
+Catalog generation is available via the setup.py custom command xmlcatalog,
+and a generated catalog and corresponding schema files should be included
+in packaged releases of eulxml.
+
+For more information about setting up and testing XML catalogs, see the
+`libxml2 documentation <http://xmlsoft.org/catalog.html>`_.
+'''
+
 import os
-import urllib
 try:
     from urllib.request import urlretrieve
 except ImportError:
@@ -25,6 +38,8 @@ from datetime import date
 from lxml import etree
 
 from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,12 +56,12 @@ XSD_SCHEMAS = [
 
 
 class Uri(xmlmap.XmlObject):
-    """:class:`xmlmap.XmlObject` class for Catalog uris"""
+    """:class:`xmlmap.XmlObject` class for Catalog URIs"""
     ROOT_NAME = 'uri'
     ROOT_NS = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
-    #: name attribute
+    #: name, i.e. schema URI
     name = xmlmap.StringField('@name')
-    #: uri attribute
+    #: uri, i.e. path to load the schema locally
     uri = xmlmap.StringField('@uri')
 
 
@@ -57,7 +72,6 @@ class Catalog(xmlmap.XmlObject):
     ROOT_NAMESPACES = {'c': ROOT_NS}
     #: list of uris, as instance of :class:`Uri`
     uri_list = xmlmap.NodeListField('c:uri', Uri)
-
 
 
 def download_schema(uri, path, comment=None):

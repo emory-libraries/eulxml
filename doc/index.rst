@@ -19,6 +19,7 @@ Contents
 .. toctree::
    :maxdepth: 3
 
+   catalog
    xmlmap
    forms
    xpath
