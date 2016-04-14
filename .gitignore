@@ -5,7 +5,7 @@ dist
 test-results
 eulxml/xpath/lextab.py
 eulxml/xpath/parsetab.py
-
+eulxml/schema_data
 .tox
 .eggs
 .coverage
