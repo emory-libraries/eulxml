@@ -63,13 +63,13 @@ class TestGenerateSchema(unittest.TestCase):
         self.assertEqual(0, check_xsds)
 
         #downloading the wrong schema
-        response_404 = urlopen(self.wrong_schema)
-        expected, got = 404, response_404.getcode()
+        response_wrong = urlopen(self.wrong_schema)
+        expected, got = 404, response_wrong.getcode()
         self.assertEqual(expected, got)
         #downloading the right schemas
 
-        response_200 = urlopen(self.correct_schema)
-        expected, got = 200, response_200.getcode()
+        response_correct = urlopen(self.correct_schema)
+        expected, got = 200, response_correct.getcode()
         self.assertEqual(expected, got)
         filename = os.path.basename(self.correct_schema)
         schema_path = os.path.join(self.path, filename)
@@ -122,7 +122,7 @@ class TestGenerateSchema(unittest.TestCase):
         # check how many uris we have in catalog
         self.assertEqual(len(catalog.uri_list), 1)
 
-        with open(catalog_path, 'w') as xml_catalog:
+        with open(catalog_path, 'wb') as xml_catalog:
             catalog.serializeDocument(xml_catalog, pretty=True)
 
         #check if catalog was generated
