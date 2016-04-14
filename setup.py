@@ -33,7 +33,7 @@ def generate_catalog_if_needed():
     # helper method to check if catalog is present, and generate if not
     if not os.path.exists(eulxml.XMLCATALOG_FILE):
         from eulxml.catalog import generate_catalog
-        print "Cenerating XML catalog..."
+        print('Cenerating XML catalog...')
         generate_catalog()
 
 

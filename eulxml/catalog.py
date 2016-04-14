@@ -15,12 +15,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 import os
-import glob
 import urllib
 from datetime import date
 from lxml import etree
-from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
 import logging
+from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
 
 
 logger = logging.getLogger(__name__)
@@ -69,7 +68,6 @@ def download_schema(uri, path, comment=None):
             with open(path, 'w') as xml_catalog:
                 xml_catalog.write(etree.tostring(tree, pretty_print=True,
                     xml_declaration=True, encoding="UTF-8"))
-
             logger.debug('Downloaded schema %s', schema)
 
         return True
@@ -77,7 +75,7 @@ def download_schema(uri, path, comment=None):
     except IOError as err:
         msg = 'Failed to download schema %s' % schema
         if hasattr(err, 'code'):
-            msg += '(error codes %s)' % err.code
+            msg += '(error codes %s)' % err.errno
         logger.warn(msg)
 
         return False
