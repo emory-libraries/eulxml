@@ -1,3 +1,4 @@
+"""Unit Test for Catalog.py. Tests for download of schemas and catalog generation"""
 # file test_xmlmap/test_core.py
 #
 #   Copyright 2011 Emory University Libraries
@@ -36,10 +37,14 @@ from eulxml.catalog import Uri, Catalog
 class TestGenerateSchema(unittest.TestCase):
     """:class:`TestGenerateSchema` class for Catalog testing"""
     def setUp(self):
-        path = 'eulxml/test_schemas'
+        self.path = 'eulxml/test_schemas'
+        self.correct_schema = 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'
+        self.wrong_schema = 'http://www.loc.gov/standards/mods/v3/mods34.xsd'
+        self.comment = 'Downloaded by eulxml %s on %s' % \
+              (__version__, date.today().isoformat())
         # parseString wants a url. let's give it a proper one.
-        if not os.path.isdir(path):
-            os.mkdir(path)
+        if not os.path.isdir(self.path):
+            os.mkdir(self.path)
 
     def tearDown(self):
         if os.path.isdir('eulxml/test_schemas'):
@@ -47,27 +52,23 @@ class TestGenerateSchema(unittest.TestCase):
 
     def test_download_xml_schemas(self):
         """Check if xsd schemas exist and download fresh copies """
-        path = 'eulxml/test_schemas'
-        wrong_schema = 'http://www.loc.gov/standards/mods/v3/mods34.xsd'
-        correct_schema = 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'
-        comment = 'Downloaded by eulxml %s on %s' % \
-        (__version__, date.today().isoformat())
+
         #do files already exist
-        check_xsds = len(glob.glob(''.join([path, '*.xsd'])))
+        check_xsds = len(glob.glob(''.join([self.path, '*.xsd'])))
         self.assertEqual(0, check_xsds)
 
         #downloading the wrong schema
-        response_404 = urllib.urlopen(wrong_schema)
+        response_404 = urllib.urlopen(self.wrong_schema)
         expected, got = 404, response_404.getcode()
         self.assertEqual(expected, got)
         #downloading the right schemas
 
-        response_200 = urllib.urlopen(correct_schema)
+        response_200 = urllib.urlopen(self.correct_schema)
         expected, got = 200, response_200.getcode()
         self.assertEqual(expected, got)
-        filename = os.path.basename(correct_schema)
-        schema_path = os.path.join(path, filename)
-        urllib.FancyURLopener().retrieve(correct_schema, schema_path)
+        filename = os.path.basename(self.correct_schema)
+        schema_path = os.path.join(self.path, filename)
+        urllib.FancyURLopener().retrieve(self.correct_schema, schema_path)
         tree = etree.parse(schema_path)
 
         # Does comment exist?
@@ -76,7 +77,7 @@ class TestGenerateSchema(unittest.TestCase):
 
 
         #Add comment and check if it is there now
-        tree.getroot().append(etree.Comment(comment))
+        tree.getroot().append(etree.Comment(self.comment))
         with open(schema_path, 'w') as xml_catalog:
             xml_catalog.write(etree.tostring(tree, pretty_print=True,
                                              xml_declaration=True, encoding="UTF-8"))
@@ -84,18 +85,16 @@ class TestGenerateSchema(unittest.TestCase):
             schema_string_with_comment = etree.tostring(tree)
             self.assertTrue("by eulxml" in schema_string_with_comment)
         #check if all files were downloaded
-        self.assertEqual(1, len(glob.glob(''.join([path, '/*.xsd']))))
+        self.assertEqual(1, len(glob.glob(''.join([self.path, '/*.xsd']))))
 
 
 
 
     def test_generate_xml_catalog(self):
         """Check if the catalog exists and import xml files into data files """
-        path = 'eulxml/test_schemas'
-        correct_schema = 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'
 
         #check if catalog already exists
-        check_catalog = len(glob.glob(''.join([path, '/catalog.xml'])))
+        check_catalog = len(glob.glob(''.join([self.path, '/catalog.xml'])))
         self.assertEqual(0, check_catalog)
 
         #generate empty catalog xml object
@@ -107,11 +106,11 @@ class TestGenerateSchema(unittest.TestCase):
         self.assertEqual({'c': catalog.ROOT_NS}, catalog.ROOT_NAMESPACES)
         self.assertEqual(0, len(catalog.uri_list))
 
-        filename = os.path.basename(correct_schema)
-        catalog_path = os.path.join(path, 'catalog.xml')
-        catalog.uri_list.append(Uri(name=correct_schema, uri=filename))
+        filename = os.path.basename(self.correct_schema)
+        catalog_path = os.path.join(self.path, 'catalog.xml')
+        catalog.uri_list.append(Uri(name=self.correct_schema, uri=filename))
         # check correct name attribute
-        self.assertEqual(correct_schema, catalog.uri_list[0].name)
+        self.assertEqual(self.correct_schema, catalog.uri_list[0].name)
         # check correct uri attribute
         self.assertEqual(filename, catalog.uri_list[0].uri)
 
@@ -122,7 +121,7 @@ class TestGenerateSchema(unittest.TestCase):
             catalog.serializeDocument(xml_catalog, pretty=True)
 
         #check if catalog was generated
-        check_catalog = len(glob.glob(''.join([path, '/catalog.xml'])))
+        check_catalog = len(glob.glob(''.join([self.path, '/catalog.xml'])))
         self.assertEqual(1, check_catalog)
 
 

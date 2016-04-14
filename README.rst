@@ -89,6 +89,8 @@ history of **eulxml**, see
 Developer notes
 ---------------
 
+As of version 1.1 eulxml provides an xml catalog for resolving schemas referenced by eulxml xmlobject instances.
+
 To install dependencies for your local check out of the code, run ``pip install``
 in the ``eulxml`` directory (the use of `virtualenv`_ is recommended)::
 
