@@ -28,12 +28,15 @@ from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
 logger = logging.getLogger(__name__)
 
 
-XSD_SCHEMAS = ['http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
-               'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-               'http://www.loc.gov/standards/xlink/xlink.xsd',
-               'http://www.loc.gov/standards/premis/premis.xsd',
-               'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
-               'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd']
+XSD_SCHEMAS = [
+   'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
+   'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
+   'http://www.loc.gov/standards/xlink/xlink.xsd',
+   'http://www.loc.gov/standards/premis/premis.xsd',
+   'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
+   'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd',
+   'http://www.loc.gov/ead/ead.xsd'
+]
 # , 'http://www.archives.ncdcr.gov/mail-account.xsd'
 
 
