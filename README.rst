@@ -13,7 +13,9 @@ eulxml
     :alt: PyPI downloads
 
 **documentation**
-
+  .. image:: https://readthedocs.org/projects/eulxml/badge/?version=latest
+    :target: http://eulxml.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
 
 **code**
   .. image:: https://travis-ci.org/emory-libraries/eulxml.svg?branch=develop
@@ -89,7 +91,7 @@ history of **eulxml**, see
 Developer notes
 ---------------
 
-As of version 1.1 eulxml provides an xml catalog for resolving schemas referenced by eulxml xmlobject instances. If you want to use the package directly from github then do the normal pip install through github and then run: 
+As of version 1.1 eulxml provides an xml catalog for resolving schemas referenced by eulxml xmlobject instances. If you want to use the package directly from github then do the normal pip install through github and then run:
 python -c 'from eulxml.catalog import generate_catalog; generate_catalog()'
 to generate catalog.xml
 
