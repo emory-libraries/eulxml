@@ -20,64 +20,50 @@
 from __future__ import unicode_literals
 import os
 import unittest
+import tempfile
 try:
     from unittest import skipIf
 except ImportError:
     from unittest2 import skipIf
 import glob
-try:
-    from urllib.request import urlretrieve
-    from urllib.request import urlopen
-except ImportError:
-    from urllib import urlretrieve
-    from urllib import urlopen
 import shutil
 from datetime import date
-from eulxml import xmlmap, __version__
+from eulxml import __version__
 from lxml import etree
-from eulxml.catalog import Uri, Catalog
+from eulxml.catalog import download_schema, generate_catalog, XSD_SCHEMAS
 
 
 
 class TestGenerateSchema(unittest.TestCase):
     """:class:`TestGenerateSchema` class for Catalog testing"""
     def setUp(self):
-        self.path = 'eulxml/test_schemas'
         self.correct_schema = 'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'
         self.wrong_schema = 'http://www.loc.gov/standards/mods/v3/mods34.xsd'
         self.comment = 'Downloaded by eulxml %s on %s' % \
               (__version__, date.today().isoformat())
         # parseString wants a url. let's give it a proper one.
-        if not os.path.isdir(self.path):
-            os.mkdir(self.path)
+        self.path = tempfile.mkdtemp()
 
     def tearDown(self):
-        if os.path.isdir('eulxml/test_schemas'):
-            shutil.rmtree('eulxml/test_schemas')
+        if os.path.isdir(self.path):
+            shutil.rmtree(self.path)
 
     def test_download_xml_schemas(self):
         """Check if xsd schemas exist and download fresh copies """
-
+        filename = os.path.basename(self.correct_schema)
+        schema_path = os.path.join(self.path, filename)
         #do files already exist
         check_xsds = len(glob.glob(''.join([self.path, '*.xsd'])))
         self.assertEqual(0, check_xsds)
 
-        #FIX THIS later
-        # try:
-        #     response_wrong = urlopen(self.wrong_schema)
-        # except:
-        #     print('Something went wrong')
-        #     response_error = urlopen(self.wrong_schema).getcode()
-        # expected, got = 404, response_error
-        # self.assertEqual(expected, got)
+        #downloading the wrong schema
+        response_wrong = download_schema(self.wrong_schema, schema_path, comment=None)
+        self.assertFalse(response_wrong)
 
         #downloading the right schemas
-        response_correct = urlopen(self.correct_schema)
-        expected, got = 200, response_correct.getcode()
-        self.assertEqual(expected, got)
-        filename = os.path.basename(self.correct_schema)
-        schema_path = os.path.join(self.path, filename)
-        urlretrieve(self.correct_schema, schema_path)
+        response_correct = download_schema(self.correct_schema, schema_path, comment=None)
+        self.assertTrue(response_correct)
+        
         tree = etree.parse(schema_path)
 
         # Does comment exist?
@@ -86,17 +72,13 @@ class TestGenerateSchema(unittest.TestCase):
 
 
         #Add comment and check if it is there now
-        tree.getroot().append(etree.Comment(self.comment))
-        with open(schema_path, 'wb') as xml_catalog:
-            xml_catalog.write(etree.tostring(tree, pretty_print=True,
-                                             xml_declaration=True, encoding="UTF-8"))
+        download_schema(self.correct_schema, schema_path, comment=self.comment)
+        tree = etree.parse(schema_path)
+        schema_string_with_comment = etree.tostring(tree)
+        self.assertTrue(b'by eulxml' in schema_string_with_comment)
 
-            schema_string_with_comment = etree.tostring(tree)
-            self.assertTrue(b'by eulxml' in schema_string_with_comment)
         #check if all files were downloaded
         self.assertEqual(1, len(glob.glob(''.join([self.path, '/*.xsd']))))
-
-
 
 
     def test_generate_xml_catalog(self):
@@ -105,19 +87,22 @@ class TestGenerateSchema(unittest.TestCase):
         #check if catalog already exists
         check_catalog = len(glob.glob(''.join([self.path, '/catalog.xml'])))
         self.assertEqual(0, check_catalog)
-
+        catalog_file = os.path.join(self.path, 'catalog.xml')
+        filename = os.path.basename(self.correct_schema)
         #generate empty catalog xml object
-        catalog = Catalog()
+        catalog = generate_catalog(xsd_schemas=[self.correct_schema], xmlcatalog_dir=self.path, xmlcatalog_file=catalog_file)
+
+        #check if catalog was generated
+        check_catalog = len(glob.glob(''.join([self.path, '/catalog.xml'])))
+        self.assertEqual(1, check_catalog)
+
 
         #check elements of generated catalog
         self.assertEqual('catalog', catalog.ROOT_NAME)
         self.assertEqual('urn:oasis:names:tc:entity:xmlns:xml:catalog', catalog.ROOT_NS)
         self.assertEqual({'c': catalog.ROOT_NS}, catalog.ROOT_NAMESPACES)
-        self.assertEqual(0, len(catalog.uri_list))
+        self.assertEqual(1, len(catalog.uri_list))
 
-        filename = os.path.basename(self.correct_schema)
-        catalog_path = os.path.join(self.path, 'catalog.xml')
-        catalog.uri_list.append(Uri(name=self.correct_schema, uri=filename))
         # check correct name attribute
         self.assertEqual(self.correct_schema, catalog.uri_list[0].name)
         # check correct uri attribute
@@ -125,11 +110,4 @@ class TestGenerateSchema(unittest.TestCase):
 
         # check how many uris we have in catalog
         self.assertEqual(len(catalog.uri_list), 1)
-
-        with open(catalog_path, 'wb') as xml_catalog:
-            catalog.serializeDocument(xml_catalog, pretty=True)
-
-        #check if catalog was generated
-        check_catalog = len(glob.glob(''.join([self.path, '/catalog.xml'])))
-        self.assertEqual(1, check_catalog)
 

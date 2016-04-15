@@ -15,7 +15,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 import os
-import urllib
 try:
     from urllib.request import urlretrieve
 except ImportError:
@@ -29,13 +28,14 @@ logger = logging.getLogger(__name__)
 
 
 XSD_SCHEMAS = [
-   'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
-   'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
-   'http://www.loc.gov/standards/xlink/xlink.xsd',
-   'http://www.loc.gov/standards/premis/premis.xsd',
-   'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
-   'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd',
-   'http://www.loc.gov/ead/ead.xsd'
+    'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
+    'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
+    'http://www.loc.gov/standards/xlink/xlink.xsd',
+    'http://www.loc.gov/standards/premis/premis.xsd',
+    'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
+    'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd',
+    'http://www.history.ncdcr.gov/SHRAB/ar/emailpreservation/mail-account/mail-account.xsd',
+    'http://www.loc.gov/ead/ead.xsd'
 ]
 # , 'http://www.archives.ncdcr.gov/mail-account.xsd'
 
@@ -66,7 +66,6 @@ def download_schema(uri, path, comment=None):
     schema = os.path.basename(uri)
     try:
         urlretrieve(uri, path)
-
         # if a comment is specified, add it to the locally saved schema
         if comment is not None:
             tree = etree.parse(path)
@@ -87,13 +86,20 @@ def download_schema(uri, path, comment=None):
         return False
 
 
-def generate_catalog():
+def generate_catalog(xsd_schemas=None, xmlcatalog_dir=None, xmlcatalog_file=None):
     """Generating an XML catalog for schemas used by eulxml"""
     logger.debug("Generating a new XML catalog")
+    if xsd_schemas is None:
+        xsd_schemas = XSD_SCHEMAS
 
+    if xmlcatalog_file is None:
+        xmlcatalog_file = XMLCATALOG_FILE
+
+    if xmlcatalog_dir is None:
+        xmlcatalog_dir = XMLCATALOG_DIR
     # if the catalog dir doesn't exist, create it
-    if not os.path.isdir(XMLCATALOG_DIR):
-        os.mkdir(XMLCATALOG_DIR)
+    if not os.path.isdir(xmlcatalog_dir):
+        os.mkdir(xmlcatalog_dir)
 
     # new xml catalog to be populated with saved schemas
     catalog = Catalog()
@@ -102,9 +108,9 @@ def generate_catalog():
     comment = 'Downloaded by eulxml %s on %s' % \
         (__version__, date.today().isoformat())
 
-    for schema_uri in XSD_SCHEMAS:
+    for schema_uri in xsd_schemas:
         filename = os.path.basename(schema_uri)
-        schema_path = os.path.join(XMLCATALOG_DIR, filename)
+        schema_path = os.path.join(xmlcatalog_dir, filename)
         saved = download_schema(schema_uri, schema_path, comment)
         if saved:
             # if download succeeded, add to our catalog.
@@ -115,5 +121,6 @@ def generate_catalog():
 
     # if we have any uris in our catalog, write it out
     if catalog.uri_list:
-        with open(XMLCATALOG_FILE, 'wb') as xml_catalog:
+        with open(xmlcatalog_file, 'wb') as xml_catalog:
             catalog.serializeDocument(xml_catalog, pretty=True)
+    return catalog

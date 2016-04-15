@@ -8,15 +8,15 @@ any necessary information about installation or upgrade notes.
 1.1
 -----
 
-* Closed issue: use xml catalog for loading schemas #18
-* Added catalog.py to download xsd schemas and generate catalog.xml
-* Added additionals commands to setup.py GenerateXmlCatalog, CleanSchemaData, SdistWithCatalog
-* Added generate catalog if needed method to setup.py
-* Modified BuildPyWithPly in setup.py to generate catalog if needed
-* Added package data to setup.py to load generated schemas
-* Added code to find and resolve paths for catalog.xml and schema directory in init.py
-* Set environment variable for xml catalog
-* Added unit tests for catalog.py
+* Closed issue: use xml catalog for loading schemas
+  [`#21 <https://github.com/emory-libraries/eulxml/issues/21>`]
+* Removed HTTP PROXY resolvers (:class: eulxml.xmlmap.Urllib2Resolver) and warnings.
+* Modified (:meth:`eulxml.xmlmap.loadSchema`) not use HTTP PROXY
+* Added catalog.py to download xsd schemas and generate catalog.xml.
+  [`Here <http://xmlsoft.org/catalog.html>`] is documentation on xml catalogs: 
+* Modified init.py and setup.py to resolve generated schemas referenced by eulxml.
+  Loading eulxml automatically adds it to the catalog environment variable.
+* Changed old CERP schema to a new one and updated schema catalog
 
 
 1.0.1
