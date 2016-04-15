@@ -1,4 +1,3 @@
-"""Catalog.py is run upon the the build of eulxml to generate catalog.xml and schemas"""
 # file eulxml/catalog.py
 #
 #   Copyright 2010,2011 Emory University Libraries
@@ -14,6 +13,21 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+
+'''
+Logic for downloading local copies of schemas and generating an
+`XML catalog <http://lxml.de/resolvers.html#xml-catalogs`_ for use in
+resolving schemas locally instead of downloading them every time validation
+is required.
+
+Catalog generation is available via the setup.py custom command xmlcatalog,
+and a generated catalog and corresponding schema files should be included
+in packaged releases of eulxml.
+
+For more information about setting up and testing XML catalogs, see the
+`libxml2 documentation <http://xmlsoft.org/catalog.html>`_.
+'''
+
 import os
 try:
     from urllib.request import urlretrieve
@@ -24,6 +38,8 @@ from datetime import date
 from lxml import etree
 
 from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,12 +57,12 @@ XSD_SCHEMAS = [
 
 
 class Uri(xmlmap.XmlObject):
-    """:class:`xmlmap.XmlObject` class for Catalog uris"""
+    """:class:`xmlmap.XmlObject` class for Catalog URIs"""
     ROOT_NAME = 'uri'
     ROOT_NS = "urn:oasis:names:tc:entity:xmlns:xml:catalog"
-    #: name attribute
+    #: name, i.e. schema URI
     name = xmlmap.StringField('@name')
-    #: uri attribute
+    #: uri, i.e. path to load the schema locally
     uri = xmlmap.StringField('@uri')
 
 
@@ -59,9 +75,16 @@ class Catalog(xmlmap.XmlObject):
     uri_list = xmlmap.NodeListField('c:uri', Uri)
 
 
-
 def download_schema(uri, path, comment=None):
-    """Download a schema from a specified URI and save it locally."""
+    """Download a schema from a specified URI and save it locally.
+
+    :param uri: url where the schema should be downloaded
+    :param path: local file path where the schema should be saved
+    :param comment: optional comment; if specified, will be added to
+        the downloaded schema
+    :returns: true on success, false if there was an error and the
+        schema failed to download
+    """
     # short-hand name of the schema, based on uri
     schema = os.path.basename(uri)
     try:
@@ -87,7 +110,23 @@ def download_schema(uri, path, comment=None):
 
 
 def generate_catalog(xsd_schemas=None, xmlcatalog_dir=None, xmlcatalog_file=None):
-    """Generating an XML catalog for schemas used by eulxml"""
+    """Generating an XML catalog for use in resolving schemas
+
+    Creates the XML Catalog directory if it doesn't already exist.
+    Uses :meth:`download_schema` to save local copies of schemas,
+    adding a comment indicating the date downloaded by eulxml.
+
+    Generates a new catalog.xml file, with entries for all schemas
+    that downloaded successfully.  If no schemas downloaded, the catalog
+    is not generated.
+
+    .. Note::
+
+        Currently this method overwites any existing schema and catalog
+        files, without checking if they are present or need to be
+        updated.
+
+    """
     logger.debug("Generating a new XML catalog")
     if xsd_schemas is None:
         xsd_schemas = XSD_SCHEMAS

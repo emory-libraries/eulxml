@@ -25,7 +25,11 @@ __version__ = '.'.join([str(i) for i in __version_info__[:-1]])
 if __version_info__[-1] is not None:
     __version__ += ('-%s' % (__version_info__[-1],))
 
-# paths to xml schema catalog file & directory
+# Paths for XML catalog file & directory
+
+# NOTE: these paths are defined here so they can easily be included
+# without requiring the import of other parts of the code (e.g.
+# in setup.py, which could be run when eulxml isn't fully installed)
 
 #: relative path for schema data directory
 SCHEMA_DATA_DIR = 'schema_data'
@@ -43,6 +47,9 @@ else:
                                   SCHEMA_DATA_DIR)
     XMLCATALOG_FILE = os.path.join(XMLCATALOG_DIR, 'catalog.xml')
 
-os.environ['XML_CATALOG_FILES'] = ":".join((filter(None, (os.environ.get('XML_CATALOG_FILES'), XMLCATALOG_FILE))))
-
-
+# Add local XML catalog file to the environment variable so
+# it will automatically be used by libxml to resolve URIs.
+# See http://xmlsoft.org/catalog.html for more details.
+os.environ['XML_CATALOG_FILES'] = ":".join(
+    [path for path in (os.environ.get('XML_CATALOG_FILES'), XMLCATALOG_FILE)
+     if path])
