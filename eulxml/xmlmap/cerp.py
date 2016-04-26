@@ -30,8 +30,8 @@ logger = logging.getLogger(__name__)
 
 # CERP is described at http://siarchives.si.edu/cerp/ . XML spec available at
 # http://www.records.ncdcr.gov/emailpreservation/mail-account/mail-account_docs.html
-
-#
+# schema resolves but appears to be empty as of April 2016
+# Current schema : http://www.history.ncdcr.gov/SHRAB/ar/emailpreservation/mail-account/mail-account.xsd
 # internally-reused and general-utility objects
 #
 
@@ -362,7 +362,7 @@ class Account(_BaseCerp):
     composed of multiple :class:`Folder` objects and additional metadata."""
 
     ROOT_NAME = 'Account'
-    XSD_SCHEMA = 'http://www.archives.ncdcr.gov/mail-account.xsd'
+    XSD_SCHEMA = 'http://www.history.ncdcr.gov/SHRAB/ar/emailpreservation/mail-account/mail-account.xsd'
 
     email_address = xmlmap.StringField('xm:EmailAddress')
     global_id = xmlmap.StringField('xm:GlobalId')

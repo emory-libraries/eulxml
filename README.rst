@@ -13,7 +13,9 @@ eulxml
     :alt: PyPI downloads
 
 **documentation**
-
+  .. image:: https://readthedocs.org/projects/eulxml/badge/?version=latest
+    :target: http://eulxml.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
 
 **code**
   .. image:: https://travis-ci.org/emory-libraries/eulxml.svg?branch=develop
@@ -88,6 +90,15 @@ history of **eulxml**, see
 
 Developer notes
 ---------------
+
+As of version 1.1, eulxml provides an `XML catalog <http://lxml.de/resolvers.html#xml-catalogs`_
+for loading schemas referenced by included XmlObject instances. The
+catalog and schemas will be included in distributed releases, but if you
+want to use the catalog when installing directly from GitHub you can
+use a normal pip install and then run::
+
+  python -c 'from eulxml.catalog import generate_catalog; generate_catalog()'
+
 
 To install dependencies for your local check out of the code, run ``pip install``
 in the ``eulxml`` directory (the use of `virtualenv`_ is recommended)::

@@ -25,8 +25,6 @@ import os
 from eulxml.xmlmap import load_xmlobject_from_file
 from eulxml.xmlmap import premis
 
-proxy_required = skipIf('HTTP_PROXY' not in os.environ,
-    'Schema validation test requires an HTTP_PROXY')
 
 
 class TestPremis(unittest.TestCase):
@@ -64,7 +62,7 @@ class TestPremis(unittest.TestCase):
         self.assertEqual('hdl', ev.object_type)
         self.assertEqual('loc.music/gottlieb.09601', ev.object_id)
 
-    @proxy_required
+    
     def test_create_valid_premis(self):
         # test creating a premis xml object from scratch - should be valid
         pr = premis.Premis()
