@@ -91,8 +91,8 @@ history of **eulxml**, see
 Developer notes
 ---------------
 
-As of version 1.1, eulxml provides an `XML catalog <http://lxml.de/resolvers.html#xml-catalogs`_
-for loading schemas referenced by included XmlObject instances. The
+As of version 1.1, eulxml provides an `XML catalog <http://lxml.de/resolvers.html#xml-catalogs>`_
+for loading schemas referenced by included XmlObject instances. `Requests <https://github.com/kennethreitz/requests>`_ is required for downloading schemas, but it is not a dependency of eulxml. The
 catalog and schemas will be included in distributed releases, but if you
 want to use the catalog when installing directly from GitHub you can
 use a normal pip install and then run::
