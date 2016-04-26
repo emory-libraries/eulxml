@@ -8,15 +8,25 @@ any necessary information about installation or upgrade notes.
 1.1
 -----
 
-* Closed issue: use xml catalog for loading schemas
-  [`#21 <https://github.com/emory-libraries/eulxml/issues/21>`]
-* Removed HTTP PROXY resolvers (:class: eulxml.xmlmap.Urllib2Resolver) and warnings.
-* Modified (:meth:`eulxml.xmlmap.loadSchema`) not use HTTP PROXY
-* Added catalog.py to download xsd schemas and generate catalog.xml.
-  [`Here <http://xmlsoft.org/catalog.html>`] is documentation on xml catalogs: 
-* Modified init.py and setup.py to resolve generated schemas referenced by eulxml.
-  Loading eulxml automatically adds it to the catalog environment variable.
-* Changed old CERP schema to a new one and updated schema catalog
+* Now using an `XML catalog <http://xmlsoft.org/catalog.html>`_
+  to load local copies of XSD schemas referenced by included XmlObject
+  classes.  The included catalog is automatically added to the
+  **XML_CATALOG_FILES** environment variable when eulxml is loaded, and
+  should be used automatically and transparently by lxml and libxml.
+  [`#18 <https://github.com/emory-libraries/eulxml/issues/18>`_]
+* The use of an HTTP PROXY is no longer required for loading schemas,
+  and eulxml will not generate warnings if no proxy is set.
+* New module eulxml.catalog to download schemas and generate an XML
+  catalog
+* Custom setup.py command `xmlcatalog` as a shortcut for downloading
+  schemas and generating an XML Catalog
+* Customized setup.py so that building the package will download
+  schemas and generate a catalog if needed (schema files and xml
+  catalog are now included in package data).
+* The existing CERP schema URL no longer resolves; it has has been
+  replaced with a new url that does, and included in the schema catalog
+* bugfix: serializing unicode within xpaths
+* bugfix: normalize space on eadid value in eulxml.xmlmap.teimap
 
 
 1.0.1
@@ -25,7 +35,7 @@ any necessary information about installation or upgrade notes.
 * Correct six dependency required version
 * Fix six dependency in eulxml.xpath so installation can complete
   and generate parsetab and lextab when six installation is not yet
-  processed.  [`#20 <https://github.com/emory-libraries/eulxml/issues/20>`]
+  processed.  [`#20 <https://github.com/emory-libraries/eulxml/issues/20>`_]
 
 1.0
 ---

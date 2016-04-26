@@ -481,7 +481,7 @@ class EadId(_EadBase):
     "url - `@url`"
     identifier = xmlmap.StringField('@identifier')
     "identifier - `@identifier`"
-    value = xmlmap.StringField(".")
+    value = xmlmap.StringField(".", normalize=True)
     "text content of the eadid node"
 
 
