@@ -6,7 +6,7 @@ The following is a summary of changes and improvements to
 any necessary information about installation or upgrade notes.
 
 1.1
------
+---
 
 * Now using an `XML catalog <http://xmlsoft.org/catalog.html>`_
   to load local copies of XSD schemas referenced by included XmlObject
@@ -27,6 +27,7 @@ any necessary information about installation or upgrade notes.
   replaced with a new url that does, and included in the schema catalog
 * bugfix: serializing unicode within xpaths
 * bugfix: normalize space on eadid value in eulxml.xmlmap.teimap
+* bugfix: xpath serialization error for unicode strings within xpaths
 
 
 1.0.1

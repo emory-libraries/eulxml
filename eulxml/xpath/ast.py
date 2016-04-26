@@ -65,8 +65,11 @@ def _serialize(xp_ast):
         for tok in xp_ast._serialize():
             yield tok
     elif isinstance(xp_ast, string_types):
-        # FIXME: There are several interesting cases where this is wrong.
-        yield repr(xp_ast)
+        # strings in serialized xpath needed to be quoted
+        # (e.g. for use in paths, comparisons, etc)
+        # using repr to quote them; for unicode, the leading
+        # u (u'') needs to be removed.
+        yield repr(xp_ast).lstrip('u')
     else:
         yield str(xp_ast)
 
