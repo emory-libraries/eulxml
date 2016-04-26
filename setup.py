@@ -6,9 +6,8 @@ from distutils.command.sdist import sdist
 from distutils.core import Command
 import os
 import sys
-from setuptools import setup, find_packages
 import shutil
-
+from setuptools import setup, find_packages
 import eulxml
 
 
@@ -106,6 +105,7 @@ dev_requirements = [
     'mock',
     'nose',
     'tox',
+    'requests',
 ]
 # NOTE: dev requirements should be duplicated in pip-dev-req.txt
 # for generating documentation on readthedocs.org

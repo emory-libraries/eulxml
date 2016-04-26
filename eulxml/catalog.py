@@ -29,14 +29,10 @@ For more information about setting up and testing XML catalogs, see the
 '''
 
 import os
-try:
-    from urllib.request import urlretrieve
-except ImportError:
-    from urllib import urlretrieve
 import logging
+import requests
 from datetime import date
 from lxml import etree
-
 from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
 
 
@@ -88,7 +84,12 @@ def download_schema(uri, path, comment=None):
     # short-hand name of the schema, based on uri
     schema = os.path.basename(uri)
     try:
-        urlretrieve(uri, path)
+
+        req = requests.get(uri, stream=True)
+        with open(path, 'wb') as schema_download:
+            for chunk in req.iter_content(chunk_size=1024):
+                if chunk: # filter out keep-alive new chunks
+                    schema_download.write(chunk)
         # if a comment is specified, add it to the locally saved schema
         if comment is not None:
             tree = etree.parse(path)
@@ -100,10 +101,9 @@ def download_schema(uri, path, comment=None):
 
         return True
 
-    except IOError as err:
+    except requests.exceptions.HTTPError as err:
         msg = 'Failed to download schema %s' % schema
-        if hasattr(err, 'code'):
-            msg += '(error codes %s)' % err.errno
+        msg += '(error codes %s)' % err.message
         logger.warn(msg)
 
         return False

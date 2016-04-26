@@ -28,6 +28,7 @@ except ImportError:
 import glob
 import shutil
 from datetime import date
+import requests
 from eulxml import __version__
 from lxml import etree
 from eulxml.catalog import download_schema, generate_catalog, XSD_SCHEMAS
@@ -63,7 +64,7 @@ class TestGenerateSchema(unittest.TestCase):
         #downloading the right schemas
         response_correct = download_schema(self.correct_schema, schema_path, comment=None)
         self.assertTrue(response_correct)
-        
+
         tree = etree.parse(schema_path)
 
         # Does comment exist?
