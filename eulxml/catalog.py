@@ -104,7 +104,7 @@ def download_schema(uri, path, comment=None):
 
     except requests.exceptions.HTTPError as err:
         msg = 'Failed to download schema %s' % schema
-        msg += '(error codes %s)' % err.message
+        msg += '(error codes %s)' % err.response.status_code
         logger.warn(msg)
 
         return False
