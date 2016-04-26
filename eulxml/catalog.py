@@ -86,6 +86,7 @@ def download_schema(uri, path, comment=None):
     try:
 
         req = requests.get(uri, stream=True)
+        req.raise_for_status()
         with open(path, 'wb') as schema_download:
             for chunk in req.iter_content(chunk_size=1024):
                 if chunk: # filter out keep-alive new chunks
