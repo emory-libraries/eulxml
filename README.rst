@@ -18,12 +18,12 @@ eulxml
     :alt: Documentation Status
 
 **code**
-  .. image:: https://travis-ci.org/emory-libraries/eulxml.svg?branch=develop
+  .. image:: https://travis-ci.org/emory-libraries/eulxml.svg
     :alt: travis-ci build
     :target: https://travis-ci.org/emory-libraries/eulxml
 
-  .. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg?branch=develop
-    :target: https://coveralls.io/github/emory-libraries/eulxml?branch=develop
+  .. image:: https://coveralls.io/repos/github/emory-libraries/eulxml/badge.svg
+    :target: https://coveralls.io/github/emory-libraries/eulxml
     :alt: Code Coverage
 
   .. image:: https://codeclimate.com/github/emory-libraries/eulxml/badges/gpa.svg
@@ -31,9 +31,8 @@ eulxml
     :alt: Code Climate
 
 
-  .. image:: https://requires.io/github/emory-libraries/eulxml/requirements.svg?branch=develop
-    :target: https://requires.io/github/emory-libraries/eulxml/requirements/?branch=develop
-    :alt: Requirements Status
+  .. image:: https://requires.io/github/emory-libraries/eulxml/requirements.svg
+    :target: https://requires.io/github/emory-libraries/eulxml/requirements
 
 eulxml is a `Python <http://www.python.org/>`_ module that provides
 utilities and classes for interacting with XML that allow the
