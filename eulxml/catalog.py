@@ -30,13 +30,24 @@ For more information about setting up and testing XML catalogs, see the
 
 import os
 import logging
-import requests
 from datetime import date
 from lxml import etree
+import sys
+
 from eulxml import xmlmap, __version__, XMLCATALOG_DIR, XMLCATALOG_FILE
+
+# requests is an optional dependency, handle gracefully if not present
+try:
+    import requests
+except ImportError:
+    requests = None
 
 
 logger = logging.getLogger(__name__)
+
+# message to display if requests is not available
+req_requests_msg = 'Please install requests to download schemas ' + \
+                   '(pip install requests)\n'
 
 
 XSD_SCHEMAS = [
@@ -81,6 +92,11 @@ def download_schema(uri, path, comment=None):
     :returns: true on success, false if there was an error and the
         schema failed to download
     """
+    # if requests isn't available, warn and bail out
+    if requests is None:
+        sys.stderr.write(req_requests_msg)
+        return
+
     # short-hand name of the schema, based on uri
     schema = os.path.basename(uri)
     try:
@@ -128,6 +144,11 @@ def generate_catalog(xsd_schemas=None, xmlcatalog_dir=None, xmlcatalog_file=None
         updated.
 
     """
+    # if requests isn't available, warn and bail out
+    if requests is None:
+        sys.stderr.write(req_requests_msg)
+        return
+
     logger.debug("Generating a new XML catalog")
     if xsd_schemas is None:
         xsd_schemas = XSD_SCHEMAS
