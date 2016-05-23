@@ -28,6 +28,7 @@ any necessary information about installation or upgrade notes.
 * bugfix: serializing unicode within xpaths
 * bugfix: normalize space on eadid value in eulxml.xmlmap.teimap
 * bugfix: xpath serialization error for unicode strings within xpaths
+* bugfix: correction in xpath for TEI interp value
 
 
 1.0.1
