@@ -10,6 +10,8 @@ any necessary information about installation or upgrade notes.
 
 * Fix ply version in setup.py so install requirements match setup
   requirements
+* Only add eulxml catalog file to XML_CATALOG_FILES environment variable
+  once
 
 1.1
 ---

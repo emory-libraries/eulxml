@@ -50,6 +50,8 @@ else:
 # Add local XML catalog file to the environment variable so
 # it will automatically be used by libxml to resolve URIs.
 # See http://xmlsoft.org/catalog.html for more details.
-os.environ['XML_CATALOG_FILES'] = ":".join(
-    [path for path in (os.environ.get('XML_CATALOG_FILES'), XMLCATALOG_FILE)
-     if path])
+# Only add once, even if eulxml is loaded multiple times.
+if XMLCATALOG_FILE not in os.environ.get('XML_CATALOG_FILES', ''):
+    os.environ['XML_CATALOG_FILES'] = ":".join(
+        [path for path in (os.environ.get('XML_CATALOG_FILES'), XMLCATALOG_FILE)
+         if path])
