@@ -5,6 +5,14 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+1.1.1
+-----
+
+* Fix ply version in setup.py so install requirements match setup
+  requirements
+* Only add eulxml catalog file to XML_CATALOG_FILES environment variable
+  once
+
 1.1
 ---
 
@@ -29,7 +37,6 @@ any necessary information about installation or upgrade notes.
 * bugfix: normalize space on eadid value in eulxml.xmlmap.teimap
 * bugfix: xpath serialization error for unicode strings within xpaths
 * bugfix: correction in xpath for TEI interp value
-
 
 1.0.1
 -----

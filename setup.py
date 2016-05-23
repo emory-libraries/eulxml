@@ -135,7 +135,7 @@ setup(
         'ply>=3.8',
     ],
     install_requires=[
-        'ply',
+        'ply>=3.8',
         'lxml',
         'six>=1.10',
     ],
