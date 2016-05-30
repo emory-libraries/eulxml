@@ -187,10 +187,17 @@ class TestXmlObjectStringInit(unittest.TestCase):
 ]>
 <a><b/><b/></a>"""
 
+    # A document with duplicate IDs is well-formed but not valid. So
+    # it should load if validation is turned off.
+    DUPLICATE_IDS = """
+    <a xml:id="A"><b xml:id="A"/></a>
+    """
+
     def test_load_from_string(self):
         """Test using shortcut to initialize XmlObject from string"""
         obj = xmlmap.load_xmlobject_from_string(TestXsl.FIXTURE_TEXT)
         self.assert_(isinstance(obj, xmlmap.XmlObject))
+
 
     def test_load_from_string_with_classname(self):
         """Test using shortcut to initialize named XmlObject class from string"""
@@ -210,6 +217,20 @@ class TestXmlObjectStringInit(unittest.TestCase):
 
         obj = xmlmap.load_xmlobject_from_string(self.VALID_XML)
         self.assert_(isinstance(obj, xmlmap.XmlObject))
+
+    def test_load_from_string_with_duplicate_ids(self):
+        """
+        Test using shortcut to initialize XmlObject from string. When the
+        source has duplicate IDs.
+        """
+        self.assertRaises(etree.XMLSyntaxError,
+                          xmlmap.load_xmlobject_from_string,
+                          self.DUPLICATE_IDS, validate=True)
+
+        obj = xmlmap.load_xmlobject_from_string(self.DUPLICATE_IDS)
+        self.assert_(isinstance(obj, xmlmap.XmlObject))
+
+
 
 
 class TestXmlObjectFileInit(unittest.TestCase):
@@ -404,7 +425,7 @@ class TestXmlObject(unittest.TestCase):
 
 class TestLoadSchema(unittest.TestCase):
 
-    
+
     def test_load_schema(self):
         schema = xmlmap.loadSchema('http://www.w3.org/2001/xml.xsd')
         self.assert_(isinstance(schema, etree.XMLSchema),
