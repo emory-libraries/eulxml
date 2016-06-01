@@ -5,12 +5,12 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
-1.2 (preliminary)
------------------
+1.1.2
+-----
 
-* Allow duplicate xml:ids when loading xml if validation is not enabled
+* Allow duplicate ``xml:ids`` when loading xml if validation is not enabled
   (`PR #29 <https://github.com/emory-libraries/eulxml/pull/29>`_ from
-  to `@lddubeau <https://github.com/lddubeau>`_)
+  `@lddubeau <https://github.com/lddubeau>`_)
 
 1.1.1
 -----
