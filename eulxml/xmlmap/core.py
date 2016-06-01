@@ -51,7 +51,7 @@ __all__ = ['XmlObject', 'parseUri', 'parseString', 'loadSchema',
 #   https://bugs.launchpad.net/lxml/+bug/673205
 
 
-    
+
 def parseUri(stream, uri=None):
     """Read an XML document from a URI, and return a :mod:`lxml.etree`
     document."""
@@ -552,7 +552,7 @@ class XmlObject(six.with_metaclass(XmlObjectType, object)):
 
 
 """ April 2016. Removing Urllib2Resolver so we can support
-  loading local copies of schema and skip validation in get_xml_parser """ 
+  loading local copies of schema and skip validation in get_xml_parser """
 
 
 def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=None):
@@ -575,8 +575,15 @@ def _get_xmlparser(xmlclass=XmlObject, validate=False, resolver=None):
             # if configured XmlObject does not have a schema defined, assume DTD validation
             opts = {'dtd_validation': True}
     else:
-        # if validation is not requested, no parser options are needed
-        opts = {}
+        # If validation is not requested, then the parsing should fail
+        # only for well-formedness issues.
+        #
+        # Therefore, we must turn off collect_ids, otherwise lxml will
+        # have a problem with duplicate IDs as it collects
+        # them. However, the XML spec declares ID uniqueness as a
+        # validation constraint, not a well-formedness
+        # constraint. (See https://www.w3.org/TR/xml/#id.)
+        opts = {"collect_ids": False}
 
     parser = etree.XMLParser(**opts)
 
