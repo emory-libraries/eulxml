@@ -51,6 +51,7 @@ req_requests_msg = 'Please install requests to download schemas ' + \
 
 
 XSD_SCHEMAS = [
+    'http://www.loc.gov/standards/mods/mods.xsd',
     'http://www.loc.gov/standards/mods/v3/mods-3-4.xsd',
     'http://www.openarchives.org/OAI/2.0/oai_dc.xsd',
     'http://www.loc.gov/standards/xlink/xlink.xsd',
