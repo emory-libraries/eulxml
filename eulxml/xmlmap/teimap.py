@@ -94,7 +94,7 @@ class TeiFigure(_TeiBase):
 class TeiInterp(_TeiBase):
     ROOT_NAME = 'interp'
     id          = xmlmap.StringField("@xml:id")
-    value       = xmlmap.StringField("@value")
+    value       = xmlmap.StringField(".")
 
 class TeiSection(_TeiBase):
     # top-level sections -- front/body/back

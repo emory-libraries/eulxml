@@ -27,7 +27,7 @@
 	 </seriesStmt>
 	 <notesStmt><note/></notesStmt>
          <sourceDesc><!-- put the actual publication data for the book
-	   in this section --> 
+	   in this section -->
             <bibl>
 	     <title>A Treasury of War Poetry: British and American
 	      Poems of the World War 1914-1917</title>
@@ -119,7 +119,7 @@
 
 <p><hi rend="smallcap">Because</hi> man is both militant and pacific, he has expressed in literature, as indeed in the other forms of art, his pacific and militant moods. Nor are these moods, of necessity, incompatible. War may become the price of peace, and peace may so decay as inevitably to bring about war. Of the dully unresponsive pacifist and the jingo patriot, quick to anger, the latter no doubt is the more dangerous to the cause of true freedom, yet both are "undesirable citizens." He who believes that peace is illusory and spurious, unless it be based upon justice and liberty, will be proud to battle, if battle he must, for the sake of those foundations.</p>
 
-<p>For the most part, the poetry of war, undertaken in this spirit, has touched and exalted such special qualities as patriotism, courage, self-sacrifice, enterprise, and endurance. Where it has tended to glorify war in itself, it is chiefly because war has released those qualities, so to speak, in stirring and spectacular ways; and where it has chosen to round upon war and to upbraid it, it is because war has slain ardent and lovable youths and has brought misery and despair to women and old people. But the war poet has left the mere arguments to others. For himself, he has seen and felt. Envisaging war from various angles, now romantically, now realistically, now as the celebrating chronicler, now as the contemplative interpreter, but always in a spirit of catholic curiosity, he has sung the 
+<p>For the most part, the poetry of war, undertaken in this spirit, has touched and exalted such special qualities as patriotism, courage, self-sacrifice, enterprise, and endurance. Where it has tended to glorify war in itself, it is chiefly because war has released those qualities, so to speak, in stirring and spectacular ways; and where it has chosen to round upon war and to upbraid it, it is because war has slain ardent and lovable youths and has brought misery and despair to women and old people. But the war poet has left the mere arguments to others. For himself, he has seen and felt. Envisaging war from various angles, now romantically, now realistically, now as the celebrating chronicler, now as the contemplative interpreter, but always in a spirit of catholic curiosity, he has sung the
 <pb n="xxvi"/>
 fall of Troy, the Roman adventures, the mediæval battles and crusades, the fields of Agincourt and Waterloo, and the more modern revolutions. Since Homer, he has spoken with martial eloquence through the voices of Drayton, Spenser, Marlowe, Webster, Shakespeare, Milton, Byron, Scott, Burns, Campbell, Tennyson, Browning, the New England group, and Walt Whitman, -- to mention only a few of the British and American names, -- and he speaks sincerely and powerfully to-day in the writings of Kipling, Hardy, Masefield, Binyon, Newbolt, Watson, Rupert Brooke, and the two young soldiers -- the one English, the other American -- who have lately lost their lives while on active service: Captain Charles Hamilton Sorley, who was killed at Hulluch, October 18, 1915; and Alan Seeger, who fell, mortally wounded, during the charge on Belloy-en-Santerre, July 4, 1916.</p>
 
@@ -370,19 +370,19 @@ Mail War Pictures. On reverse: Assisted by the Royal Fusiliers, the
 the first and second line trenches at St. Eloi. At left on reverse:
 Official War Photographs/Crown Copryright Reserved/Series 6. No. 46.</figDesc></figure>
 
-<interpGrp type="image">    
-    <interp xml:id="im-ph" value="photo"/>        
-    <interp xml:id="im-ca" value="cartoon"/>
+<interpGrp type="image">
+    <interp xml:id="im-ph">photo</interp>
+    <interp xml:id="im-ca">cartoon</interp>
 </interpGrp>
 <interpGrp type="time period">
-    <interp xml:id="t-pre" value="pre Great War"/>
-    <interp xml:id="t-wwi" value="during Great War"/>
-    <interp xml:id="t-ww2" value="World War II"/>
+    <interp xml:id="t-pre">pre Great War</interp>
+    <interp xml:id="t-wwi">during Great War</interp>
+    <interp xml:id="t-ww2">World War II</interp>
 </interpGrp>
 <interpGrp type="military">
-    <interp xml:id="mil-a" value="Army"/>
-    <interp xml:id="mil-na" value="Navy"/>
-    <interp xml:id="mil-f" value="battle front"/>
+    <interp xml:id="mil-a">Army</interp>
+    <interp xml:id="mil-na">Navy</interp>
+    <interp xml:id="mil-f">battle front</interp>
 </interpGrp>
           </div>
         </body>
