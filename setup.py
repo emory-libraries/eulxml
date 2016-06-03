@@ -136,7 +136,7 @@ setup(
     ],
     install_requires=[
         'ply>=3.8',
-        'lxml',
+        'lxml>=3.4',
         'six>=1.10',
     ],
     extras_require={
