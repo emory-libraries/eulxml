@@ -5,6 +5,12 @@ The following is a summary of changes and improvements to
 :mod:`eulxml`.  New features in each version should be listed, with
 any necessary information about installation or upgrade notes.
 
+1.1.3
+-----
+
+* Require lxml 3.4 for ``collect_ids`` feature used in duplicate id
+  support added in eulxml 1.1.2
+
 1.1.2
 -----
 
