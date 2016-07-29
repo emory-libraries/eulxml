@@ -30,9 +30,12 @@ eulxml
     :target: https://codeclimate.com/github/emory-libraries/eulxml
     :alt: Code Climate
 
-
   .. image:: https://requires.io/github/emory-libraries/eulxml/requirements.svg
     :target: https://requires.io/github/emory-libraries/eulxml/requirements
+    
+ .. image:: https://landscape.io/github/emory-libraries/eulxml/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/emory-libraries/eulxml/master
+   :alt: Code Health
 
 eulxml is a `Python <http://www.python.org/>`_ module that provides
 utilities and classes for interacting with XML that allow the
