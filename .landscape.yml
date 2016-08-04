@@ -1,4 +1,6 @@
-doc-warnings: true
+doc-warnings: false
 python-targets:
   - 2
   - 3
+ignore-paths:
+  - doc/
