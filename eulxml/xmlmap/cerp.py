@@ -35,10 +35,11 @@ logger = logging.getLogger(__name__)
 # internally-reused and general-utility objects
 #
 
+
 class _BaseCerp(xmlmap.XmlObject):
     'Common CERP namespace declarations'
     ROOT_NS = 'http://www.archives.ncdcr.gov/mail-account'
-    ROOT_NAMESPACES = { 'xm': ROOT_NS }
+    ROOT_NAMESPACES = {'xm': ROOT_NS}
 
 
 class Parameter(_BaseCerp):
@@ -89,8 +90,8 @@ class _BaseBody(_BaseCerp):
 
 class Hash(_BaseCerp):
     ROOT_NAME = 'Hash'
-    HASH_FUNCTION_CHOICES = [ 'MD5', 'WHIRLPOOL', 'SHA1', 'SHA224',
-                              'SHA256', 'SHA384', 'SHA512', 'RIPEMD160']
+    HASH_FUNCTION_CHOICES = ['MD5', 'WHIRLPOOL', 'SHA1', 'SHA224',
+                             'SHA256', 'SHA384', 'SHA512', 'RIPEMD160']
 
     value = xmlmap.StringField('xm:Value')
     function = xmlmap.StringField('xm:Function',
@@ -105,7 +106,7 @@ class Hash(_BaseCerp):
 
 class _BaseExternal(_BaseCerp):
     '''Common external entity reference elements'''
-    EOL_CHOICES = [ 'CR', 'LF', 'CRLF' ]
+    EOL_CHOICES = ['CR', 'LF', 'CRLF']
 
     rel_path = xmlmap.StringField('xm:RelPath')
     eol = xmlmap.StringField('xm:Eol', choices=EOL_CHOICES)
@@ -139,7 +140,8 @@ class SingleBody(_BaseBody):
 
     body_content = xmlmap.NodeField('xm:BodyContent', BodyContent)
     ext_body_content = xmlmap.NodeField('xm:ExtBodyContent', ExtBodyContent)
-    child_message = xmlmap.NodeField('xm:ChildMessage', None) # this will be fixed below
+    child_message = xmlmap.NodeField('xm:ChildMessage', None)  # this will be fixed below
+
     @property
     def content(self):
         return self.body_content or \
@@ -156,6 +158,7 @@ class MultiBody(_BaseCerp):
 
     single_body = xmlmap.NodeField('xm:SingleBody', SingleBody)
     multi_body = xmlmap.NodeField('xm:MultiBody', 'self')
+
     @property
     def body(self):
         return self.single_body or self.multi_body
@@ -177,7 +180,7 @@ class _BaseMessage(_BaseCerp):
     message_id_supplied = xmlmap.SimpleBooleanField('xm:MessageId/@Supplied',
             true='1', false=None)
     mime_version = xmlmap.StringField('xm:MimeVersion')
-    orig_date_list = xmlmap.StringListField('xm:OrigDate') # FIXME: really datetime
+    orig_date_list = xmlmap.StringListField('xm:OrigDate')  # FIXME: really datetime
     # NOTE: eulxml.xmlmap.DateTimeField supports specifying format,
     # but we might need additional work since %z only works with
     # strftime, not strptime
@@ -195,6 +198,7 @@ class _BaseMessage(_BaseCerp):
 
     single_body = xmlmap.NodeField('xm:SingleBody', SingleBody)
     multi_body = xmlmap.NodeField('xm:MultiBody', MultiBody)
+
     @property
     def body(self):
         return self.single_body or self.multi_body
@@ -210,8 +214,8 @@ class Message(_BaseMessage, _BaseExternal):
     """A single email message in a :class:`Folder`."""
 
     ROOT_NAME = 'Message'
-    STATUS_FLAG_CHOICES = [ 'Seen', 'Answered', 'Flagged', 'Deleted',
-                            'Draft', 'Recent']
+    STATUS_FLAG_CHOICES = ['Seen', 'Answered', 'Flagged', 'Deleted',
+                           'Draft', 'Recent']
     status_flags = xmlmap.StringListField('xm:StatusFlag',
             choices=STATUS_FLAG_CHOICES)
 
@@ -226,7 +230,7 @@ class Message(_BaseMessage, _BaseExternal):
         :param id: optional message id to be set as `local_id`
 
         :returns: :class:`eulxml.xmlmap.cerp.Message` instance populated
-    	    with message information
+            with message information
 
         '''
         result = cls()
@@ -258,7 +262,7 @@ class Message(_BaseMessage, _BaseExternal):
         result.comments_list.extend(message.get_all('Comments', []))
         result.keywords_list.extend(message.get_all('Keywords', []))
 
-        headers = [ Header(name=key, value=val) for key, val in message.items() ]
+        headers = [Header(name=key, value=val) for key, val in message.items()]
         result.headers.extend(headers)
 
         # FIXME: skip multipart messages for now
@@ -326,6 +330,7 @@ SingleBody.child_message.node_class = ChildMessage
 # accounts and folders
 #
 
+
 class Mbox(_BaseExternal):
     ROOT_NAME = 'Mbox'
     # no additional fields
@@ -348,8 +353,8 @@ class Folder(_BaseCerp):
 
 class ReferencesAccount(_BaseCerp):
     ROOT_NAME = 'ReferencesAccount'
-    REF_TYPE_CHOICES = [ 'PreviousContent', 'SubsequentContent',
-                         'Supplemental', 'SeeAlso', 'SeeInstead' ]
+    REF_TYPE_CHOICES = ['PreviousContent', 'SubsequentContent',
+                        'Supplemental', 'SeeAlso', 'SeeInstead']
 
     href = xmlmap.StringField('xm:Href')
     email_address = xmlmap.StringField('xm:EmailAddress')
@@ -373,8 +378,6 @@ class Account(_BaseCerp):
     def __repr__(self):
         return '<%s %s>' % (self.__class__.__name__,
                 self.global_id or self.email_address or '(no id)')
-
-
 
 
 def parse_mail_date(datestr):

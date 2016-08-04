@@ -33,10 +33,11 @@ __all__ = [
     'ItemField', 'SimpleBooleanField',
     'DateTimeField', 'DateTimeListField',
     'DateField', 'DateListField',
-    'SchemaField','FloatField','FloatListField',
+    'SchemaField', 'FloatField', 'FloatListField',
 ]
 
 logger = logging.getLogger(__name__)
+
 
 class Field(object):
     """Base class for all xmlmap fields.
@@ -52,7 +53,7 @@ class Field(object):
     creation_counter = 0
 
     def __init__(self, xpath, manager, mapper, required=None, verbose_name=None,
-                    help_text=None):
+                 help_text=None):
         # compile xpath in order to catch an invalid xpath at load time
         etree.XPath(xpath)
         # NOTE: not saving compiled xpath because namespaces must be
@@ -88,6 +89,7 @@ class Field(object):
 
 # data mappers to translate between identified xml nodes and Python values
 
+
 class Mapper(object):
     # generic mapper to_xml function
     def to_xml(self, value):
@@ -99,6 +101,7 @@ class Mapper(object):
 
 class StringMapper(Mapper):
     XPATH = etree.XPath('string()')
+
     def __init__(self, normalize=False):
         if normalize:
             self.XPATH = etree.XPath('normalize-space(string())')
@@ -110,8 +113,10 @@ class StringMapper(Mapper):
             return node
         return self.XPATH(node)
 
+
 class IntegerMapper(Mapper):
     XPATH = etree.XPath('number()')
+
     def to_python(self, node):
         if node is None:
             return None
@@ -125,8 +130,10 @@ class IntegerMapper(Mapper):
             # anything that can't be converted to an Integer
             return None
 
+
 class FloatMapper(Mapper):
     XPATH = etree.XPath('number()')
+
     def to_python(self, node):
         if node is None:
             return None
@@ -139,8 +146,10 @@ class FloatMapper(Mapper):
             # anything that can't be converted to an Float
             return None
 
+
 class SimpleBooleanMapper(Mapper):
     XPATH = etree.XPath('string()')
+
     def __init__(self, true, false):
         self.true = true
         self.false = false
@@ -165,7 +174,8 @@ class SimpleBooleanMapper(Mapper):
                 value == str(self.false):
             return False
         # what happens if it is neither of these?
-        raise Exception("Boolean field value '%s' is neither '%s' nor '%s'" % (value, self.true, self.false))
+        raise Exception("Boolean field value '%s' is neither '%s' nor '%s'" \
+                        % (value, self.true, self.false))
 
     def to_xml(self, value):
         if value:
@@ -265,7 +275,7 @@ def _find_terminal_step(xast):
 
 
 def _find_xml_node(xpath, node, context):
-    #In some cases the this will return a value not a node
+    # In some cases the this will return a value not a node
     matches = node.xpath(xpath, **context)
     if matches and isinstance(matches, list):
         return matches[0]
@@ -398,7 +408,7 @@ def _construct_predicate(xast, node, context):
 def _set_in_xml(node, val, context, step):
 
     # node could be either an element or an attribute
-    if isinstance(node, etree._Element): # if it's an element
+    if isinstance(node, etree._Element):  # if it's an element
         if isinstance(val, etree._Element):
             # remove node children and graft val children in.
             node.clear()
@@ -407,7 +417,7 @@ def _set_in_xml(node, val, context, step):
                 node.append(child)
             for name, val in val.attrib.iteritems():
                 node.set(name, val)
-        else: # set node contents to string val
+        else:  # set node contents to string val
             if not list(node):      # no child elements
                 node.text = val
             else:
@@ -434,12 +444,12 @@ def _remove_xml(xast, node, context, if_empty=False):
     in the XPath).
 
     :param xast: parsed xpath (xpath abstract syntax tree) from
-	:mod:`eulxml.xpath`
+    :mod:`eulxml.xpath`
     :param node: lxml node relative to which xast should be removed
     :param context: any context required for the xpath (e.g.,
-    	namespace definitions)
+        namespace definitions)
     :param if_empty: optional boolean; only remove a node if it is
-	empty (no attributes and no child nodes); defaults to False
+        empty (no attributes and no child nodes); defaults to False
 
     :returns: True if something was deleted
     '''
@@ -466,7 +476,7 @@ def _remove_xml(xast, node, context, if_empty=False):
             if left_node is not None:
                 # remove the last element in the xpath
                 removed = _remove_xml(xast.right, left_node, context,
-                                      if_empty=if_empty) # honor current if_empty flag
+                                      if_empty=if_empty)  # honor current if_empty flag
 
                 # If the left portion of the xpath is something we
                 # could have constructed, remove it if it is empty.
@@ -484,13 +494,13 @@ def _remove_child_node(node, context, xast, if_empty=False):
     '''Remove a child node based on the specified xpath.
 
     :param node: lxml element relative to which the xpath will be
-    	interpreted
+        interpreted
     :param context: any context required for the xpath (e.g.,
-    	namespace definitions)
+        namespace definitions)
     :param xast: parsed xpath (xpath abstract syntax tree) from
-	:mod:`eulxml.xpath`
+        :mod:`eulxml.xpath`
     :param if_empty: optional boolean; only remove a node if it is
-	empty (no attributes and no child nodes); defaults to False
+        empty (no attributes and no child nodes); defaults to False
 
     :returns: True if a node was deleted
     '''
@@ -505,23 +515,25 @@ def _remove_child_node(node, context, xast, if_empty=False):
         node.remove(child)
         return True
 
+
 def _remove_attribute_node(node, context, xast):
     node_name, node_xpath, nsmap = _get_attribute_name(xast, context)
     del node.attrib[node_name]
     return True
+
 
 def _remove_predicates(xast, node, context):
     '''Remove any constructible predicates specified in the xpath
     relative to the specified node.
 
     :param xast: parsed xpath (xpath abstract syntax tree) from
-	:mod:`eulxml.xpath`
+        :mod:`eulxml.xpath`
     :param node: lxml element which predicates will be removed from
     :param context: any context required for the xpath (e.g.,
-    	namespace definitions)
+        namespace definitions)
 
     :returns: updated a copy of the xast without the predicates that
-	were successfully removed
+        were successfully removed
     '''
     # work from a copy since it may be modified
     xast_c = deepcopy(xast)
@@ -558,15 +570,16 @@ def _remove_predicates(xast, node, context):
 
     return xast_c
 
+
 def _empty_except_predicates(xast, node, context):
     '''Check if a node is empty (no child nodes or attributes) except
     for any predicates defined in the specified xpath.
 
     :param xast: parsed xpath (xpath abstract syntax tree) from
-	:mod:`eulxml.xpath`
+        :mod:`eulxml.xpath`
     :param node: lxml element to check
     :param context: any context required for the xpath (e.g.,
-    	namespace definitions)
+        namespace definitions)
 
     :returns: boolean indicating if the element is empty or not
     '''
@@ -575,6 +588,7 @@ def _empty_except_predicates(xast, node, context):
     node_c = deepcopy(node)
     _remove_predicates(xast, node_c, context)
     return bool(len(node_c) == 0 and len(node_c.attrib) == 0)
+
 
 def _get_attribute_name(step, context):
     # calculate attribute name, xpath, and nsmap based on node info and context namespaces
@@ -598,6 +612,7 @@ def _get_attribute_name(step, context):
 
     return node_name, node_xpath, nsmap
 
+
 def _is_text_nodetest(step):
     '''Fields selected with an xpath of text() need special handling; Check if
     a xpath step is a text() node test. '''
@@ -609,6 +624,7 @@ def _is_text_nodetest(step):
 
 # managers to map operations to either a single identified node or a
 # list of them
+
 
 class SingleNodeManager(object):
 
@@ -634,8 +650,8 @@ class SingleNodeManager(object):
                 removed = _remove_xml(xast, node, context)
                 # if a node can't be removed, warn since it could have unexpected results
                 if not removed:
-                    logger.warn('''Could not remove xml for '%s' from %r''' % \
-                                (serialize(xast), node))
+                    logger.warn('''Could not remove xml for '%s' from %r''',
+                                serialize(xast), node)
         else:
             if match is None:
                 match = _create_xml_node(xast, node, context)
@@ -703,7 +719,7 @@ class NodeList(object):
     @property
     def data(self):
         # data in list form - basis for several other list-y functions
-        return [ self.mapper.to_python(match) for match in self.matches ]
+        return [self.mapper.to_python(match) for match in self.matches]
 
     def __str__(self):
         return str(self.data)
@@ -752,7 +768,7 @@ class NodeList(object):
                 insert_index = None
             match = _create_xml_node(self.xast, self.node, self.context, insert_index)
         elif key > len(self.matches):
-            raise IndexError("Can't set at index %d - out of range" % key )
+            raise IndexError("Can't set at index %d - out of range" % key)
         else:
             match = self.matches[key]
 
@@ -769,7 +785,7 @@ class NodeList(object):
     def __delitem__(self, key):
         self._check_key_type(key)
         if key >= len(self.matches):
-            raise IndexError("Can't delete at index %d - out of range" % key )
+            raise IndexError("Can't delete at index %d - out of range" % key)
 
         match = self.matches[key]
         match.getparent().remove(match)
@@ -846,9 +862,8 @@ class NodeListManager(object):
             current_list.pop()
 
 
-
-
 # finished field classes mixing a manager and a mapper
+
 
 class StringField(Field):
 
@@ -869,8 +884,8 @@ class StringField(Field):
         # FIXME: handle at a higher level, common to all/more field types?
         #        does choice list need to be checked in the python ?
         super(StringField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = StringMapper(normalize=normalize), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=StringMapper(normalize=normalize), *args, **kwargs)
 
 
 class StringListField(Field):
@@ -891,8 +906,9 @@ class StringListField(Field):
     def __init__(self, xpath, normalize=False, choices=None, *args, **kwargs):
         self.choices = choices
         super(StringListField, self).__init__(xpath,
-                manager = NodeListManager(),
-                mapper = StringMapper(normalize=normalize), *args, **kwargs)
+                manager=NodeListManager(),
+                mapper=StringMapper(normalize=normalize), *args, **kwargs)
+
 
 class FloatField(Field):
 
@@ -905,8 +921,9 @@ class FloatField(Field):
 
     def __init__(self, xpath, *args, **kwargs):
         super(FloatField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = FloatMapper(), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=FloatMapper(), *args, **kwargs)
+
 
 class FloatListField(Field):
 
@@ -920,8 +937,9 @@ class FloatListField(Field):
 
     def __init__(self, xpath, *args, **kwargs):
         super(FloatListField, self).__init__(xpath,
-                manager = NodeListManager(),
-                mapper = FloatMapper(), *args, **kwargs)
+                manager=NodeListManager(),
+                mapper=FloatMapper(), *args, **kwargs)
+
 
 class IntegerField(Field):
 
@@ -934,8 +952,8 @@ class IntegerField(Field):
 
     def __init__(self, xpath, *args, **kwargs):
         super(IntegerField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = IntegerMapper(), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=IntegerMapper(), *args, **kwargs)
 
 
 class IntegerListField(Field):
@@ -950,8 +968,8 @@ class IntegerListField(Field):
 
     def __init__(self, xpath, *args, **kwargs):
         super(IntegerListField, self).__init__(xpath,
-                manager = NodeListManager(),
-                mapper = IntegerMapper(), *args, **kwargs)
+                manager=NodeListManager(),
+                mapper=IntegerMapper(), *args, **kwargs)
 
 
 
@@ -966,8 +984,8 @@ class SimpleBooleanField(Field):
 
     def __init__(self, xpath, true, false, *args, **kwargs):
         super(SimpleBooleanField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = SimpleBooleanMapper(true, false), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=SimpleBooleanMapper(true, false), *args, **kwargs)
 
 
 
@@ -979,13 +997,13 @@ class DateTimeField(Field):
     `None`.
 
     :param format: optional date-time format.  Used with
-	:meth:`datetime.datetime.strptime` and
-	:meth:`datetime.datetime.strftime` to convert between XML text
-	and Python :class:`datetime.datetime` objects.  If no format
-	is specified, XML dates are converted from full ISO date time
-	format, with or without microseconds, and dates are written
-	out to XML in ISO format via
-	:meth:`datetime.datetime.isoformat`.
+        :meth:`datetime.datetime.strptime` and
+        :meth:`datetime.datetime.strftime` to convert between XML text
+        and Python :class:`datetime.datetime` objects.  If no format
+        is specified, XML dates are converted from full ISO date time
+        format, with or without microseconds, and dates are written
+        out to XML in ISO format via
+        :meth:`datetime.datetime.isoformat`.
 
     :param normalize: optional parameter to indicate string contents
         should have whitespace normalized before converting to
@@ -995,12 +1013,12 @@ class DateTimeField(Field):
     For example, given the field definition::
 
       last_update = DateTimeField('last_update', format="%d-%m-%Y %H:%M:%S",
-      	  normalize=True)
+      normalize=True)
 
     and the XML::
 
       <last_update>
-   	  21-04-2012 00:00:00
+        21-04-2012 00:00:00
       </last_update>
 
     accessing the field would return::
@@ -1012,8 +1030,8 @@ class DateTimeField(Field):
 
     def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateTimeField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class DateTimeListField(Field):
@@ -1039,8 +1057,8 @@ class DateTimeListField(Field):
 
     def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateTimeListField, self).__init__(xpath,
-                manager = NodeListManager(),
-                mapper = DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
+                manager=NodeListManager(),
+                mapper=DateTimeMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class DateField(Field):
@@ -1059,8 +1077,8 @@ class DateField(Field):
 
     def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=DateMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class DateListField(Field):
@@ -1072,8 +1090,8 @@ class DateListField(Field):
 
     def __init__(self, xpath, format=None, normalize=False, *args, **kwargs):
         super(DateListField, self).__init__(xpath,
-                manager = NodeListManager(),
-                mapper = DateMapper(format=format, normalize=normalize), *args, **kwargs)
+                manager=NodeListManager(),
+                mapper=DateMapper(format=format, normalize=normalize), *args, **kwargs)
 
 
 class NodeField(Field):
@@ -1102,11 +1120,12 @@ class NodeField(Field):
 
     def __init__(self, xpath, node_class, instantiate_on_get=False, *args, **kwargs):
         super(NodeField, self).__init__(xpath,
-                manager = SingleNodeManager(instantiate_on_get=instantiate_on_get),
-                mapper = NodeMapper(node_class), *args, **kwargs)
+                manager=SingleNodeManager(instantiate_on_get=instantiate_on_get),
+                mapper=NodeMapper(node_class), *args, **kwargs)
 
     def _get_node_class(self):
         return self.mapper.node_class
+
     def _set_node_class(self, val):
         self.mapper.node_class = val
     node_class = property(_get_node_class, _set_node_class)
@@ -1132,11 +1151,12 @@ class NodeListField(Field):
 
     def __init__(self, xpath, node_class, *args, **kwargs):
         super(NodeListField, self).__init__(xpath,
-                manager = NodeListManager(),
-                mapper = NodeMapper(node_class), *args, **kwargs)
+                manager=NodeListManager(),
+                mapper=NodeMapper(node_class), *args, **kwargs)
 
     def _get_node_class(self):
         return self.mapper.node_class
+
     def _set_node_class(self, val):
         self.mapper.node_class = val
     node_class = property(_get_node_class, _set_node_class)
@@ -1149,8 +1169,8 @@ class ItemField(Field):
 
     def __init__(self, xpath, *args, **kwargs):
         super(ItemField, self).__init__(xpath,
-                manager = SingleNodeManager(),
-                mapper = NullMapper(), *args, **kwargs)
+                manager=SingleNodeManager(),
+                mapper=NullMapper(), *args, **kwargs)
 
 
 class SchemaField(Field):
@@ -1181,8 +1201,8 @@ class SchemaField(Field):
         super(SchemaField, self).__init__(xpath, manager=None, mapper=None,
                 *args, **kwargs)
         # SchemaField does not use common Field init logic; handle creation counter
-        #self.creation_counter = Field.creation_counter
-        #Field.creation_counter += 1
+        # self.creation_counter = Field.creation_counter
+        # Field.creation_counter += 1
 
     def get_field(self, schema):
         """Get the requested type definition from the schema and return the
@@ -1191,16 +1211,16 @@ class SchemaField(Field):
         :param schema: instance of :class:`eulxml.xmlmap.core.XsdSchema`
         :rtype: :class:`eulxml.xmlmap.fields.Field`
         """
-        type = schema.get_type(self.schema_type)
-        logger.debug('Found schema type %s; base type %s, restricted values %s' % \
-                     (self.schema_type, type.base_type(), type.restricted_values))
+        sch_type = schema.get_type(self.schema_type)
+        logger.debug('Found schema type %s; base type %s, restricted values %s',
+                     self.schema_type, sch_type.base_type(), sch_type.restricted_values)
         kwargs = {}
-        if type.restricted_values:
+        if sch_type.restricted_values:
             # field has a restriction with enumerated values - pass as choices to field
             # - empty value at beginning of list for unset value; for required fields,
             #   will force user to select a value, rather than first item being default
             choices = []
-            choices.extend(type.restricted_values)
+            choices.extend(sch_type.restricted_values)
             # restricted values could include a blank
             # if it's there, remove it so we don't get two
             if '' in choices:
@@ -1210,7 +1230,7 @@ class SchemaField(Field):
 
         # TODO: possibly also useful to look for pattern restrictions
 
-        basetype = type.base_type()
+        basetype = sch_type.base_type()
         if basetype == 'string':
             newfield = StringField(self.xpath, required=self.required, **kwargs)
             # copy original creation counter to newly created field

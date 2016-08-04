@@ -81,6 +81,9 @@ NODE_TYPES = set(['comment', 'text', 'processing-instruction', 'node'])
 
 
 class LexerWrapper(lex.Lexer):
+
+    last = None
+
     def token(self):
         tok = lex.Lexer.token(self)
         if tok is not None:
@@ -96,15 +99,15 @@ class LexerWrapper(lex.Lexer):
                     if operator is not None:
                         tok.type = operator
                 else:
-                    next = self.peek()
-                    if next is not None:
-                        if next.type == 'OPEN_PAREN':
+                    next_token = self.peek()
+                    if next_token is not None:
+                        if next_token.type == 'OPEN_PAREN':
                             # point 2
                             if tok.value in NODE_TYPES:
                                 tok.type = 'NODETYPE'
                             else:
                                 tok.type = 'FUNCNAME'
-                        elif next.type == 'AXIS_SEP':
+                        elif next_token.type == 'AXIS_SEP':
                             # point 3
                             tok.type = 'AXISNAME'
 
@@ -161,4 +164,4 @@ def ptokens(s):
 
     lexer.input(s)
     for tok in lexer:
-            print(tok)
+        print(tok)
