@@ -65,6 +65,16 @@ class TestObject(xmlmap.XmlObject):
     text = xmlmap.StringListField('text')
     numbers = xmlmap.IntegerListField('number')
 
+class SimpleDateForm(XmlObjectForm):
+    """Custom :class:`~eulxml.forms.XmlObjectForm` to edit a MODS
+    :class:`~eulxml.xmlmap.mods.Date`.  Currently only allows editing the date
+    value itself, using a :class:`~eulcommon.djangoextras.formfields.W3CDateField`.
+    """
+    date = forms.CharField(required=False)
+    class Meta:
+        model = mods.Date
+        fields = ['date']
+
 
 FIXTURE_TEXT = '''
     <foo id='a'>
@@ -82,19 +92,6 @@ FIXTURE_TEXT = '''
 
 FIXTURE_MODS = '''
     <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
-    <mods:identifier type="dm1_id">150</mods:identifier>
-    <mods:identifier type="dm1_other">00000172</mods:identifier>
-    <mods:identifier type="ark">ark:/25593/bb6c5</mods:identifier>
-    <mods:identifier type="uri">http://pid.emory.edu/ark:/25593/bb6c5</mods:identifier>
-    <mods:titleInfo>
-    <mods:title>In the Fields 2</mods:title>
-    </mods:titleInfo>
-    <mods:note type="general">Recording studio: Audio Disc</mods:note>
-    <mods:typeOfResource>sound recording</mods:typeOfResource>
-    <mods:recordInfo>
-    <mods:recordChangeDate encoding="w3cdtf">2011-01-03T12:19:55.405157</mods:recordChangeDate>
-    <mods:recordCreationDate encoding="w3cdtf">2006-02-28T00:00:00</mods:recordCreationDate>
-    </mods:recordInfo>
     <mods:originInfo>
     <mods:dateIssued>2011-11-11</mods:dateIssued>
     <mods:dateCreated>2012-01-01</mods:dateCreated>
@@ -107,9 +104,61 @@ class TestForm(XmlObjectForm):
         model = TestObject
 
 class TestModsForm(XmlObjectForm):
+    """Custom :class:`~eulxml.forms.XmlObjectForm` to edit MODS
+    :class:`~eulxml.xmlmap.mods.OriginInfo`.  Currently only consists
+    of simple date entry for date created and issued using :class:`SimpleDateForm`.
+    """
+    form_label = 'Origin Info'
+    #Create the subform fields from fields (xmlmap) in eulxml.
+    created = SubformField(formclass=xmlobjectform_factory(mods.DateCreated,
+                            form=SimpleDateForm, max_num=1, can_delete=False))
+    issued = SubformField(formclass=xmlobjectform_factory(mods.DateIssued,
+                            form=SimpleDateForm, max_num=1, can_delete=False),
+                          label='Date Issued')
     class Meta:
-        model = mods.MODS
+        model = mods.OriginInfo
+        fields = ['created', 'issued']
+        
+class ModsObjectFormTest(unittest.TestCase):
 
+    post_data_date = {
+        'collection_0': 'self.rushdie.uri',
+        'collection_1': 'self.rushdie.label',
+        'mods-title': u'new title \u2026',
+        'mods-note-label': 'a general note',
+        #'mods-general_note-text': u'remember to ... with some unicode \u1f05',
+        'mods-general_note-text': u'remember to',
+        'mods-part_note-text': 'side A',
+        'mods-resource_type': 'sound recording',
+        # 'management' form data is required for django to process formsets/subforms
+        'origin_info-issued-INITIAL_FORMS': '0',
+        'origin_info-issued-TOTAL_FORMS': '1',
+        'origin_info-issued-MAX_NUM_FORMS': '',
+        'origin_info-issued-0-date_year': '2010',
+        'origin_info-issued-0-date_month': '01',
+        'origin_info-issued-0-date_day': '11',
+        'origin_info-created-INITIAL_FORMS': '0',
+        'origin_info-created-TOTAL_FORMS': '1',
+        'origin_info-created-MAX_NUM_FORMS': '',
+        'origin_info-created-0-date_year': '2011',
+        'origin_info-created-0-date_month': '05',
+        }
+
+    def setUp(self):
+        # instance of form with test object instance
+        self.modsobj = load_xmlobject_from_string(FIXTURE_MODS, mods.OriginInfo)
+
+    def tearDown(self):
+        pass
+
+    def test_update_dates(self):
+        update_dates_form = TestModsForm(self.post_data_date, instance=self.modsobj)
+        print update_dates_form
+        # check that form is valid - if no errors, this populates cleaned_data
+        self.assertTrue(update_dates_form.is_valid())
+        instance = update_dates_form.update_instance()
+        print instance.serialize()
+        self.assert_(isinstance(instance, mods.OriginInfo))
 
 class XmlObjectFormTest(unittest.TestCase):
 
@@ -146,39 +195,7 @@ class XmlObjectFormTest(unittest.TestCase):
         'numbers-INITIAL_FORMS': 0,
         }
 
-    post_data_date = {
-        'child-id2': 'two',
-        'child-val': 2,
-        # include base form data so form will be valid
-        'longtext': 'completely new text content',
-        'int': 21,
-        'bool': False,
-        'date': '2010-01-01',
-        'id': 'b',
-        'my_opt': 'c',
-        'other_child-val': '0',
-        'other_child-id2': 'xyzzy',
-        'created': '2001-10-02',
-        'issued': '',
-         # children formset
-        'children-TOTAL_FORMS': 5,
-        'children-INITIAL_FORMS': 2,
-        'children-0-id2': 'two',
-        'children-0-val': 2,
-        'children-1-id2': 'twenty-one',
-        'children-1-val': 21,
-        'children-2-id2': 'five',
-        'children-2-val': 5,
-        'children-3-id2': 'four',
-        'children-3-val': 20,
-        # stringlist formset
-        'text-TOTAL_FORMS': 1,
-        'text-INITIAL_FORMS': 0,
-        'text-0-val': 'foo',
-        # integerlist formset
-        'numbers-TOTAL_FORMS': 0,
-        'numbers-INITIAL_FORMS': 0,
-        }
+    
 
     def setUp(self):
         # instance of form with no test object
@@ -187,7 +204,6 @@ class XmlObjectFormTest(unittest.TestCase):
         self.testobj = xmlmap.load_xmlobject_from_string(FIXTURE_TEXT, TestObject)
         self.modsobj = load_xmlobject_from_string(FIXTURE_MODS, mods.MODS)
         self.update_form = TestForm(instance=self.testobj)
-        self.update_form_mods = TestModsForm(instance=self.modsobj)
 
     def tearDown(self):
         pass
@@ -418,13 +434,6 @@ class XmlObjectFormTest(unittest.TestCase):
             "fourth field in xmlobject ('y') is fourth in form fields")
 
         # what happens to order on an xmlobject with inheritance?
-    def test_update_dates(self):
-        update_dates_form = TestModsForm(self.post_data_date, instance=self.modsobj)
-        # check that form is valid - if no errors, this populates cleaned_data
-        self.assertTrue(update_dates_form.is_valid())
-        instance = update_dates_form.update_instance()
-        print instance.serialize()
-        self.assert_(isinstance(instance, mods.MODS))
 
     def test_update_instance(self):
         # initialize data the same way a view processing a POST would
