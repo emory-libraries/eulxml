@@ -65,6 +65,8 @@ class TestObject(xmlmap.XmlObject):
     text = xmlmap.StringListField('text')
     numbers = xmlmap.IntegerListField('number')
 
+
+
 class SimpleDateForm(XmlObjectForm):
     """Custom :class:`~eulxml.forms.XmlObjectForm` to edit a MODS
     :class:`~eulxml.xmlmap.mods.Date`.  Currently only allows editing the date
@@ -146,7 +148,9 @@ class ModsObjectFormTest(unittest.TestCase):
 
     def setUp(self):
         # instance of form with test object instance
+        self.origin_info = mods.OriginInfo()
         self.modsobj = load_xmlobject_from_string(FIXTURE_MODS, mods.OriginInfo)
+        print mods.OriginInfo
 
     def tearDown(self):
         pass
@@ -159,6 +163,7 @@ class ModsObjectFormTest(unittest.TestCase):
         instance = update_dates_form.update_instance()
         print instance.serialize()
         self.assert_(isinstance(instance, mods.OriginInfo))
+
 
 class XmlObjectFormTest(unittest.TestCase):
 
