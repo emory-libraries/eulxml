@@ -304,10 +304,6 @@ class TestModsOriginInfo(unittest.TestCase):
         self.origin_info.issued.append(mods.DateIssued(date='450'))
         self.assertFalse(self.origin_info.is_empty())
 
-        #testing when one date is filled and another gets deleted
-        self.origin_info.issued.append(mods.DateIssued(date=''))
-        self.assertTrue(self.origin_info.issued.is_empty())
-
 
 
     def test_not_empty_with_publisher(self):

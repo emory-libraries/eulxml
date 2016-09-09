@@ -30,6 +30,7 @@ from django.forms import ValidationError
 from django.forms.formsets import BaseFormSet
 
 from eulxml import xmlmap
+from eulxml.xmlmap import load_xmlobject_from_string, mods
 from eulxml.xmlmap.fields import DateTimeField     # not yet supported - testing for errors
 from eulxml.forms import XmlObjectForm, xmlobjectform_factory, SubformField
 from eulxml.forms.xmlobject import XmlObjectFormType, BaseXmlObjectListFieldFormSet, \
@@ -78,9 +79,36 @@ FIXTURE_TEXT = '''
         <text>la</text><text>fa</text>
     </foo>
 '''
+
+FIXTURE_MODS = '''
+    <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+    <mods:identifier type="dm1_id">150</mods:identifier>
+    <mods:identifier type="dm1_other">00000172</mods:identifier>
+    <mods:identifier type="ark">ark:/25593/bb6c5</mods:identifier>
+    <mods:identifier type="uri">http://pid.emory.edu/ark:/25593/bb6c5</mods:identifier>
+    <mods:titleInfo>
+    <mods:title>In the Fields 2</mods:title>
+    </mods:titleInfo>
+    <mods:note type="general">Recording studio: Audio Disc</mods:note>
+    <mods:typeOfResource>sound recording</mods:typeOfResource>
+    <mods:recordInfo>
+    <mods:recordChangeDate encoding="w3cdtf">2011-01-03T12:19:55.405157</mods:recordChangeDate>
+    <mods:recordCreationDate encoding="w3cdtf">2006-02-28T00:00:00</mods:recordCreationDate>
+    </mods:recordInfo>
+    <mods:originInfo>
+    <mods:dateIssued>2011-11-11</mods:dateIssued>
+    <mods:dateCreated>2012-01-01</mods:dateCreated>
+    </mods:originInfo>
+    </mods:mods>
+'''
+
 class TestForm(XmlObjectForm):
     class Meta:
         model = TestObject
+
+class TestModsForm(XmlObjectForm):
+    class Meta:
+        model = mods.MODS
 
 
 class XmlObjectFormTest(unittest.TestCase):
@@ -118,15 +146,52 @@ class XmlObjectFormTest(unittest.TestCase):
         'numbers-INITIAL_FORMS': 0,
         }
 
+    post_data_date = {
+        'child-id2': 'two',
+        'child-val': 2,
+        # include base form data so form will be valid
+        'longtext': 'completely new text content',
+        'int': 21,
+        'bool': False,
+        'date': '2010-01-01',
+        'id': 'b',
+        'my_opt': 'c',
+        'other_child-val': '0',
+        'other_child-id2': 'xyzzy',
+        'created': '2001-10-02',
+        'issued': '',
+         # children formset
+        'children-TOTAL_FORMS': 5,
+        'children-INITIAL_FORMS': 2,
+        'children-0-id2': 'two',
+        'children-0-val': 2,
+        'children-1-id2': 'twenty-one',
+        'children-1-val': 21,
+        'children-2-id2': 'five',
+        'children-2-val': 5,
+        'children-3-id2': 'four',
+        'children-3-val': 20,
+        # stringlist formset
+        'text-TOTAL_FORMS': 1,
+        'text-INITIAL_FORMS': 0,
+        'text-0-val': 'foo',
+        # integerlist formset
+        'numbers-TOTAL_FORMS': 0,
+        'numbers-INITIAL_FORMS': 0,
+        }
+
     def setUp(self):
         # instance of form with no test object
         self.new_form = TestForm()
         # instance of form with test object instance
         self.testobj = xmlmap.load_xmlobject_from_string(FIXTURE_TEXT, TestObject)
+        self.modsobj = load_xmlobject_from_string(FIXTURE_MODS, mods.MODS)
         self.update_form = TestForm(instance=self.testobj)
+        self.update_form_mods = TestModsForm(instance=self.modsobj)
 
     def tearDown(self):
         pass
+
 
     def test_simple_fields(self):
         # there should be a form field for each simple top-level xmlmap field
@@ -353,6 +418,13 @@ class XmlObjectFormTest(unittest.TestCase):
             "fourth field in xmlobject ('y') is fourth in form fields")
 
         # what happens to order on an xmlobject with inheritance?
+    def test_update_dates(self):
+        update_dates_form = TestModsForm(self.post_data_date, instance=self.modsobj)
+        # check that form is valid - if no errors, this populates cleaned_data
+        self.assertTrue(update_dates_form.is_valid())
+        instance = update_dates_form.update_instance()
+        print instance.serialize()
+        self.assert_(isinstance(instance, mods.MODS))
 
     def test_update_instance(self):
         # initialize data the same way a view processing a POST would
