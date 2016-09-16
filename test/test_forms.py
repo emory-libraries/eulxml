@@ -66,18 +66,6 @@ class TestObject(xmlmap.XmlObject):
     numbers = xmlmap.IntegerListField('number')
 
 
-
-class SimpleDateForm(XmlObjectForm):
-    """Custom :class:`~eulxml.forms.XmlObjectForm` to edit a MODS
-    :class:`~eulxml.xmlmap.mods.Date`.  Currently only allows editing the date
-    value itself, using a :class:`~eulcommon.djangoextras.formfields.W3CDateField`.
-    """
-    date = forms.CharField(required=False)
-    class Meta:
-        model = mods.Date
-        fields = ['date']
-
-
 FIXTURE_TEXT = '''
     <foo id='a'>
         <bar id='forty-two'>
@@ -92,14 +80,15 @@ FIXTURE_TEXT = '''
     </foo>
 '''
 
-FIXTURE_MODS = '''
-    <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
-    <mods:originInfo>
-    <mods:dateIssued>2011-11-11</mods:dateIssued>
-    <mods:dateCreated>2012-01-01</mods:dateCreated>
-    </mods:originInfo>
-    </mods:mods>
-'''
+class SimpleDateForm(XmlObjectForm):
+    """Custom :class:`~eulxml.forms.XmlObjectForm` to edit a MODS
+    :class:`~eulxml.xmlmap.mods.Date`.  Currently only allows editing the date
+    value itself, using a :class:`~eulcommon.djangoextras.formfields.W3CDateField`.
+    """
+    date = forms.CharField(required=False)
+    class Meta:
+        model = mods.Date
+        fields = ['date']
 
 class TestForm(XmlObjectForm):
     class Meta:
@@ -123,41 +112,38 @@ class TestModsForm(XmlObjectForm):
         
 class ModsObjectFormTest(unittest.TestCase):
 
+    FIXTURE_MODS = '''
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+        <mods:originInfo>
+        <mods:dateIssued>2011</mods:dateIssued>
+        <mods:dateCreated>2012</mods:dateCreated>
+        </mods:originInfo>
+        </mods:mods>
+    '''
+
     post_data_date = {
-        'collection_0': 'self.rushdie.uri',
-        'collection_1': 'self.rushdie.label',
-        'mods-title': u'new title \u2026',
-        'mods-note-label': 'a general note',
-        #'mods-general_note-text': u'remember to ... with some unicode \u1f05',
-        'mods-general_note-text': u'remember to',
-        'mods-part_note-text': 'side A',
-        'mods-resource_type': 'sound recording',
         # 'management' form data is required for django to process formsets/subforms
         'origin_info-issued-INITIAL_FORMS': '0',
         'origin_info-issued-TOTAL_FORMS': '1',
         'origin_info-issued-MAX_NUM_FORMS': '',
-        'origin_info-issued-0-date_year': '2010',
-        'origin_info-issued-0-date_month': '01',
-        'origin_info-issued-0-date_day': '11',
+        'origin_info-issued-0-date': '2010',
         'origin_info-created-INITIAL_FORMS': '0',
         'origin_info-created-TOTAL_FORMS': '1',
         'origin_info-created-MAX_NUM_FORMS': '',
-        'origin_info-created-0-date_year': '2011',
-        'origin_info-created-0-date_month': '05',
+        'origin_info-created-0-date': '2011',
+        
         }
 
     def setUp(self):
         # instance of form with test object instance
-        self.origin_info = mods.OriginInfo()
-        self.modsobj = load_xmlobject_from_string(FIXTURE_MODS, mods.OriginInfo)
-        print mods.OriginInfo
+        self.modsobj = load_xmlobject_from_string(self.FIXTURE_MODS, mods.OriginInfo)
 
     def tearDown(self):
         pass
 
     def test_update_dates(self):
         update_dates_form = TestModsForm(self.post_data_date, instance=self.modsobj)
-        print update_dates_form
+        # print update_dates_form
         # check that form is valid - if no errors, this populates cleaned_data
         self.assertTrue(update_dates_form.is_valid())
         instance = update_dates_form.update_instance()
@@ -207,7 +193,6 @@ class XmlObjectFormTest(unittest.TestCase):
         self.new_form = TestForm()
         # instance of form with test object instance
         self.testobj = xmlmap.load_xmlobject_from_string(FIXTURE_TEXT, TestObject)
-        self.modsobj = load_xmlobject_from_string(FIXTURE_MODS, mods.MODS)
         self.update_form = TestForm(instance=self.testobj)
 
     def tearDown(self):
