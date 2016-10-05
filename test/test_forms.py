@@ -87,7 +87,7 @@ class SimpleDateForm(XmlObjectForm):
     """
     date = forms.CharField(required=False)
     class Meta:
-        model = mods.Date
+        model = mods.OriginInfo
         fields = ['date']
 
 class TestForm(XmlObjectForm):
@@ -106,6 +106,9 @@ class TestModsForm(XmlObjectForm):
     issued = SubformField(formclass=xmlobjectform_factory(mods.DateIssued,
                             form=SimpleDateForm, max_num=1, can_delete=False),
                           label='Date Issued')
+    # created = SubformField(formclass=SimpleDateForm)
+    # issued = SubformField(formclass=SimpleDateForm,
+    #                       label='Date Issued')
     class Meta:
         model = mods.OriginInfo
         fields = ['created', 'issued']
@@ -123,14 +126,16 @@ class ModsObjectFormTest(unittest.TestCase):
 
     post_data_date = {
         # 'management' form data is required for django to process formsets/subforms
-        'origin_info-issued-INITIAL_FORMS': '0',
-        'origin_info-issued-TOTAL_FORMS': '1',
-        'origin_info-issued-MAX_NUM_FORMS': '',
-        'origin_info-issued-0-date': '2010',
-        'origin_info-created-INITIAL_FORMS': '0',
-        'origin_info-created-TOTAL_FORMS': '1',
-        'origin_info-created-MAX_NUM_FORMS': '',
-        'origin_info-created-0-date': '2011',
+        'issued-INITIAL_FORMS': '1',
+        'issued-TOTAL_FORMS': '1',
+        'issued-MAX_NUM_FORMS': '1',
+        'issued-MIN_NUM_FORMS': '0',
+        'issued-0-date': '2222',
+        'created-INITIAL_FORMS': '1',
+        'created-MIN_NUM_FORMS': '0',
+        'created-TOTAL_FORMS': '1',
+        'created-MAX_NUM_FORMS': '1',
+        'created-0-date': '2222',
         
         }
 
@@ -143,11 +148,9 @@ class ModsObjectFormTest(unittest.TestCase):
 
     def test_update_dates(self):
         update_dates_form = TestModsForm(self.post_data_date, instance=self.modsobj)
-        # print update_dates_form
         # check that form is valid - if no errors, this populates cleaned_data
         self.assertTrue(update_dates_form.is_valid())
         instance = update_dates_form.update_instance()
-        print instance.serialize()
         self.assert_(isinstance(instance, mods.OriginInfo))
 
 
