@@ -134,16 +134,16 @@ if lexer is None:
 lexer.__class__ = LexerWrapper
 lexer.last = None
 
-# build the parser. This will generate a parsetab.py in the eulxml.xpath
-# directory. Unlike lex, though, this just logs a complaint when it fails
-# (contrast lex's explosion). Other than that, it's much less exciting
-# than the lexer wackiness.
+# build the parser with cached table generation. This will generate a
+# parsetab.py in the eulxml.xpath directory. Unlike lex, though, this
+# just logs a complaint when it fails (contrast lex's explosion). Other
+# than that, it's much less exciting than the lexer wackiness.
 parsedir = os.path.dirname(parserules.__file__)
 # By default, store generated parse files with the code
 # If we don't have write permission, put them in the configured tempdir
 if (not os.access(parsedir, os.W_OK)):
     parsedir = tempfile.gettempdir()
-parser = yacc.yacc(module=parserules, outputdir=parsedir, debug=0)
+parser = yacc.yacc(module=parserules, outputdir=parsedir, debug=0, optimize=1)
 
 
 def parse(xpath):
