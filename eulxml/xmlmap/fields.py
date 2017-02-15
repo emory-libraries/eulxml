@@ -423,8 +423,7 @@ def _set_in_xml(node, val, context, step):
 
         # otherwise, treat it as an attribute
         else:
-            attribute, node_xpath, nsmap = _get_attribute_name(step, context)
-            node.getparent().set(attribute, val)
+            node.getparent().set(node.attrname, val)
 
 
 def _remove_xml(xast, node, context, if_empty=False):
