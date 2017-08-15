@@ -26,6 +26,7 @@ eulxml.xpath, not directly from here."""
 
 from __future__ import unicode_literals
 import os
+import sys
 import re
 from ply import lex, yacc
 import tempfile
@@ -120,15 +121,20 @@ class LexerWrapper(lex.Lexer):
 # try again without lex table generation.
 lexdir = os.path.dirname(lexrules.__file__)
 lexer = None
+
+if sys.version_info >= (3,6,0):
+    reflags = int(re.UNICODE)
+else:
+    reflags = re.UNICODE
 try:
     lexer = lex.lex(module=lexrules, optimize=1, outputdir=lexdir,
-        reflags=re.UNICODE)
+        reflags=reflags)
 except IOError as e:
     import errno
     if e.errno != errno.EACCES:
         raise
 if lexer is None:
-    lexer = lex.lex(module=lexrules, reflags=re.UNICODE)
+    lexer = lex.lex(module=lexrules, reflags=reflags)
 # then dynamically rewrite the lexer class to use the wonky override logic
 # above
 lexer.__class__ = LexerWrapper
