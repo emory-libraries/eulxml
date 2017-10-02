@@ -258,6 +258,8 @@ class Component(_EadBase):
     "processing infomration :class:`Section` - `processinfo`"
     arrangement = xmlmap.NodeField("e:arrangement", Section)
     "arrangement :class:`Section` - `arrangement`"
+    appraisal = xmlmap.NodeField("e:appraisal", Section)
+    "appraisal :class:`Section` - `appraisal`"
     other = xmlmap.NodeField("e:otherfindaid", Section)
     "other finding aid :class:`Section` - `otherfindaid`"
     use_restriction = xmlmap.NodeField("e:userestrict", Section)
