@@ -410,6 +410,8 @@ class ArchivalDescription(_EadBase):
     "processing information :class:`Section` - `processinfo`"
     arrangement = xmlmap.NodeField("e:arrangement", Section)
     "arrangement :class:`Section` - `arrangement`"
+    appraisal = xmlmap.NodeField("e:appraisal", Section)
+    "appraisal :class:`Section` - `appraisal`"
     other = xmlmap.NodeField("e:otherfindaid", Section)
     "other finding aid :class:`Section` - `otherfindaid`"
     controlaccess = xmlmap.NodeField("e:controlaccess", ControlledAccessHeadings)
