@@ -132,7 +132,8 @@ setup(
     packages=find_packages(),
 
     setup_requires=[
-        'ply>=3.8',
+        'ply>=3.8,<3.10;python_version<="2.7"',
+        'ply>=3.8;python_version>="3.0"',
     ],
     install_requires=[
         'ply>=3.8',
