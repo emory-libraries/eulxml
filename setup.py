@@ -100,7 +100,7 @@ except:
 dev_requirements = [
     'sphinx>=1.3.5',
     'coverage',
-    'Django<1.9',
+    'Django<4',
     'rdflib>=3.0',
     'mock',
     'nose',
@@ -140,7 +140,7 @@ setup(
         'six>=1.10',
     ],
     extras_require={
-        'django': ['Django<1.9'],
+        'django': ['Django<4'],
         'rdf': ['rdflib>=3.0'],
         'dev': dev_requirements
     },
