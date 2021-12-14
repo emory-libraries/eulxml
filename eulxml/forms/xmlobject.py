@@ -24,10 +24,10 @@ from string import capwords
 from django.forms import BaseForm, CharField, IntegerField, BooleanField, \
         ChoiceField, Field, Form, DateField
 from django.forms.forms import NON_FIELD_ERRORS
-from django.forms.forms import get_declared_fields
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.models import ModelFormOptions
-from django.utils.datastructures  import SortedDict
+from django.forms.fields import Field
+from collections import OrderedDict as SortedDict
 from django.utils.safestring  import mark_safe
 import six
 
@@ -366,7 +366,12 @@ class XmlObjectFormType(type):
     """
     def __new__(cls, name, bases, attrs):
         # let django do all the work of finding declared/inherited fields
-        tmp_fields = get_declared_fields(bases, attrs, with_base_fields=False)
+	fields = [(field_name, attrs.pop(field_name)) for field_name, obj in list(six.iteritems(attrs)) if isinstance(obj, Field)]
+	fields.sort(key=lambda x: x[1].creation_counter)
+	for base in bases[::-1]:
+		if hasattr(base, 'declared_fields'):
+			fields = list(six.iteritems(base.declared_fields)) + fields
+        tmp_fields = SortedDict(fields)
         declared_fields = {}
         declared_subforms = {}
         declared_subform_labels = {}
