@@ -366,11 +366,11 @@ class XmlObjectFormType(type):
     """
     def __new__(cls, name, bases, attrs):
         # let django do all the work of finding declared/inherited fields
-	    fields = [(field_name, attrs.pop(field_name)) for field_name, obj in list(six.iteritems(attrs)) if isinstance(obj, Field)]
-	    fields.sort(key=lambda x: x[1].creation_counter)
-	    for base in bases[::-1]:
-		    if hasattr(base, 'declared_fields'):
-			    fields = list(six.iteritems(base.declared_fields)) + fields
+        fields = [(field_name, attrs.pop(field_name)) for field_name, obj in list(six.iteritems(attrs)) if isinstance(obj, Field)]
+        fields.sort(key=lambda x: x[1].creation_counter)
+        for base in bases[::-1]:
+                if hasattr(base, 'declared_fields'):
+                        fields = list(six.iteritems(base.declared_fields)) + fields
         tmp_fields = SortedDict(fields)
         declared_fields = {}
         declared_subforms = {}
