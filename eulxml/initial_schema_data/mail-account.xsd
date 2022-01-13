@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
+  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" version="XHTML+RDFa 1.0" dir="ltr"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:sioct="http://rdfs.org/sioc/types#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <!--[if IE]><![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="apple-touch-icon" href="/apple-icon-144x144.png" sizes="144x144" />
+<link rel="apple-touch-icon" href="/apple-icon-120x120.png" sizes="120x120" />
+<link rel="apple-touch-icon" href="/apple-icon-152x152.png" sizes="152x152" />
+<link rel="apple-touch-icon" href="/apple-icon-180x180.png" sizes="180x180" />
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" href="/favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="/apple-icon-114x114.png" sizes="114x114" />
+<link rel="apple-touch-icon" href="/apple-icon-72x72.png" sizes="72x72" />
+<link rel="apple-touch-icon" href="/apple-icon-76x76.png" sizes="76x76" />
+<link rel="apple-touch-icon" href="/apple-icon-57x57.png" sizes="57x57" />
+<link rel="apple-touch-icon" href="/apple-icon-60x60.png" sizes="60x60" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://archives.ncdcr.gov/" />
+<link rel="shortlink" href="https://archives.ncdcr.gov/" />
+  <meta http-equiv="cleartype" content="on">
+  <title>NC Archives: 404 Page Not Found</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <style type="text/css" media="all">
+@import url("//archives.ncdcr.gov/modules/system/system.base.css?p92uwm");
+@import url("//archives.ncdcr.gov/modules/system/system.menus.css?p92uwm");
+@import url("//archives.ncdcr.gov/modules/system/system.theme.css?p92uwm");
+</style>
+<style type="text/css" media="all">
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.core.min.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.theme.min.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.menu.min.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.autocomplete.min.css?p92uwm");
+</style>
+<style type="text/css" media="all">
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/comment_notify/comment_notify.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/ldap/ldap_user/ldap_user.css?p92uwm");
+@import url("//archives.ncdcr.gov/modules/comment/comment.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/date/date_api/date.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/date/date_popup/themes/datepicker.1.7.css?p92uwm");
+@import url("//archives.ncdcr.gov/modules/field/theme/field.css?p92uwm");
+@import url("//archives.ncdcr.gov/modules/node/node.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/picture/picture_wysiwyg.css?p92uwm");
+@import url("//archives.ncdcr.gov/modules/user/user.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/video_filter/video_filter.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/extlink/extlink.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/views/css/views.css?p92uwm");
+</style>
+<style type="text/css" media="all">
+@import url("//archives.ncdcr.gov/sites/all/modules/colorbox/styles/default/colorbox_style.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/ctools/css/ctools.css?p92uwm");
+@import url("//archives.ncdcr.gov/sites/all/modules/contrib/ldap/ldap_servers/ldap_servers.admin.css?p92uwm");
+@import url("//archives.ncdcr.gov/profiles/openpublic/modules/contrib/panels/css/panels.css?p92uwm");
+</style>
+<style type="text/css" media="all">
+@import url("//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/css/contextual-links.css?p92uwm");
+</style>
+<style type="text/css" media="print">
+@import url("//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/css/print.css?p92uwm");
+</style>
+<link type="text/css" rel="stylesheet" href="//archives.ncdcr.gov/profiles/nc_site/themes/nc_site_child_theme/css/ncgov-theme-accent-turquoise.css?p92uwm" media="all" />
+  <!--[if IE 8]><script src="profiles/nc_site/themes/nc_site_child_theme/js/libs/EventListener.js"></script><![endif]-->
+  <!--[if IE 8]><script src="profiles/nc_site/themes/nc_site_child_theme/js/libs/selectivizr-min.js"></script><![endif]-->
+  <script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/jquery/1.10/jquery.min.js?v=1.10.2"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.migrateMute = true; jQuery.migrateTrace = false;
+//--><!]]>
+</script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/jquery-migrate/1.2.1/jquery-migrate.min.js?v=1.2.1"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/misc/jquery.once.js?v=1.2"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/misc/drupal.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.core.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.widget.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.position.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.menu.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.autocomplete.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jquery_update/replace/ui/external/jquery.cookie.js?v=67fb34f6a866c40d0570"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/modules/custom/nc_extlink/nc_extlink.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/comment_notify/comment_notify.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/extlink/extlink.js?p92uwm"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+document.createElement( "picture" );
+//--><!]]>
+</script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/openpublic/libraries/colorbox/jquery.colorbox-min.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/colorbox/js/colorbox.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/colorbox/styles/default/colorbox_style.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/colorbox/js/colorbox_load.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/jcaption/jcaption.js?p92uwm"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.CKEDITOR_BASEPATH = '/sites/all/libraries/ckeditor/'
+//--><!]]>
+</script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/google_analytics/googleanalytics.js?p92uwm"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create", "UA-42641527-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("set", "page", "/404.html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);ga("send", "pageview");
+//--><!]]>
+</script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/field_group/field_group.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/libs/match.media.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/enquire.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.autosize.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.easing.1.3.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.fitvids.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.magnific-popup.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.maskedinput.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/libs/modernizr.custom.min.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/libs/respond.src.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/scrollmagic.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.overflow.menu.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.matchHeight.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/script.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/abt.anchor.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.ui.accordion.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.ui.tabs.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/abt.accordion.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/abt.ajaxErrorScroll.js?p92uwm"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"nc_site_child_theme","theme_token":"UaNF95yb21nHcxwvLIRmFur-7dmzTwo-v0aTW-NxFX8","js":{"sites\/all\/modules\/contrib\/picture\/picturefill2\/picturefill.min.js":1,"sites\/all\/modules\/contrib\/picture\/picture.min.js":1,"profiles\/north_carolina\/modules\/apps\/nc_alerts\/js\/nc_alerts_handler.js":1,"profiles\/north_carolina\/modules\/apps\/nc_alerts\/js\/nc_alerts.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/owl.carousel.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/1.10\/jquery.min.js":1,"0":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery-migrate\/1.2.1\/jquery-migrate.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.core.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.widget.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.position.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.menu.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.autocomplete.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"profiles\/north_carolina\/modules\/custom\/nc_extlink\/nc_extlink.js":1,"sites\/all\/modules\/contrib\/comment_notify\/comment_notify.js":1,"sites\/all\/modules\/contrib\/extlink\/extlink.js":1,"1":1,"profiles\/openpublic\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/colorbox\/styles\/default\/colorbox_style.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox_load.js":1,"sites\/all\/modules\/contrib\/jcaption\/jcaption.js":1,"2":1,"sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"3":1,"sites\/all\/modules\/contrib\/field_group\/field_group.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/libs\/match.media.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/enquire.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.autosize.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.easing.1.3.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.fitvids.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.magnific-popup.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.maskedinput.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/libs\/modernizr.custom.min.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/libs\/respond.src.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/scrollmagic.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.overflow.menu.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.matchHeight.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/script.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/abt.anchor.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.ui.accordion.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.ui.tabs.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/abt.accordion.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/abt.ajaxErrorScroll.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.theme.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.menu.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"sites\/all\/modules\/contrib\/comment_notify\/comment_notify.css":1,"sites\/all\/modules\/contrib\/ldap\/ldap_user\/ldap_user.css":1,"modules\/comment\/comment.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/picture\/picture_wysiwyg.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/contrib\/video_filter\/video_filter.css":1,"sites\/all\/modules\/contrib\/extlink\/extlink.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/colorbox\/styles\/default\/colorbox_style.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contrib\/ldap\/ldap_servers\/ldap_servers.admin.css":1,"profiles\/openpublic\/modules\/contrib\/panels\/css\/panels.css":1,"profiles\/north_carolina\/themes\/nc_base_theme\/css\/contextual-links.css":1,"profiles\/north_carolina\/themes\/nc_base_theme\/css\/print.css":1,"profiles\/nc_site\/themes\/nc_site_child_theme\/css\/ncgov-theme-accent-turquoise.css":1}},"colorbox":{"opacity":"0.85","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"jcaption":{"jcaption_selectors":["img.caption"],"jcaption_alt_title":"title","jcaption_requireText":1,"jcaption_copyStyle":0,"jcaption_removeStyle":0,"jcaption_removeClass":1,"jcaption_removeAlign":1,"jcaption_copyAlignmentToClass":1,"jcaption_copyFloatToClass":1,"jcaption_copyClassToClass":1,"jcaption_autoWidth":1,"jcaption_keepLink":0,"jcaption_styleMarkup":"","jcaption_animate":0,"jcaption_showDuration":"200","jcaption_hideDuration":"200"},"extlink":{"extTarget":"_blank","extClass":"ext","extLabel":"(link is external)","extImgClass":0,"extSubdomains":1,"extExclude":"","extInclude":"","extCssExclude":"nav, .social-links","extCssExplicit":"","extAlert":0,"extAlertText":"This link will take you to an external web site.","mailtoClass":0,"mailtoLabel":"(link sends e-mail)"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackColorbox":1},"urlIsAjaxTrusted":{"\/mail-account":true},"nc_alerts":{"options":{"transitionStyle":"goDown","navigation":true,"slideSpeed":500,"paginationSpeed":500,"singleItem":true,"mouseDrag":false,"callbacks":true,"addClassActive":true,"autoHeight":true,"navigationText":["\u003Ci class=\u0022icon-chevron-left\u0022\u003E\u003C\/i\u003E","\u003Ci class=\u0022icon-chevron-right\u0022\u003E\u003C\/i\u003E"]}},"currentUser":0,"field_group":{"div":"full"}});
+//--><!]]>
+</script>
+</head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-3 node-type-landing-page i18n-en footer-columns enterprise-core-white" >
+<!--[if lt IE 9]>
+<div class="alert-box breaking outdated-browser">
+  <h3>Did you know that your browser is out of date?</h3>
+  <p>Your browser is out of date and may not be able to properly display our website. <a href="http://outdatedbrowser.com/" title="Outdated Browser">Update my browser now</a> to experience this site.</p>
+</div>
+<![endif]-->
+<div id="skip-link">
+  <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+</div>
+  <div id="page-wrapper"><div id="page">
+
+    <div id="header" class="header-container no-alerts">
+      <header class="group">
+                <div class="utility-wrapper wrapper">
+          <div class="header-search">
+            <div class="search">
+                              <form action="/mail-account" method="post" id="nc-search-block-form" accept-charset="UTF-8"><label for="nc_search_block_form" class="visuallyhidden">Search NC.gov</label>
+<input type="search" placeholder="Search..." name="nc_search_block_form" id="nc_search_block_form" />
+<input type="submit" value="Submit" /><span class="icon-search" aria-hidden="true"></span>
+<input type="hidden" name="form_build_id" value="form-cOgTMZRbLWaGCKb--WzPUFpYsFIZck6RaGxqW_NdfFc" />
+<input type="hidden" name="form_id" value="nc_search_block_form" />
+</form>                          </div>
+          </div>
+        </div>
+                  <style>
+    @media screen and (max-width: 1023px) {
+      .topical-nav ul li.home a {
+        background-image: url(https://files.nc.gov/dncr-archives/state-archives-logo.svg);
+      }
+      .mobile-nav div img,
+      .mobile-nav div svg {
+        display: none;
+      }
+    }
+    @media screen and (min-width: 1024px) {
+      .mobile-nav div {
+        max-width: 300px;
+        height: auto;
+        max-height: 60px;
+      }
+      .mobile-nav div img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .mobile-nav div svg {
+        display: block;
+        max-height: 100%;
+        height: auto;
+      }
+      .mobile-nav div a,
+      .mobile-nav h1 a {
+        background-image: none;
+        height: 60px;
+        width: auto;
+        text-align: left;
+      }
+      .mobile-nav .site-title-mobile {
+        display: none;
+      }
+      .menu-container {
+        padding-top: 100px;
+      }
+      .enterprise-nav {
+        height: 100px;
+      }
+      .enterprise-nav ul li a {
+        line-height: 90px;
+      }
+      .header-container .alert-widget {
+        top: 20px;
+      }
+      .header-search {
+        top: 30px;
+      }
+      .enterprise-nav ul li:last-child {
+        margin-right: 70px;
+      }
+    }
+    @media print {
+      .enterprise-core-dark .mobile-nav div a {
+        background: none !important;
+      }
+    }
+  </style>
+<div class="mobile-nav">
+  <button class="flyout-trigger open-trigger"><span class="icon-dehaze" aria-hidden="true"></span><span> Menu</span></button>
+  <div class="site-title">
+    <a href="/" rel="home" title="NC Archives">
+      <svg preserveAspectRatio="xMinYMid" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 266.44 57.01"><defs><linearGradient id="linear-gradient" x1="219.96" y1="-94.48" x2="219.96" y2="-24.08" gradientTransform="translate(-166.85 -87.21) rotate(45)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f15a29"/><stop offset="0.08" stop-color="#f15d2d"/><stop offset="0.15" stop-color="#f26638"/><stop offset="0.22" stop-color="#f3754b"/><stop offset="0.29" stop-color="#f58966"/><stop offset="0.36" stop-color="#f7a489"/><stop offset="0.42" stop-color="#fac5b4"/><stop offset="0.49" stop-color="#fdebe5"/><stop offset="0.52" stop-color="#fff"/><stop offset="0.57" stop-color="#edd4d4"/><stop offset="0.62" stop-color="#d8a4a5"/><stop offset="0.68" stop-color="#c77a7c"/><stop offset="0.74" stop-color="#b8595b"/><stop offset="0.8" stop-color="#ad3e41"/><stop offset="0.87" stop-color="#a52c2f"/><stop offset="0.93" stop-color="#a12124"/><stop offset="1" stop-color="#9f1d20"/></linearGradient><linearGradient id="linear-gradient-2" x1="188.32" y1="-56.47" x2="251.6" y2="-56.47" gradientTransform="translate(-166.85 -87.21) rotate(45)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2bb673"/><stop offset="0.09" stop-color="#2eb775"/><stop offset="0.16" stop-color="#38bb7c"/><stop offset="0.23" stop-color="#49c087"/><stop offset="0.29" stop-color="#61c997"/><stop offset="0.35" stop-color="#80d3ab"/><stop offset="0.41" stop-color="#a6e0c4"/><stop offset="0.46" stop-color="#d1efe1"/><stop offset="0.51" stop-color="#fff"/><stop offset="0.54" stop-color="#e0e9ee"/><stop offset="0.6" stop-color="#b4cbd6"/><stop offset="0.65" stop-color="#8fb2c1"/><stop offset="0.71" stop-color="#709db0"/><stop offset="0.77" stop-color="#598da3"/><stop offset="0.84" stop-color="#48819a"/><stop offset="0.91" stop-color="#3e7a95"/><stop offset="1" stop-color="#3b7893"/></linearGradient><linearGradient id="linear-gradient-3" x1="13.65" y1="38.77" x2="24.33" y2="38.77" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#99aebf"/><stop offset="1" stop-color="#231f20" stop-opacity="0"/></linearGradient><linearGradient id="linear-gradient-4" x1="-92.47" y1="2.19" x2="-81.79" y2="2.19" gradientTransform="translate(-48.07 19.97) rotate(180)" xlink:href="#linear-gradient-3"/><linearGradient id="linear-gradient-5" x1="-91.34" y1="54.84" x2="-80.66" y2="54.84" gradientTransform="translate(-46.48 94.07) rotate(180)" xlink:href="#linear-gradient-3"/><linearGradient id="linear-gradient-6" x1="13.54" y1="18.59" x2="24.21" y2="18.59" xlink:href="#linear-gradient-3"/></defs><title>State-Archives-Logo</title><path d="M30.6,30C39,29.61,46.68,29,50.92,24.8c7.81-7.81,5.59-12.73,2-16.8A2.95,2.95,0,0,1,49,4.06C47,2.12,44.91.6,42.43.14c-3.51-.65-7,.95-11.13,5S27,17.69,27.07,26.61c-8.18.36-16.36,1-20.75,5.36C2.18,36.11.5,39.6,1,42.94a11.75,11.75,0,0,0,3.29,5.86,2.95,2.95,0,0,1,3.85,3.9c1.86,1.84,4.13,3.83,6.94,4.23,3.28.45,6.72-1.24,10.82-5.34C30.45,47.08,30.66,38.19,30.6,30ZM33.77,7.65C40.43,1,43.26,3.2,48.08,8c2.11,2.11,4.11,4.11,4.53,6.22s-.92,4.84-4.16,8.08S37.9,26.15,30.57,26.47C30.5,18.66,30.58,10.84,33.77,7.65ZM10,49.57l-.82-.82-.53-.53C6.4,46,4.81,44.27,4.5,42.39c-.34-2.11,1.06-4.71,4.29-7.94,3.45-3.45,10.85-4,18.31-4.33.05,7.5-.13,15.51-3.63,19C16.5,56.09,14,53.63,10,49.57Z" fill="url(#linear-gradient)"/><path d="M27,30.38c.36,8.35.93,16.08,5.17,20.32,7.81,7.81,12.73,5.59,16.8,2a2.95,2.95,0,0,1,3.94-3.88c1.94-2.07,3.46-4.11,3.92-6.59.65-3.51-.95-7-5-11.13s-12.52-4.31-21.44-4.23C30,18.67,29.43,10.49,25,6.1,20.9,2,17.41.28,14.06.83A11.75,11.75,0,0,0,8.2,4.12,2.95,2.95,0,0,1,4.3,8C2.46,9.83.46,12.09.07,14.91c-.45,3.28,1.24,6.71,5.34,10.81C9.92,30.23,18.81,30.44,27,30.38Zm22.32,3.17C56,40.21,53.81,43,49,47.86,46.87,50,44.88,52,42.76,52.39s-4.84-.92-8.08-4.16-3.82-10.55-4.14-17.88C38.35,30.28,46.17,30.36,49.36,33.55ZM7.44,9.76l.82-.82.54-.54C11,6.19,12.74,4.59,14.62,4.28c2.11-.34,4.71,1.06,7.94,4.29,3.45,3.45,4,10.85,4.33,18.31-7.5.05-15.51-.13-19-3.63C.92,16.28,3.37,13.83,7.44,9.76Z" opacity="0.8" fill="url(#linear-gradient-2)"/><path d="M78.2,22.53a3.86,3.86,0,0,1-2,3.46,7.47,7.47,0,0,1-4,1.07,12.78,12.78,0,0,1-5.07-1.17L66.8,26h-.21l.1-3.17a.47.47,0,0,1,.21,0,.25.25,0,0,1,.21.1,3.79,3.79,0,0,0,1.83,2.64,5.88,5.88,0,0,0,3.19.88,5.23,5.23,0,0,0,2.79-.71,2.68,2.68,0,0,0,1.36-2.38q0-2.29-4-3.59Q67,18,67,15.22a3.37,3.37,0,0,1,1.83-3.07,7,7,0,0,1,3.64-.9,10.73,10.73,0,0,1,4.45,1l.24-.12h.21l-.12,2.64a.3.3,0,0,1-.17.12s-.1,0-.17-.12A3.68,3.68,0,0,0,75,12.54a5.74,5.74,0,0,0-2.88-.74,3.8,3.8,0,0,0-2.26.64,2.34,2.34,0,0,0-1,2q0,2.12,4.52,3.55Q78.2,19.52,78.2,22.53Z" fill="#3b7893"/><path d="M87.56,23.72A3,3,0,0,0,88,25.64a2.75,2.75,0,0,0,1.83.7l.1.17-.17.17H83.32l-.17-.17.1-.17a2.75,2.75,0,0,0,1.83-.7,3,3,0,0,0,.48-1.92V12.82a8.29,8.29,0,0,0-2.88-.43,3.25,3.25,0,0,0-3.4,2.43l-.38,0,.57-3.4h.26q0,.21.38.21H93q.33,0,.38-.21h.26l.57,3.4-.33,0a3.36,3.36,0,0,0-3.45-2.48,8.21,8.21,0,0,0-2.86.43Z" fill="#3b7893"/><path d="M109.62,26.34l0,.17-.1.17h-5.67l-.1-.17,0-.17q1.52-.12,1.57-.71l0-.31a2.86,2.86,0,0,0-.27-1.17l-1.88-4.45H97.87l-1.65,3.83a4.47,4.47,0,0,0-.45,1.57q0,1,1.69,1.24l0,.17-.1.17H92.7l-.1-.17,0-.17Q94.1,26,95.2,23.56l5-11.33.1-.67.12-.21a1.89,1.89,0,0,1,.5-.07h.14a3.16,3.16,0,0,1,.67.07l.33.62,5.33,12.28Q108.27,26.25,109.62,26.34ZM103,18.89l-2.42-5.45L98.2,18.89Z" fill="#3b7893"/><path d="M116.65,23.72a3,3,0,0,0,.48,1.92,2.75,2.75,0,0,0,1.83.7l.1.17-.17.17h-6.47l-.17-.17.1-.17a2.75,2.75,0,0,0,1.83-.7,3,3,0,0,0,.48-1.92V12.82a8.29,8.29,0,0,0-2.88-.43,3.25,3.25,0,0,0-3.4,2.43l-.38,0,.57-3.4h.26q0,.21.38.21h12.88q.33,0,.38-.21h.26l.57,3.4-.33,0a3.36,3.36,0,0,0-3.45-2.48,8.21,8.21,0,0,0-2.86.43Z" fill="#3b7893"/><path d="M123.69,26.67l-.17-.17.1-.17a2.75,2.75,0,0,0,1.83-.7,3,3,0,0,0,.48-1.92V14.58a3.84,3.84,0,0,0-.29-1.76,1.9,1.9,0,0,0-1.5-.86L124,11.8l.14-.17h12.14l.5,3.14a.25.25,0,0,1-.17.1l-.19,0-.1-.14q-.81-2.33-3.83-2.33h-4.38c-.16,0-.24,0-.24,0v6h3.59q2.79,0,3.28-1.69a.43.43,0,0,1,.19-.12l.21,0V21l-.38-.07q-.55-1.79-3.31-1.79h-3.59v4.78a2.45,2.45,0,0,0,.33,1.5,1.7,1.7,0,0,0,1.43.5h2.88q3.62,0,4.86-2.52l.1-.12c.22,0,.34,0,.36.1l-.67,3.28Z" fill="#3b7893"/><path d="M161.42,26.34l0,.17-.09.17h-5.67l-.1-.17,0-.17q1.52-.12,1.57-.71l0-.31a2.85,2.85,0,0,0-.27-1.17L155.1,19.7h-5.44L148,23.53a4.46,4.46,0,0,0-.45,1.57q0,1,1.69,1.24l0,.17-.1.17H144.5l-.1-.17,0-.17Q145.9,26,147,23.56l5-11.33.09-.67.12-.21a1.89,1.89,0,0,1,.5-.07h.14a3.17,3.17,0,0,1,.67.07l.33.62,5.33,12.28Q160.06,26.25,161.42,26.34Zm-6.59-7.45-2.42-5.45L150,18.89Z" fill="#3b7893"/><path d="M166.32,19.72v4a3.47,3.47,0,0,0,.36,1.83,2.16,2.16,0,0,0,1.64.78l.09.17-.14.17h-5.86l-.14-.17.1-.17a2.07,2.07,0,0,0,1.59-.81,3.45,3.45,0,0,0,.36-1.81V14.58a3.92,3.92,0,0,0-.29-1.76,1.9,1.9,0,0,0-1.5-.86l-.09-.17.14-.17,2.74-.1,4,0a11.37,11.37,0,0,1,4.36.69,3.39,3.39,0,0,1,2.45,3.26q0,3.14-4.31,3.88a6.31,6.31,0,0,1,2.43,1.45,12.05,12.05,0,0,1,1.5,2,13.11,13.11,0,0,0,1.48,2.07,4.47,4.47,0,0,0,3,1.59.26.26,0,0,1,0,.14.39.39,0,0,1,0,.21h-1.33c-.16,0-.26-.11-.31-.33a7.15,7.15,0,0,1-2.29-.29,4.47,4.47,0,0,1-1.83-1.33q-.4-.76-1.26-2.29a5.18,5.18,0,0,0-3.88-2.86Zm0-.5h3q4.5,0,4.5-3.65T169.49,12h-3.17Z" fill="#3b7893"/><path d="M180.49,19.06a7.56,7.56,0,0,0,1.83,5.17A6.72,6.72,0,0,0,193.22,23l.57.9a10.55,10.55,0,0,1-.83,1.93l-.26,0A11.55,11.55,0,0,1,187,27.05a9.47,9.47,0,0,1-6.24-2,7.15,7.15,0,0,1-2.67-5.86,7.16,7.16,0,0,1,2.76-5.88,9.81,9.81,0,0,1,6.31-2,11.52,11.52,0,0,1,5.67,1.48l.24-.07h.19l-.19,2.81a.26.26,0,0,1-.17.09.56.56,0,0,1-.26-.12q-1.36-3.59-5.52-3.59a6.21,6.21,0,0,0-5,2A7.57,7.57,0,0,0,180.49,19.06Z" fill="#3b7893"/><path d="M196.77,14.58a4.69,4.69,0,0,0-.21-1.69,1.6,1.6,0,0,0-1.31-.93l-.07-.17.12-.17h5.14l.12.17-.07.17a1.8,1.8,0,0,0-1.45.86,4.14,4.14,0,0,0-.26,1.76v3.88h9.83V14.58a3.73,3.73,0,0,0-.31-1.79,1.89,1.89,0,0,0-1.55-.83l-.09-.17.14-.17h5.38l.12.17-.07.17a1.71,1.71,0,0,0-1.38.9,4.34,4.34,0,0,0-.24,1.71v9.14a4.16,4.16,0,0,0,.26,1.74,1.76,1.76,0,0,0,1.43.88l.07.17-.12.17h-5.38l-.14-.17.1-.17a1.9,1.9,0,0,0,1.5-.86,3.83,3.83,0,0,0,.29-1.76V19.2h-9.83v4.52a4,4,0,0,0,.29,1.79,1.84,1.84,0,0,0,1.5.83l.07.17-.14.17h-5.12l-.12-.17.07-.17a1.52,1.52,0,0,0,1.26-1,5,5,0,0,0,.19-1.67Z" fill="#3b7893"/><path d="M218.12,23.72a4.18,4.18,0,0,0,.26,1.74,1.77,1.77,0,0,0,1.43.88l.07.17-.12.17h-5.21l-.12-.17.07-.17a1.68,1.68,0,0,0,1.38-.88,4.45,4.45,0,0,0,.24-1.74V14.58a4.18,4.18,0,0,0-.26-1.74,1.76,1.76,0,0,0-1.43-.88l-.07-.17.12-.17h5.21l.12.17-.07.17a1.68,1.68,0,0,0-1.38.88,4.45,4.45,0,0,0-.24,1.74Z" fill="#3b7893"/><path d="M233,12l0-.17.09-.17h4.79l.09.17,0,.17a3.77,3.77,0,0,0-2.26,2.26L229.9,26.94a1,1,0,0,1-.45.14,1.12,1.12,0,0,1-.48-.14l-5.69-12.83A3.46,3.46,0,0,0,221,12l0-.17.09-.17h5.52l.1.17,0,.17q-1.57.22-1.57,1.1a2.38,2.38,0,0,0,.23,1l4.83,10.37,4.31-9.87a3.47,3.47,0,0,0,.3-1.31Q234.74,12.2,233,12Z" fill="#3b7893"/><path d="M238.59,26.67l-.17-.17.1-.17a2.75,2.75,0,0,0,1.83-.7,3,3,0,0,0,.48-1.92V14.58a3.83,3.83,0,0,0-.29-1.76A1.9,1.9,0,0,0,239,12l-.1-.17.14-.17h12.14l.5,3.14a.24.24,0,0,1-.17.1l-.19,0-.09-.14q-.81-2.33-3.83-2.33h-4.38c-.16,0-.24,0-.24,0v6h3.59q2.79,0,3.29-1.69a.43.43,0,0,1,.19-.12l.21,0V21l-.38-.07q-.55-1.79-3.31-1.79h-3.59v4.78a2.45,2.45,0,0,0,.33,1.5,1.7,1.7,0,0,0,1.43.5h2.88q3.62,0,4.86-2.52l.1-.12q.33,0,.36.1l-.67,3.28Z" fill="#3b7893"/><path d="M265.8,22.53a3.86,3.86,0,0,1-2,3.46,7.47,7.47,0,0,1-4,1.07,12.79,12.79,0,0,1-5.07-1.17l-.26.14h-.21l.1-3.17a.47.47,0,0,1,.21,0,.25.25,0,0,1,.21.1,3.79,3.79,0,0,0,1.83,2.64,5.88,5.88,0,0,0,3.19.88,5.23,5.23,0,0,0,2.79-.71,2.68,2.68,0,0,0,1.36-2.38q0-2.29-4-3.59-5.28-1.71-5.28-4.52a3.37,3.37,0,0,1,1.83-3.07,7,7,0,0,1,3.64-.9,10.73,10.73,0,0,1,4.45,1l.24-.12h.21l-.12,2.64a.3.3,0,0,1-.17.12s-.1,0-.17-.12a3.68,3.68,0,0,0-1.88-2.23,5.74,5.74,0,0,0-2.88-.74,3.8,3.8,0,0,0-2.26.64,2.35,2.35,0,0,0-1,2q0,2.12,4.52,3.55Q265.8,19.52,265.8,22.53Z" fill="#3b7893"/><path d="M72.83,45.07a2.93,2.93,0,0,1-1,2.26,3.38,3.38,0,0,1-2.36.89,3.34,3.34,0,0,1-2.34-.87,3.11,3.11,0,0,1,0-4.55,3.31,3.31,0,0,1,2.34-.89,3.37,3.37,0,0,1,2.36.89A3,3,0,0,1,72.83,45.07Zm-1.11,0a3.35,3.35,0,0,0-.59-1.94,2,2,0,0,0-1.73-.92,1.82,1.82,0,0,0-1.66.92,3.54,3.54,0,0,0-.47,1.94A3.31,3.31,0,0,0,67.85,47a2,2,0,0,0,1.73.9A1.83,1.83,0,0,0,71.25,47,3.52,3.52,0,0,0,71.71,45.07Z" fill="#3b7893"/><path d="M75.66,46.44a2,2,0,0,0,.17,1,1,1,0,0,0,.82.46l.12.11-.05.09H74L73.91,48l.05-.11a.8.8,0,0,0,.66-.52,2.76,2.76,0,0,0,.11-.9V42.7h-1l0-.26,1-.19V41.8a2.84,2.84,0,0,1,.91-2,2.81,2.81,0,0,1,2-.92,1.31,1.31,0,0,1,.44.09q.3.12.3.26l-.17.52q-.11.31-.2.31L78,40a1.73,1.73,0,0,0-1.16-.54,1,1,0,0,0-.9.48,1.86,1.86,0,0,0-.27,1v1.3h1.27v.45H75.66Z" fill="#3b7893"/><path d="M96.06,45.32V38.24a2.71,2.71,0,0,0-.31-1.49,1.78,1.78,0,0,0-1.35-.64L94.32,36l.14-.14h3.87l.12.14-.08.14a1.59,1.59,0,0,0-1.28.68,2.85,2.85,0,0,0-.27,1.45v9.88c0,.12-.1.17-.19.17a.71.71,0,0,1-.35-.17L95.06,46.8l-8.89-9.43v8.3a2.85,2.85,0,0,0,.29,1.49,1.75,1.75,0,0,0,1.33.64l.08.14-.14.14H83.91l-.14-.14.08-.14a1.68,1.68,0,0,0,1.3-.66,3,3,0,0,0,.27-1.47V37.23l-.25-.33A2,2,0,0,0,84,36.11L83.95,36l.1-.14h3Q90.06,39,96.06,45.32Z" fill="#3b7893"/><path d="M113.08,42a6,6,0,0,1-2.17,4.72,7.51,7.51,0,0,1-5,1.7,7.31,7.31,0,0,1-5-1.7,6.32,6.32,0,0,1,.06-9.44,7.54,7.54,0,0,1,5-1.7,7.36,7.36,0,0,1,5,1.7A5.88,5.88,0,0,1,113.08,42Zm-2,0a6.53,6.53,0,0,0-1.37-4.18A4.79,4.79,0,0,0,105.83,36,4.48,4.48,0,0,0,102,37.8,6.52,6.52,0,0,0,100.84,42a6.53,6.53,0,0,0,1.37,4.18,4.79,4.79,0,0,0,3.93,1.76A4.53,4.53,0,0,0,110,46.11,6.6,6.6,0,0,0,111.13,42Z" fill="#3b7893"/><path d="M117,42.42v3.26a2.83,2.83,0,0,0,.29,1.48,1.76,1.76,0,0,0,1.33.64l.08.14-.12.14h-4.76l-.12-.14.08-.14a1.68,1.68,0,0,0,1.3-.66,2.8,2.8,0,0,0,.29-1.47V38.24a3.2,3.2,0,0,0-.23-1.43,1.55,1.55,0,0,0-1.22-.7l-.08-.14.12-.14,2.22-.08,3.29,0a9.22,9.22,0,0,1,3.54.56,2.76,2.76,0,0,1,2,2.65q0,2.55-3.5,3.15a5.14,5.14,0,0,1,2,1.18,9.87,9.87,0,0,1,1.22,1.64,10.62,10.62,0,0,0,1.2,1.68,3.64,3.64,0,0,0,2.42,1.3.2.2,0,0,1,0,.12.31.31,0,0,1,0,.17h-1.08c-.13,0-.21-.09-.25-.27a5.81,5.81,0,0,1-1.86-.23,3.63,3.63,0,0,1-1.49-1.08q-.33-.62-1-1.86a4.21,4.21,0,0,0-3.15-2.32Zm0-.41h2.42q3.66,0,3.66-3t-3.5-2.87H117Z" fill="#3b7893"/><path d="M134.11,45.67a2.42,2.42,0,0,0,.39,1.56,2.23,2.23,0,0,0,1.49.57l.08.14-.14.14h-5.26l-.14-.14.08-.14a2.23,2.23,0,0,0,1.49-.57,2.42,2.42,0,0,0,.39-1.56V36.81a6.72,6.72,0,0,0-2.34-.35,2.64,2.64,0,0,0-2.77,2l-.31,0,.46-2.77h.21c0,.12.13.17.31.17h10.46c.18,0,.28-.06.31-.17H139l.46,2.77-.27,0a2.73,2.73,0,0,0-2.8-2,6.65,6.65,0,0,0-2.32.35Z" fill="#3b7893"/><path d="M142.33,38.24a3.81,3.81,0,0,0-.17-1.37,1.3,1.3,0,0,0-1.06-.75L141,36l.1-.14h4.18l.1.14-.06.14a1.47,1.47,0,0,0-1.18.7,3.36,3.36,0,0,0-.21,1.43v3.15h8V38.24a3,3,0,0,0-.25-1.45,1.54,1.54,0,0,0-1.26-.68l-.08-.14.12-.14h4.37l.1.14-.06.14a1.39,1.39,0,0,0-1.12.74,3.54,3.54,0,0,0-.19,1.39v7.43a3.39,3.39,0,0,0,.21,1.41,1.43,1.43,0,0,0,1.16.72l.06.14-.1.14h-4.37l-.12-.14.08-.14a1.55,1.55,0,0,0,1.22-.7,3.13,3.13,0,0,0,.23-1.43V42h-8v3.68a3.26,3.26,0,0,0,.23,1.45,1.5,1.5,0,0,0,1.22.68l.06.14-.12.14h-4.16l-.1-.14.06-.14a1.24,1.24,0,0,0,1-.77,4.08,4.08,0,0,0,.15-1.35Z" fill="#3b7893"/><path d="M164.59,41.88a6.15,6.15,0,0,0,1.49,4.2,5.46,5.46,0,0,0,8.86-1l.46.74a8.7,8.7,0,0,1-.68,1.57l-.21,0a9.39,9.39,0,0,1-4.62,1,7.7,7.7,0,0,1-5.07-1.65,6.26,6.26,0,0,1,.08-9.54A8,8,0,0,1,170,35.53a9.36,9.36,0,0,1,4.6,1.2l.19-.06H175L174.83,39a.21.21,0,0,1-.13.08.44.44,0,0,1-.21-.1A4.34,4.34,0,0,0,170,36a5,5,0,0,0-4,1.66A6.16,6.16,0,0,0,164.59,41.88Z" fill="#3b7893"/><path d="M189.57,47.8l0,.14-.08.14h-4.6l-.08-.14,0-.13q1.24-.1,1.28-.58l0-.25A2.32,2.32,0,0,0,186,46l-1.53-3.62H180l-1.34,3.11a3.62,3.62,0,0,0-.37,1.28q0,.83,1.37,1l0,.14-.08.14h-3.83l-.08-.14,0-.14q1.18-.25,2.07-2.26l4.08-9.21.08-.54.1-.17a1.55,1.55,0,0,1,.41-.06h.12a2.58,2.58,0,0,1,.54.06l.27.5,4.33,10Q188.47,47.72,189.57,47.8Zm-5.36-6.05-2-4.43-2,4.43Z" fill="#3b7893"/><path d="M193.84,42.42v3.26a2.83,2.83,0,0,0,.29,1.48,1.76,1.76,0,0,0,1.33.64l.08.14-.12.14h-4.76l-.12-.14.08-.14a1.69,1.69,0,0,0,1.3-.66,2.8,2.8,0,0,0,.29-1.47V38.24a3.2,3.2,0,0,0-.23-1.43,1.55,1.55,0,0,0-1.22-.7l-.08-.14.12-.14,2.23-.08,3.29,0a9.23,9.23,0,0,1,3.54.56,2.76,2.76,0,0,1,2,2.65q0,2.55-3.5,3.15a5.14,5.14,0,0,1,2,1.18,9.83,9.83,0,0,1,1.22,1.64,10.63,10.63,0,0,0,1.2,1.68,3.64,3.64,0,0,0,2.42,1.3.2.2,0,0,1,0,.12.31.31,0,0,1,0,.17h-1.08c-.13,0-.21-.09-.25-.27a5.81,5.81,0,0,1-1.86-.23,3.64,3.64,0,0,1-1.49-1.08q-.33-.62-1-1.86a4.21,4.21,0,0,0-3.15-2.32Zm0-.41h2.42q3.66,0,3.66-3t-3.5-2.87h-2.57Z" fill="#3b7893"/><path d="M218.7,42a6,6,0,0,1-2.17,4.72,7.5,7.5,0,0,1-5,1.7,7.31,7.31,0,0,1-5-1.7,6.32,6.32,0,0,1,.06-9.44,7.54,7.54,0,0,1,5-1.7,7.36,7.36,0,0,1,5,1.7A5.88,5.88,0,0,1,218.7,42Zm-2,0a6.53,6.53,0,0,0-1.37-4.18A4.79,4.79,0,0,0,211.45,36a4.48,4.48,0,0,0-3.81,1.78A6.53,6.53,0,0,0,206.46,42a6.53,6.53,0,0,0,1.37,4.18,4.79,4.79,0,0,0,3.93,1.76,4.53,4.53,0,0,0,3.83-1.78A6.59,6.59,0,0,0,216.75,42Z" fill="#3b7893"/><path d="M223,38.24v7.58a2,2,0,0,0,.27,1.22,1.38,1.38,0,0,0,1.16.41h1.66a4.62,4.62,0,0,0,4.06-1.7l.27-.39a.19.19,0,0,1,.1,0l.08,0a.14.14,0,0,1,.12.12L229.57,48l-9.75,0-.12-.14.08-.14a1.7,1.7,0,0,0,1.32-.66,2.8,2.8,0,0,0,.29-1.47V38.24a3.52,3.52,0,0,0-.19-1.41,1.44,1.44,0,0,0-1.16-.72L220,36l.1-.14h4.59l.12.14-.08.14a1.84,1.84,0,0,0-1.34.59A2.69,2.69,0,0,0,223,38.24Z" fill="#3b7893"/><path d="M235,45.67a3.38,3.38,0,0,0,.21,1.41,1.43,1.43,0,0,0,1.16.72l.06.14-.1.14h-4.24l-.1-.14.06-.14a1.36,1.36,0,0,0,1.12-.72,3.6,3.6,0,0,0,.19-1.41V38.24a3.38,3.38,0,0,0-.21-1.41,1.44,1.44,0,0,0-1.16-.72l-.06-.14.1-.14h4.24l.1.14-.06.14a1.36,1.36,0,0,0-1.12.72,3.59,3.59,0,0,0-.19,1.41Z" fill="#3b7893"/><path d="M250.06,45.32V38.24a2.71,2.71,0,0,0-.31-1.49,1.78,1.78,0,0,0-1.35-.64l-.08-.14.14-.14h3.87l.12.14-.08.14a1.59,1.59,0,0,0-1.28.68,2.84,2.84,0,0,0-.27,1.45v9.88c0,.12-.1.17-.19.17a.71.71,0,0,1-.35-.17l-1.21-1.33-8.89-9.43v8.3a2.85,2.85,0,0,0,.29,1.49,1.75,1.75,0,0,0,1.33.64l.08.14-.13.14h-3.83l-.13-.14.08-.14a1.68,1.68,0,0,0,1.3-.66,3,3,0,0,0,.27-1.47V37.23l-.25-.33a2,2,0,0,0-1.16-.79l-.06-.14.1-.14h3Q244.06,39,250.06,45.32Z" fill="#3b7893"/><path d="M266.41,47.8l0,.14-.08.14h-4.6l-.08-.14,0-.13q1.24-.1,1.28-.58l0-.25a2.32,2.32,0,0,0-.22-.95l-1.53-3.62h-4.42l-1.34,3.11a3.62,3.62,0,0,0-.37,1.28q0,.83,1.37,1l0,.14-.08.14h-3.83l-.08-.14,0-.14q1.18-.25,2.07-2.26l4.08-9.21.08-.54.1-.17a1.55,1.55,0,0,1,.41-.06h.12a2.58,2.58,0,0,1,.54.06l.27.5,4.33,10Q265.3,47.72,266.41,47.8ZM261,41.74l-2-4.43-2,4.43Z" fill="#3b7893"/><path d="M13.65,44.11a34,34,0,0,0,5.84-4.84,34.11,34.11,0,0,0,4.84-5.84,34.09,34.09,0,0,0-5.84,4.84A34.14,34.14,0,0,0,13.65,44.11Z" fill="url(#linear-gradient-3)"/><path d="M44.4,12.44a34.1,34.1,0,0,0-5.84,4.84,34.12,34.12,0,0,0-4.84,5.84,34.11,34.11,0,0,0,5.84-4.84A34.1,34.1,0,0,0,44.4,12.44Z" fill="url(#linear-gradient-4)"/><path d="M34.18,33.9A34.12,34.12,0,0,0,39,39.74a34.13,34.13,0,0,0,5.84,4.84A34.11,34.11,0,0,0,40,38.73,34.11,34.11,0,0,0,34.18,33.9Z" fill="url(#linear-gradient-5)"/><path d="M24.21,23.92a34.13,34.13,0,0,0-4.84-5.84,34.11,34.11,0,0,0-5.84-4.84,34.13,34.13,0,0,0,4.84,5.84A34.1,34.1,0,0,0,24.21,23.92Z" fill="url(#linear-gradient-6)"/></svg>      <span class="site-title-mobile">NC Archives</span>
+    </a>
+  </div>
+  <button formaction="search" class="search-trigger"><span>Search </span><span class="icon-search" aria-hidden="true"></span></button>
+</div>
+<div class="menu-container mainMenu contents-less menu-full" id="mainMenu">
+  <div aria-label="First level" class="">
+    <button href="#" class="flyout-trigger close-trigger" aria-hidden="true"><span class="icon-close" aria-hidden="true"></span><span>Close Menu</span></button>
+    <div data-scrollmagic-pin-spacer="" class="scrollmagic-pin-spacer">
+              <nav class='topical-nav' role='navigation' aria-label='Topical Navigation'><h2 class='visuallyhidden'>Topical Navigation</h2><ul class="wrapper"><li class="first leaf  home"><a href='/'>Home</a></li><li class="expanded has-dropdown has-mega "><a href='/researchers'><span class='icon-chevron-right' aria-hidden='true'></span>Researchers</a><div aria-label="Second level"><a href='/researchers' class='parent-title wrapper' aria-hidden='true'><span>Researchers</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first expanded has-dropdown"><a href='/researchers/services'><span class='icon-chevron-right' aria-hidden='true'></span>Services</a><div aria-label="Third level" class="third-level"><a href='/researchers/services' class='parent-title' aria-hidden='true'>Services</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first collapsed"><a href='/researchers/services/ordering-copies'>Ordering Copies</a></li><li class="leaf"><a href='/researchers/services/duplication-fees'>Duplication Fees</a></li><li class="leaf"><a href='/researchers/services/academic-transcripts-defunct-colleges'>Academic Transcripts</a></li><li class="last leaf"><a href='/researchers/services/permissions-and-citations'>Permission and Citations</a></li></ul></div></li><li class="expanded has-dropdown"><a href='/researchers/collections'><span class='icon-chevron-right' aria-hidden='true'></span>Collections</a><div aria-label="Third level" class="third-level"><a href='/researchers/collections' class='parent-title' aria-hidden='true'>Collections</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/researchers/collections/audiovisual-materials'>Audiovisual Materials</a></li><li class="leaf"><a href='/researchers/collections/bible-records'>Bible Records</a></li><li class="leaf"><a href='/researchers/collections/government-records'>Government Records</a></li><li class="leaf"><a href='/researchers/collections/maps'>Maps</a></li><li class="expanded"><a href='/researchers/collections/military-collections'>Military Collections</a></li><li class="leaf"><a href='/researchers/collections/newspapers'>Newspapers</a></li><li class="leaf"><a href='/researchers/collections/organization-records'>Organization Records</a></li><li class="last leaf"><a href='/researchers/collections/private-collections'>Private Collections</a></li></ul></div></li><li class="leaf"><a href='/researchers/digital-collections'>Digital Collections</a></li><li class="expanded has-dropdown"><a href='/researchers/finding-aids'><span class='icon-chevron-right' aria-hidden='true'></span>Finding Aids</a><div aria-label="Third level" class="third-level"><a href='/researchers/finding-aids' class='parent-title' aria-hidden='true'>Finding Aids</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/researchers/finding-aids/audiovisual-materials-finding-aids'>Audiovisual Materials Finding Aids</a></li><li class="leaf"><a href='/researchers/finding-aids/county-records-box-lists'>County Records Box Lists</a></li><li class="leaf"><a href='/researchers/finding-aids/governors-papers-finding-aids'>Governors Papers Finding Aids</a></li><li class="leaf"><a href='/researchers/finding-aids/military-finding-aids'>Military Finding Aids</a></li><li class="leaf"><a href='/researchers/finding-aids/organization-records-finding-aids'>Organization Records Finding Aids</a></li><li class="leaf"><a href='/researchers/finding-aids/outer-banks-history-center-finding-aids'>Outer Banks History Center Finding Aids</a></li><li class="leaf"><a href='/researchers/finding-aids/private-collections-finding-aids'>Private Collections Finding Aids</a></li><li class="leaf"><a href='/researchers/finding-aids/state-agency-finding-aids'>State Agency Finding Aids</a></li><li class="last leaf"><a href='/researchers/finding-aids/western-regional-archives-finding-aids'>Western Regional Archives Finding Aids</a></li></ul></div></li><li class="expanded has-dropdown"><a href='/researchers/preservation'><span class='icon-chevron-right' aria-hidden='true'></span>Preservation</a><div aria-label="Third level" class="third-level"><a href='/researchers/preservation' class='parent-title' aria-hidden='true'>Preservation</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/researchers/preservation/conservation'>Conservation</a></li><li class="last leaf"><a href='/researchers/preservation/disaster-preparedness'>Disaster Preparedness</a></li></ul></div></li><li class="leaf"><a href='/researchers/researchers-faq'>Researchers FAQ</a></li><li class="expanded has-dropdown"><a href='/researchers/outer-banks-history-center'><span class='icon-chevron-right' aria-hidden='true'></span>Outer Banks History Center</a><div aria-label="Third level" class="third-level"><a href='/researchers/outer-banks-history-center' class='parent-title' aria-hidden='true'>Outer Banks History Center</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/researchers/outer-banks-history-center/collections-and-services-obhc'>Collections and Services</a></li><li class="leaf"><a href='/researchers/outer-banks-history-center/visit-outer-banks-history-center'>Visit the Outer Banks History Center</a></li><li class="leaf"><a href='/researchers/outer-banks-history-center/support-outer-banks-history-center'>Support the Outer Banks History Center</a></li><li class="last leaf"><a href='/researchers/outer-banks-history-center/outer-banks-history-center-faq'>FAQ</a></li></ul></div></li><li class="last expanded has-dropdown"><a href='/researchers/western-regional-archives'><span class='icon-chevron-right' aria-hidden='true'></span>Western Regional Archives</a><div aria-label="Third level" class="third-level"><a href='/researchers/western-regional-archives' class='parent-title' aria-hidden='true'>Western Regional Archives</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/researchers/western-regional-archives/collections-and-services-wra'>Collections and Services</a></li><li class="last leaf"><a href='/researchers/western-regional-archives/visit-western-regional-archives'>Visit the Western Regional Archives</a></li></ul></div></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href='/government'><span class='icon-chevron-right' aria-hidden='true'></span>Government</a><div aria-label="Second level"><a href='/government' class='parent-title wrapper' aria-hidden='true'><span>Government</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first expanded has-dropdown"><a href='/government/digital-records'><span class='icon-chevron-right' aria-hidden='true'></span>Digital Records</a><div aria-label="Third level" class="third-level"><a href='/government/digital-records' class='parent-title' aria-hidden='true'>Digital Records</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/government/digital-records/digital-records-policies-and-guidelines'>Digital Records Policies and Guidelines</a></li><li class="last leaf"><a href='/government/digital-records/north-carolina-digital-repository'>North Carolina Digital Repository</a></li></ul></div></li><li class="expanded has-dropdown"><a href='/government/retention-schedules'><span class='icon-chevron-right' aria-hidden='true'></span>Retention Schedules</a><div aria-label="Third level" class="third-level"><a href='/government/retention-schedules' class='parent-title' aria-hidden='true'>Retention Schedules</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/government/retention-schedules/local-government-schedules'>Local Government Schedules</a></li><li class="collapsed"><a href='/government/retention-schedules/state-agency-schedules'>State Agency Schedules</a></li><li class="last leaf"><a href='/government/retention-schedules/university-schedules'>University Schedules</a></li></ul></div></li><li class="expanded has-dropdown"><a href='/government/records-management-services-and-training'><span class='icon-chevron-right' aria-hidden='true'></span>Records Management Services and Training</a><div aria-label="Third level" class="third-level"><a href='/government/records-management-services-and-training' class='parent-title' aria-hidden='true'>Records Management Services and Training</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/government/records-management-services-and-training/local-records-services-and-training'>Local Records Services and Training</a></li><li class="leaf"><a href='/government/records-management-services-and-training/state-agency-records-services-and-training'>State Agency Records Services and Training</a></li><li class="leaf"><a href='/government/records-management-services-and-training/university-records-services-and-training'>University Records Services and Training</a></li><li class="leaf"><a href='/government/records-management-services-and-training/chief-records-officers'>Chief Records Officers</a></li><li class="leaf"><a href='/government/records-management-services-and-training/workshops'>Workshops</a></li><li class="last leaf"><a href='/government/records-management-services-and-training/online-tutorials'>Online Tutorials</a></li></ul></div></li><li class="leaf"><a href='/government/state-records-center'>State Records Center</a></li><li class="leaf"><a href='/government/government-faq'>Government FAQ</a></li><li class="last leaf"><a href='/government/forms-government'>Forms</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href='/educators'><span class='icon-chevron-right' aria-hidden='true'></span>Educators</a><div aria-label="Second level"><a href='/educators' class='parent-title wrapper' aria-hidden='true'><span>Educators</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/educators/using-primary-sources'>Using Primary Sources</a></li><li class="last leaf"><a href='/educators/lesson-plans-list'>Lesson Plans</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href='/news'><span class='icon-chevron-right' aria-hidden='true'></span>News</a><div aria-label="Second level"><a href='/news' class='parent-title wrapper' aria-hidden='true'><span>News</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/news/press-releases'>Press Releases</a></li><li class="leaf"><a href='/events/list'>Events</a></li><li class="last leaf"><a href='/news/social-media'>Social Media</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href='/about'><span class='icon-chevron-right' aria-hidden='true'></span>About</a><div aria-label="Second level"><a href='/about' class='parent-title wrapper' aria-hidden='true'><span>About</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first expanded has-dropdown"><a href='/about/visit'><span class='icon-chevron-right' aria-hidden='true'></span>Visit</a><div aria-label="Third level" class="third-level"><a href='/about/visit' class='parent-title' aria-hidden='true'>Visit</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/about/visit/visit-state-archives-north-carolina'>Visit the State Archives of North Carolina</a></li><li class="last leaf"><a href='/about/visit/visit-state-records-center'>Visit the State Records Center</a></li></ul></div></li><li class="expanded has-dropdown"><a href='/about/friends-archives'><span class='icon-chevron-right' aria-hidden='true'></span>Friends of the Archives</a><div aria-label="Third level" class="third-level"><a href='/about/friends-archives' class='parent-title' aria-hidden='true'>Friends of the Archives</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first last leaf"><a href='/about/friends-archives/support-friends-archives'>Support the Friends of the Archives</a></li></ul></div></li><li class="expanded has-dropdown"><a href='/about/north-carolina-state-historical-records-advisory-board'><span class='icon-chevron-right' aria-hidden='true'></span>North Carolina State Historical Records Advisory Board</a><div aria-label="Third level" class="third-level"><a href='/about/north-carolina-state-historical-records-advisory-board' class='parent-title' aria-hidden='true'>North Carolina State Historical Records Advisory Board</a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href='/about/north-carolina-state-historical-records-advisory-board/contact-nc-shrab'>Contact the N.C. SHRAB</a></li><li class="leaf"><a href='/about/north-carolina-state-historical-records-advisory-board/resources'>Resources</a></li><li class="leaf"><a href='/about/north-carolina-state-historical-records-advisory-board/shrab-members'>SHRAB Members</a></li><li class="leaf"><a href='/about/north-carolina-state-historical-records-advisory-board/shrab-projects'>SHRAB Projects</a></li><li class="last leaf"><a href='/about/north-carolina-state-historical-records-advisory-board/teaching-digital-north-carolina'>Teaching Digital North Carolina</a></li></ul></div></li><li class="last leaf"><a href='/about/traveling-archivist-program'>Traveling Archivist Program</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href='/contact'><span class='icon-chevron-right' aria-hidden='true'></span>Contact</a><div aria-label="Second level"><a href='/contact' class='parent-title wrapper' aria-hidden='true'><span>Contact</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first last leaf"><a href='/contact/staff-list'>Staff List</a></li></ul></div></li><li class="last leaf "><a target='_blank' href='http://mars.archives.ncdcr.gov/'>Search the Catalog</a></li></ul></nav>          </div>
+          <nav class='enterprise-nav' role='navigation' aria-label='Enterprise Navigation'><h2 class='visuallyhidden'>Enterprise Navigation</h2><ul class="wrapper"><li><a href='http://www.nc.gov/' title='NC.gov'><span class="icon-nc-brand" aria-hidden="true"></span><span>NC.gov</span></li><li><a href='http://www.nc.gov/agencies' title='Agencies'><span class='icon-account-balance' aria-hidden='true'></span><span>Agencies</span></a></li><li><a href='http://www.nc.gov/jobs' title='Jobs'><span class='icon-wallet-travel' aria-hidden='true'></span><span>Jobs</span></a></li><li><a href='http://www.nc.gov/services' title='Services'><span class='icon-phonelink' aria-hidden='true'></span><span>Services</span></a></li></ul></nav>      </div>
+</div>
+              </header>
+    </div> <!-- /.section, /#header -->
+
+    
+    <div id="content-container" class="clearfix content-container">
+              <div id="alert-box">
+          <div class="section clearfix">
+              <div class="region region-alert-box">
+    <div id="alerts" data-alerts-hash="ec6ea4e937d67c3cdb4872341f763438" class="wrapper group alerts"><div id='alert-166' class='alert-box info' style='display:none;'><div class='wrapper group'><span class='alert-icon' aria-hidden='true'></span><div class='message'><span class='alert-type'>Hours Update</span>The State Archives of North Carolina will be closed May 26-28 for the Memorial Day holiday. </div></div></div></div>  </div>
+          </div>
+        </div> <!-- /.section, /#alert-box -->
+                  <main id="main" class="">
+
+        
+          
+          <article id="primary-content content" >
+            <div class="section">
+                            <a id="main-content"></a>
+
+                              <div class="wrapper">                                  <h1  class="page-title" id="page-title">
+                    404 Page Not Found                  </h1>
+                                              
+                              <div class="tabs">
+                                  </div>
+                                                                                  </div>
+
+            <!--landing page -->
+                            <div class="region region-content">
+    <div id="block-system-main" class="block block-system">
+
+    
+  <div class="content">
+    <div id="node-3" class="node node-landing-page node-full clearfix">
+
+      
+          
+  
+  <div class="content clearfix">
+    
+<div class="paragraphs-items paragraphs-items-field-bands paragraphs-items-field-bands-full paragraphs-items-full">
+      <div class="field field-name-field-bands field-type-paragraphs field-label-hidden " >
+        <div class="field-items" >
+                    <div class="field-item" >
+              <section class="entity entity-paragraphs-item paragraphs-item-full-width band no-gutter clearfix"
+   about="" typeof="">
+
+  
+  <section class="content band-content wrapper "
+    >
+        <div class="field field-name-field-full-width-block field-type-blockreference field-label-hidden " >
+        <div class="field-items" >
+                    <div class="field-item" >
+              <div id="block-bean-404-page-not-found-hero-" class="block block-bean">
+
+    
+  <div class="content">
+    <div class=" ncgov-theme "><div class="item"><div class="item__wrapper"><picture  title="404 Page Not Found">
+<!--[if IE 9]><video style="display: none;"><![endif]-->
+<source srcset="https://files.nc.gov/dncr-archives/styles/carousel___hero/public/nc404.jpg?itok=wJuXPRmh&amp;timestamp=1503586919 1x" media="only screen and (min-width: 1280px)" />
+<source srcset="https://files.nc.gov/dncr-archives/styles/resp_hero-breakpoints_theme_nc_base_theme_desktop_1x/public/nc404.jpg?itok=CksEH1fr&amp;timestamp=1503586919 1x" media="(min-width: 1024px)" />
+<source srcset="https://files.nc.gov/dncr-archives/styles/resp_hero-breakpoints_theme_nc_base_theme_tablet_1x/public/nc404.jpg?itok=zhzGY-Zy&amp;timestamp=1503586919 1x" media="(min-width: 768px)" />
+<source srcset="https://files.nc.gov/dncr-archives/styles/resp_hero-breakpoints_theme_nc_base_theme_phablet_1x/public/nc404.jpg?itok=M1wGFBpL&amp;timestamp=1503586919 1x" media="(min-width: 480px)" />
+<source srcset="https://files.nc.gov/dncr-archives/styles/resp_hero-breakpoints_theme_nc_base_theme_phone_1x/public/nc404.jpg?itok=rXjejc-b&amp;timestamp=1503586919 1x" media="(min-width: 0px)" />
+<!--[if IE 9]></video><![endif]-->
+<img  src="https://files.nc.gov/dncr-archives/styles/resp_hero-breakpoints_theme_nc_base_theme_phone_1x/public/nc404.jpg?itok=rXjejc-b&amp;timestamp=1503586919" alt="404 Page Not Found" title="404 Page Not Found" />
+</picture></div></div></div>  </div>
+</div>            </div>
+              </div>
+  </div>
+  </section>
+
+</section>
+            </div>
+                        <div class="field-item" >
+              <section class="entity entity-paragraphs-item paragraphs-item-three-column band no-gutter clearfix"
+   about="" typeof="">
+
+  
+  <section class="content band-content wrapper parts-span-third"
+    >
+    <div class="group-left field-group-div">    <div class="field field-name-field-left-block field-type-blockreference field-label-hidden " >
+        <div class="field-items" >
+                    <div class="field-item" >
+              <div id="block-bean-404-cta-card-1" class="block block-bean">
+
+    
+  <div class="content">
+    
+<div>
+  <div class="cards">
+    <div class="card cta " itemscope itemtype="http://schema.org/Thing">
+      <a href="" itemprop="url">
+        <div class="meta">
+          <span class="icon-check2" aria-hidden="true"></span>
+          <span itemprop="name">Spell Check</span>
+          <span itemprop="description">We understand typos happen! Double-check the URL to see if everything is spelled correctly.</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+  </div>
+</div>            </div>
+              </div>
+  </div>
+</div><div class="group-middle field-group-div">    <div class="field field-name-field-middle-block field-type-blockreference field-label-hidden " >
+        <div class="field-items" >
+                    <div class="field-item" >
+              <div id="block-bean-cta-card-2" class="block block-bean">
+
+    
+  <div class="content">
+    
+<div>
+  <div class="cards">
+    <div class="card cta " itemscope itemtype="http://schema.org/Thing">
+      <a href="/" itemprop="url">
+        <div class="meta">
+          <span class="icon-home" aria-hidden="true"></span>
+          <span itemprop="name">Go Home</span>
+          <span itemprop="description">Sometimes it's just easier to start back at the beginning. Go to the home page and retrace your steps. </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+  </div>
+</div>            </div>
+              </div>
+  </div>
+</div><div class="group-right field-group-div">    <div class="field field-name-field-right-block field-type-blockreference field-label-hidden " >
+        <div class="field-items" >
+                    <div class="field-item" >
+              <div id="block-bean-cta-card-3" class="block block-bean">
+
+    
+  <div class="content">
+    
+<div>
+  <div class="cards">
+    <div class="card cta " itemscope itemtype="http://schema.org/Thing">
+      <a href="/search" itemprop="url">
+        <div class="meta">
+          <span class="icon-error" aria-hidden="true"></span>
+          <span itemprop="name">Keyword Search </span>
+          <span itemprop="description"> In a hurry or don't want to browse? Why not try a keyword search? If the page exists, we'll find it. </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+  </div>
+</div>            </div>
+              </div>
+  </div>
+</div>  </section>
+
+</section>
+            </div>
+              </div>
+  </div>
+</div>
+  </div>
+  
+  
+</div>
+  </div>
+</div>
+  </div>
+            
+          </article> <!-- /.section, /#content -->
+
+          
+      </main>
+
+    </div> <!-- /#main, /#main-wrapper -->
+
+          <section id="social-share" class="band social-share">
+        <div class="band-content wrapper">
+              <div id="block-nc-social-nc-social-share" class="block block-nc-social">
+
+    
+  <div class="content">
+    <div class="social-links">
+  <p><strong>Share this page:</strong></p>
+  <ul>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Farchives.ncdcr.gov%2F404-page-not-found" target="_blank">
+        <span class="icon-facebook" aria-hidden="true"></span> <span>Facebook</span>
+      </a>
+    </li>
+    <li>
+      <a href="http://twitter.com/intent/tweet?url=https%3A%2F%2Farchives.ncdcr.gov%2F404-page-not-found" target="_blank">
+        <span class="icon-twitter" aria-hidden="true"></span> <span>Twitter</span>
+      </a>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+        </div>
+      </section> 
+    
+    <section id="user-feedback" class="band user-feedback">
+      <div class="content wrapper">
+                    <div class="toggle-trigger">
+    <div id="block-nc-webform-user-feedback-link" class="block block-nc-webform">
+
+    
+  <div class="content">
+    <a href="/user-feedback?pge_s=/mail-account" target="blank">How can we make this page better for you?</a>  </div>
+</div>
+  </div>
+                          <div>
+            <a id="back-to-top" class="back-to-top" href="#content-container" title="Back to top"><span class="icon-vertical-align-top" aria-hidden="true"></span><span class="visuallyhidden">Back to top</span></a>          </div>
+              </div>
+    </section> <!-- /band user-feedback-->
+
+    
+    <div id="footer-wrapper" class="footer-container">
+      <footer class="group">
+
+
+                                  <section class="band topical">
+              <div id="footer-columns" class="wrapper">
+                <section class="parts-span-third">
+                    <section id="block-boxes-contact-information" class="block block-boxes block-boxes-simple inverted group contact">
+
+        <h3 class="section-title border">Contact Information</h3>
+    
+  <div class="content">
+    <div id='boxes-box-contact_information' class='boxes-box'><div class="boxes-box-content"><div itemscope="" itemtype="http://schema.org/Organization"><span itemprop="name">State Archives of North Carolina</span>
+<div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><span itemprop="streetAddress">109 E. Jones St. Raleigh, NC 27601</span><span itemprop="postalCode"></span></div>
+<div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">4614 Mail Service Center</div>
+<p>	<span itemprop="telephone">(919) 807-7310</span></p></div>
+<p> </p>
+<p>The State Archives of North Carolina is a Division of </p>
+<p align="left"><a href="http://www.ncdcr.gov"><img alt="" src="https://files.nc.gov/ncdcr/NCR%20Logo%20Horizontal%20Color%20White%20BG.jpg" /></a></p>
+</div></div>  </div>
+</section>
+                    <section id="block-block-7" class="block block-block inverted group">
+
+        <h3 class="section-title border">@NCArchives Twitter Feed</h3>
+    
+  <div class="content">
+    <p><a class="twitter-timeline" data-chrome="nofooter transparent noheader noborders" data-height="300" data-tweet-limit="1" data-width="100%" href="https://twitter.com/ncarchives">Tweets by @NCArchives</a></p>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>  </div>
+</section>
+                    <section id="block-follow-site" class="block block-follow inverted group social-links">
+
+        <h3 class="section-title border">Follow Us</h3>
+    
+  <div class="content">
+    <div class="item-list"><ul><li class="first"><a href="https://www.facebook.com/State-Archives-of-North-Carolina-119904548024750/?ref=sgm" class="follow-link follow-link-facebook" title="Follow NC Archives on Facebook"><span class="icon-facebook" aria-hidden="true"></span> <span>Facebook</span></a>
+</li>
+<li><a href="https://plus.google.com/b/107022268724567580157/" class="follow-link follow-link-googleplus" title="Follow NC Archives on Google+"><span class="icon-googleplus" aria-hidden="true"></span> <span>Google+</span></a>
+</li>
+<li><a href="https://www.instagram.com/nc_archives_photos/" class="follow-link follow-link-instagram" title="Follow NC Archives on Instagram"><span class="icon-instagram" aria-hidden="true"></span> <span>Instagram</span></a>
+</li>
+<li><a href="http://www.flickr.com/photos/north-carolina-state-archives/" class="follow-link follow-link-flickr" title="Follow NC Archives on Flickr"><span class="icon-flickr" aria-hidden="true"></span> <span>Flickr</span></a>
+</li>
+<li><a href="https://www.pinterest.com/statearchivesofnorthcarolina/" class="follow-link follow-link-pinterest" title="Follow NC Archives on Pinterest"><span class="icon-pinterest" aria-hidden="true"></span> <span>Pinterest</span></a>
+</li>
+<li><a href="https://twitter.com/NCArchives" class="follow-link follow-link-twitter" title="Follow NC Archives on Twitter"><span class="icon-twitter" aria-hidden="true"></span> <span>Twitter</span></a>
+</li>
+<li class="last"><a href="http://www.youtube.com/user/ncarchives" class="follow-link follow-link-youtube" title="Follow NC Archives on YouTube"><span class="icon-youtube" aria-hidden="true"></span> <span>YouTube</span></a>
+</li>
+</ul></div>  </div>
+</section>
+                                  </section>
+              </div> <!-- /#footer-columns -->
+            </section>
+          
+                      <section class="band pad-small enterprise">
+                <div class="wrapper"><section><nav><ul class="group"><li><a href='https://www.ncdcr.gov/employee-directory' title='Employee Directory'><span>Employee Directory</span><span class='icon-chevron-right' aria-hidden='true'></span></a></li><li><a href='http://www.nc.gov/accessibility' title='Accessibility'><span>Accessibility</span><span class='icon-chevron-right' aria-hidden='true'></span></a></li><li><a href='http://www.nc.gov/terms' title='Terms of Use'><span>Terms of Use</span><span class='icon-chevron-right' aria-hidden='true'></span></a></li><li><a href='http://www.nc.gov/privacy' title='Privacy Policy'><span>Privacy Policy</span><span class='icon-chevron-right' aria-hidden='true'></span></a></li><li><a href='https://www.nc.gov/government/open-budget ' title='Open Budget'><span>Open Budget</span><span class='icon-chevron-right' aria-hidden='true'></span></a></li></ul></nav><div class="brand"><a href="https://archives.ncdcr.gov/home-page" title="NC Archives"><img alt="" title="NC Archives" typeof="foaf:Image" src="https://files.nc.gov/dncr-archives/state-archives-logo.svg" /></a></div></section></div>            </section>
+          
+        </section>
+      </footer>
+    </div> <!-- /.section, /#footer-wrapper -->
+
+  </div></div> <!-- /#page, /#page-wrapper -->
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/picture/picturefill2/picturefill.min.js?v=2.3.1"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/sites/all/modules/contrib/picture/picture.min.js?v=7.59"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/modules/apps/nc_alerts/js/nc_alerts_handler.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/modules/apps/nc_alerts/js/nc_alerts.js?p92uwm"></script>
+<script type="text/javascript" src="//archives.ncdcr.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/owl.carousel.js?p92uwm"></script>
+<!--[if lte IE 9]><script src="profiles/nc_site/themes/nc_site_child_theme/js/libs/flexie.min.js"></script><![endif]-->
+</body>
+</html>

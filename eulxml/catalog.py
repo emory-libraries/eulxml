@@ -28,6 +28,7 @@ For more information about setting up and testing XML catalogs, see the
 `libxml2 documentation <http://xmlsoft.org/catalog.html>`_.
 '''
 
+from shutil import copyfile
 import os
 import logging
 from datetime import date
@@ -58,7 +59,6 @@ XSD_SCHEMAS = [
     'http://www.loc.gov/standards/premis/premis.xsd',
     'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd',
     'http://www.tei-c.org/release/xml/tei/custom/schema/xsd/tei_all.xsd',
-    'http://www.history.ncdcr.gov/SHRAB/ar/emailpreservation/mail-account/mail-account.xsd',
     'http://www.loc.gov/ead/ead.xsd'
 ]
 # , 'http://www.archives.ncdcr.gov/mail-account.xsd'
@@ -169,6 +169,12 @@ def generate_catalog(xsd_schemas=None, xmlcatalog_dir=None, xmlcatalog_file=None
     # comment string to be added to locally-saved schemas
     comment = 'Downloaded by eulxml %s on %s' % \
         (__version__, date.today().isoformat())
+
+    initial_schema_data_path = os.path.abspath('eulxml/initial_schema_data')
+    for schema_filename in os.listdir(initial_schema_data_path):
+        src = os.path.join(initial_schema_data_path, schema_filename)
+        dst = os.path.join(xmlcatalog_dir, schema_filename)
+        copyfile(src, dst)
 
     for schema_uri in xsd_schemas:
         filename = os.path.basename(schema_uri)
