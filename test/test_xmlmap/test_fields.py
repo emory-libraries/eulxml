@@ -25,6 +25,25 @@ from six.moves.builtins import str as text
 import eulxml.xmlmap.core as xmlmap
 
 
+class TestAttributeSetRegression(unittest.TestCase):
+    def testTextField(self):
+        class TestObject(xmlmap.XmlObject):
+            baz_attr = xmlmap.StringField('/foo/bar/@baz')
+
+        FIXTURE_TEXT = """
+            <foo id='a' xmlns:ex='http://example.com/'>
+                <bar baz="foobar"/>
+            </foo>
+        """
+        url = '%s#%s.%s' % (__file__, self.__class__.__name__, 'FIXTURE_TEXT')
+        self.fixture = xmlmap.parseString(FIXTURE_TEXT, url)
+
+        obj = TestObject(self.fixture)
+        self.assertEqual(obj.baz_attr, "foobar")
+        obj.baz_attr = "barfoo"
+        self.assertEqual(obj.baz_attr, "barfoo")
+
+
 class TestFields(unittest.TestCase):
     FIXTURE_TEXT = '''
         <foo id='a' xmlns:ex='http://example.com/'>
